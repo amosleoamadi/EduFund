@@ -8,7 +8,7 @@ import {
   PasswordInput,
 } from "../components/styles/RegisterStyle";
 import { LogoBar } from "../components/styles/AccountStyle";
-import img from "../assets/EduFundLogo.svg";
+import img from "../assets/EduFundLogo.png";
 import Input from "../components/Ui/Input";
 import cancel from "../assets/cancel.svg";
 import Button from "../components/Ui/Button";
@@ -117,7 +117,10 @@ const Register = () => {
           </p>
           <Button className="signup_btn" text="Sign up" />
           <p className="signin">
-            Already have an account? <span>Sign in</span>
+            Already have an account?{" "}
+            <NavLink to={"/login"}>
+              <span>Sign in</span>
+            </NavLink>
           </p>
         </RegForm>
       </RegContent>

@@ -6,7 +6,7 @@ import {
   Holder,
   LogoBar,
 } from "../components/styles/AccountStyle";
-import img from "../assets/EduFundLogo.svg";
+import img from "../assets/EduFundLogo.png";
 import scholar from "../assets/Frame.svg";
 import scholars from "../assets/Frame1.svg";
 import Button from "../components/Ui/Button";
