@@ -9,7 +9,6 @@ import Policy from "../auth/terms/Policy";
 import EmailVerification from "../auth/EmailVerification";
 import RouterError from "./RouterError";
 import ResetPassword from "../auth/ResetPassword";
-import ResetEmailCode from "../auth/ResetEmailCode";
 
 export const Element = createBrowserRouter([
   {
@@ -23,6 +22,10 @@ export const Element = createBrowserRouter([
       {
         index: true,
         element: <Homepage />,
+      },
+      {
+        path: "about",
+        element: <About />,
       },
     ],
   },
