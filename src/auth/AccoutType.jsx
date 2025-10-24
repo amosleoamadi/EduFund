@@ -76,7 +76,11 @@ const AccoutType = () => {
                 <span>✔</span>Manage your donations
               </li>
             </ul>
-            <Button className="choose_btn" text="Continue as Donor" />
+            <Button
+              className="choose_btn"
+              text="Continue as Donor"
+              onClick={() => nav("/donor_signup")}
+            />
           </Details>
         </Holder>
       </AccountType>
