@@ -7,10 +7,10 @@ import Impact from "./components/Impact";
 const Homepage = () => {
   return (
     <>
-      <Hero />
       <HowItWorks />
       <WhyChooseUs />
       <Impact />
+      <Hero />
     </>
   );
 };

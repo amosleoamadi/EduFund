@@ -1,0 +1,277 @@
+
+.Hero_container{
+    width: 100%;
+    height: 60vh;
+    background: rgb(2, 2, 63);
+}
+.container{
+    width: 50%;
+    height: 100%;
+    padding: 60px;
+    /* background: red; */
+}
+.text{
+  font-weight: 700;
+  font-family: "Roboto", sans-serif;
+  font-size: 3rem;
+  color: white;
+  padding: 0.3rem;
+  
+}
+.text2{
+    
+    color: white;
+    width: 100%;
+    font-size: 1.4rem;
+    margin-top: 0.5rem;
+}
+.impact-section {
+  text-align: center;
+  margin: 3.5rem auto;
+  max-width: 1200px;
+  padding: 0 1rem;
+}
+
+.impact-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #001b4e;
+  margin-bottom: 1rem;
+}
+
+.impact-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.impact-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  padding: 2.5rem 1.7rem;
+  text-align: left;
+  transition: all 0.3s ease;
+  margin-bottom: 60px;
+}
+
+/* .impact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+} */
+
+.icon-box {
+  width: 55px;
+  height: 55px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.impact-info h4 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #001b4e;
+  margin: 0;
+}
+
+.impact-info p {
+  font-size: 1rem;
+  color: #4B5563;
+  margin-top: 0.3rem;
+}
+.body{
+    width: 100%;
+    height: 50%;
+    text-align: center;
+  
+}
+.body >h1{
+    font-size: 3rem;
+    font-size: 700;
+    margin-bottom: 30px;
+    color: #001b4e;
+}
+.body >p{
+    font-size: 1rem;
+    line-height: 1.5;
+    
+}
+.mission_card{
+  text-align: center;
+  margin: 3.5rem auto;
+  max-width: 1200px;
+  padding: 0 1rem;
+  margin-bottom: 50px;
+}
+.session_card{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  justify-content: center;
+  
+}
+.card1{
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  padding: 1.5rem 1.2rem;
+  text-align: left;
+  transition: all 0.3s ease;
+  margin-bottom: 60px;
+}
+.card1 >h3{
+  font-weight: 500;
+  line-height: 3;
+}
+.card1 >p{
+  line-height: 1.7;
+}
+.edu-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rem;
+  padding: 3rem 5%;
+  flex-wrap: wrap;
+  background-color: #fff;
+}
+
+.edu-image img {
+  width: 150%;
+  max-width: 550px;
+  height: 310px;
+  border-radius: 12px;
+  object-fit: cover;
+  /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); */
+}
+
+.edu-content {
+  flex: 1;
+  max-width: 550px;
+  color: #0a0a0a;
+}
+
+.edu-content h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #001b4e;
+  margin-bottom: 1.5rem;
+  line-height: 1.4;
+}
+
+.edu-content h2 span {
+  font-weight: 600;
+}
+
+.edu-content p {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 1rem;
+}
+.title{
+   font-size: 3rem;
+  font-weight: 700;
+  color: #001b4e;
+  margin-top: 0rem;
+}
+
+.team-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.team-card {
+  background: #fff;
+  border-radius: 10px;
+  /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+  padding: 1rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+  margin-top: 0rem;
+}
+
+/* .team-card:hover {
+  transform: translateY(-5px);
+} */
+
+.team-img {
+  width: 120%;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+
+
+@media (max-width: 768px) {
+  .edu-section {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1.5rem;
+  }
+
+  .edu-image img {
+    max-width: 100%;
+  }
+
+  .edu-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .edu-content p {
+    font-size: 0.95rem;
+  }
+}
+
+
+@media (max-width: 1024){
+  .session_card{
+    grid-template-columns: repeat(1, 1fr);
+    gap: 1.2rem;
+  }
+}
+@media (max-width: 600){
+  .session_card{
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .impact-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem;
+  }
+}
+
+
+@media (max-width: 600px) {
+  .impact-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .impact-card {
+    padding: 1rem;
+  }
+
+  .impact-title {
+    font-size: 1.6rem;
+  }
+
+  .impact-info h3 {
+    font-size: 1.2rem;
+  }
+
+  .impact-info p {
+    font-size: 0.85rem;
+  }
+}
