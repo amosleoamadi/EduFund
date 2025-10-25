@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { LogoBar } from "../../components/styles/AccountStyle";
-import img from "../../assets/EduFundLogo.svg";
+import img from "../../assets/EduFundLogo.png";
 import { useNavigate } from "react-router-dom";
 
 const Terms = () => {

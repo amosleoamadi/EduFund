@@ -120,7 +120,12 @@ export const InpuLabel = styled.div`
       border: 1.069px solid #d1d5db;
       background: #fff;
       outline: none;
-      color: #adaebc;
+      color: #222;
+      font-size: 15px;
+
+      &:placeholder-shown {
+        color: #adaebc;
+      }
     }
   }
 `;
@@ -148,7 +153,12 @@ export const LabelInput = styled.div`
     border: 1.069px solid #d1d5db;
     background: #fff;
     outline: none;
-    color: #adaebc;
+    color: #222;
+    font-size: 15px;
+
+    &:placeholder-shown {
+      color: #adaebc;
+    }
   }
 `;
 
@@ -176,8 +186,13 @@ export const PasswordInput = styled.div`
     border: 1.069px solid #d1d5db;
     background: #fff;
     outline: none;
-    color: #adaebc;
+    color: #222;
+    font-size: 15px;
     margin-bottom: 10px;
+
+    &:placeholder-shown {
+      color: #adaebc;
+    }
   }
 
   .text {
@@ -198,6 +213,13 @@ export const PasswordInput = styled.div`
       height: 5px;
       border-radius: 4.5px;
       background: rgba(123, 126, 128, 0.7);
+    }
+
+    .good {
+      width: 70px;
+      height: 5px;
+      border-radius: 4.5px;
+      background: green;
     }
   }
 
