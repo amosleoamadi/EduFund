@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import img from "../../assets/EduFundLogo.svg";
+import img from "../../assets/EduFundLogo.png";
 import { LogoBar } from "../../components/styles/AccountStyle";
 import { useNavigate } from "react-router-dom";
 

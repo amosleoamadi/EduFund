@@ -1,29 +1,26 @@
-
-.Hero_container{
-    width: 100%;
-    height: 60vh;
-    background: rgb(2, 2, 63);
+.Hero_container {
+  width: 100%;
+  height: 60vh;
+  min-height: max-content;
 }
-.container{
-    width: 50%;
-    height: 100%;
-    padding: 60px;
-    /* background: red; */
+.container {
+  width: 100%;
+  height: 100%;
+  padding: 60px;
+  background: rgb(2, 2, 63);
 }
-.text{
+.text {
   font-weight: 700;
   font-family: "Roboto", sans-serif;
   font-size: 3rem;
   color: white;
   padding: 0.3rem;
-  
 }
-.text2{
-    
-    color: white;
-    width: 100%;
-    font-size: 1.4rem;
-    margin-top: 0.5rem;
+.text2 {
+  color: white;
+  width: 100%;
+  font-size: 1.4rem;
+  margin-top: 0.5rem;
 }
 .impact-section {
   text-align: center;
@@ -81,41 +78,38 @@
 
 .impact-info p {
   font-size: 1rem;
-  color: #4B5563;
+  color: #4b5563;
   margin-top: 0.3rem;
 }
-.body{
-    width: 100%;
-    height: 50%;
-    text-align: center;
-  
+.body {
+  width: 100%;
+  height: 50%;
+  text-align: center;
 }
-.body >h1{
-    font-size: 3rem;
-    font-size: 700;
-    margin-bottom: 30px;
-    color: #001b4e;
+.body > h1 {
+  font-size: 3rem;
+  font-size: 700;
+  margin-bottom: 30px;
+  color: #001b4e;
 }
-.body >p{
-    font-size: 1rem;
-    line-height: 1.5;
-    
+.body > p {
+  font-size: 1rem;
+  line-height: 1.5;
 }
-.mission_card{
+.mission_card {
   text-align: center;
   margin: 3.5rem auto;
   max-width: 1200px;
   padding: 0 1rem;
   margin-bottom: 50px;
 }
-.session_card{
+.session_card {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
   justify-content: center;
-  
 }
-.card1{
+.card1 {
   background: #ffffff;
   border-radius: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -124,11 +118,11 @@
   transition: all 0.3s ease;
   margin-bottom: 60px;
 }
-.card1 >h3{
+.card1 > h3 {
   font-weight: 500;
   line-height: 3;
 }
-.card1 >p{
+.card1 > p {
   line-height: 1.7;
 }
 .edu-section {
@@ -174,8 +168,8 @@
   color: #333;
   margin-bottom: 1rem;
 }
-.title{
-   font-size: 3rem;
+.title {
+  font-size: 3rem;
   font-weight: 700;
   color: #001b4e;
   margin-top: 0rem;
@@ -210,8 +204,6 @@
   margin-bottom: 1rem;
 }
 
-
-
 @media (max-width: 768px) {
   .edu-section {
     flex-direction: column;
@@ -232,15 +224,14 @@
   }
 }
 
-
-@media (max-width: 1024){
-  .session_card{
+@media (max-width: 1024) {
+  .session_card {
     grid-template-columns: repeat(1, 1fr);
     gap: 1.2rem;
   }
 }
-@media (max-width: 600){
-  .session_card{
+@media (max-width: 600) {
+  .session_card {
     grid-template-columns: repeat(1, 1fr);
   }
 }
@@ -251,7 +242,6 @@
     gap: 1.2rem;
   }
 }
-
 
 @media (max-width: 600px) {
   .impact-container {

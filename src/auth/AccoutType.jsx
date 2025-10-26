@@ -6,7 +6,7 @@ import {
   Holder,
   LogoBar,
 } from "../components/styles/AccountStyle";
-import img from "../assets/EduFundLogo.svg";
+import img from "../assets/EduFundLogo.png";
 import scholar from "../assets/Frame.svg";
 import scholars from "../assets/Frame1.svg";
 import Button from "../components/Ui/Button";
@@ -76,7 +76,11 @@ const AccoutType = () => {
                 <span>✔</span>Manage your donations
               </li>
             </ul>
-            <Button className="choose_btn" text="Continue as Donor" />
+            <Button
+              className="choose_btn"
+              text="Continue as Donor"
+              onClick={() => nav("/donor_signup")}
+            />
           </Details>
         </Holder>
       </AccountType>
