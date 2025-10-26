@@ -10,6 +10,7 @@ import EmailVerification from "../auth/EmailVerification";
 import RouterError from "./RouterError";
 import ResetPassword from "../auth/ResetPassword";
 import About from "../pages/About/AboutPage";
+import Contact from "../pages/Contact/Contact";
 
 export const Element = createBrowserRouter([
   {
@@ -26,6 +27,9 @@ export const Element = createBrowserRouter([
       },
       {
         path: "about", element:<About/>
+      },
+      {
+        path: "contact", element:<Contact/>
       }
     ],
   },
