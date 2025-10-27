@@ -21,6 +21,10 @@ const Contact = () => {
     }
     const handleSubmit = async(e) => {
               e.preventDefault();
+               setInputData({
+            email:"",
+            message:""
+         })
                console.log(Baseurl);
                if (!inputData.email || !inputData.message) {
                 toast.error("please fill in your details")
@@ -35,6 +39,7 @@ const Contact = () => {
                 }
               }
          };
+        
 
   return (
     <div className='contact_page'>
@@ -43,9 +48,9 @@ const Contact = () => {
             <p>Our friendly team would love to hear from you.</p>
             <form className='inputtype' onSubmit={handleSubmit}>
                 <label for="email">Email</label>
-                <input type='email' name='email' value={inputData.Email} placeholder='your email address'className='form' onChange={handleChange} required/>
+                <input type='email' name='email' value={inputData.email} placeholder='your email address'className='form' onChange={handleChange} required/>
                 <label for="message">Message</label>
-                <textarea className='form2' name='message' value={inputData.message} onChange={handleChange} placeholder='Enter your message' required/>
+                <textarea className='form2' name='message' value={inputData.message} onChange={handleChange} placeholder='Drop your message here' required/>
                 <div
                      className="btn2"
                       role="button"
