@@ -144,31 +144,31 @@ const Register = () => {
               <div className={`box1 ${conditions.special ? "good" : ""}`}></div>
             </div>
             <div className="description">
-              <nav>
+              <nav className={`click ${conditions.length ? "set" : ""}`}>
                 <span>
                   {conditions.length ? "✔" : <img src={cancel} alt="" />}
                 </span>
                 At least 8 characters
               </nav>
-              <nav>
+              <nav className={`click ${conditions.uppercase ? "set" : ""}`}>
                 <span>
                   {conditions.uppercase ? "✔" : <img src={cancel} alt="" />}
                 </span>
                 One uppercase letter
               </nav>
-              <nav>
+              <nav className={`click ${conditions.lowercase ? "set" : ""}`}>
                 <span>
                   {conditions.lowercase ? "✔" : <img src={cancel} alt="" />}
                 </span>
                 One lowercase letter
               </nav>
-              <nav>
+              <nav className={`click ${conditions.number ? "set" : ""}`}>
                 <span>
                   {conditions.number ? "✔" : <img src={cancel} alt="" />}
                 </span>
                 One number
               </nav>
-              <nav>
+              <nav className={`click ${conditions.special ? "set" : ""}`}>
                 <span>
                   {conditions.special ? "✔" : <img src={cancel} alt="" />}
                 </span>
