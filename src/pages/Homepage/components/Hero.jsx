@@ -1,7 +1,9 @@
 import React from "react";
 import { HeroSection, StatsBox } from "./HeroStyle";
+import { useNavigate } from "react-router-dom";
 
 const Hero = () => {
+  const nav = useNavigate();
   return (
     <HeroSection>
       <div className="heroText">
@@ -11,8 +13,12 @@ const Hero = () => {
           alive and classrooms full.
         </p>
         <div className="buttons">
-          <button className="primary">Start a Campaign</button>
-          <button className="secondary">Donate Now</button>
+          <button className="primary" onClick={() => nav("/register")}>
+            Start a Campaign
+          </button>
+          <button className="secondary" onClick={() => nav("/donor_signup")}>
+            Donate Now
+          </button>
         </div>
         <div className="stats">
           <StatsBox>
