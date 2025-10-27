@@ -3,6 +3,7 @@ import heroBg from "../../../assets/heroPix.jpg";
 
 export const HeroSection = styled.section`
   width: 100%;
+  height: calc(100vh - 5rem);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,13 +18,13 @@ export const HeroSection = styled.section`
     min-width: 300px;
 
     h1 {
-      font-size: 2.5rem;
+      font-size: 3rem;
       margin-bottom: 1rem;
       line-height: 1.3;
     }
 
     p {
-      font-size: 1rem;
+      font-size: 1.2rem;
       margin-bottom: 1.5rem;
       opacity: 0.9;
       max-width: 450px;
