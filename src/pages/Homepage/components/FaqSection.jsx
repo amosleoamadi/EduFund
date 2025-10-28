@@ -65,20 +65,20 @@ const FaqSection = () => {
       <div className="faq-wrapper">
         <div className="hero-section">
           <h1>Every child deserves the chance to learn</h1>
-          <h3>Let's make it happen together.</h3>
           <p>
-            Whether you're a student seeking support or a donor ready to make an
-            impact, your journey starts here.
+            Let's make it happen together. Whether you're a student seeking
+            support or a donor ready to make an impact, your journey starts
+            here.
           </p>
           <button className="cta-button">Join EduFund</button>
         </div>
 
         <div className="help-header">
-          <p className="need-help">NEED HELP?</p>
+          {/* <p className="need-help">NEED HELP?</p> */}
           <h2>Frequently Asked Questions</h2>
-          <p className="subtitle">
+          {/* <p className="subtitle">
             Before You Get Started, Here's What You Should Know.
-          </p>
+          </p> */}
         </div>
 
         <div className="faq-columns">

@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { TestimonialsStyle } from "./TestimonialsStyle";
 import { FaQuoteRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-// import your student images
-// import student1 from "../assets/student1.jpg";
-// import student2 from "../assets/student2.jpg";
-// import student3 from "../assets/student3.jpg";
+import student1 from "../../../assets/Chioma Adebayo image.jpg";
+import student2 from "../../../assets/Ibrahhim Yusuf image.jpg";
+import student3 from "../../../assets/Container.png";
 
 const testimonials = [
   {
-    // image: student1,
+    image: student1,
     quote:
       "I was about to drop out of university when I found EduFund. The platform's transparency gave donors confidence in my story, and I completed my degree.",
     name: "Chioma Adebayo",
@@ -17,19 +16,19 @@ const testimonials = [
     funded: "₦80,000",
   },
   {
-    // image: student2,
+    image: student2,
     quote:
-      "EduFund helped me raise enough funds to pay my tuition and continue my studies. I’m so grateful to everyone who supported me through this platform.",
-    name: "Tunde Okafor",
-    details: "Engineering, Obafemi Awolowo University",
+      "EduFund didn't just helped me paid my fees it restored my faith in humanity. The verificatoon process made me feel save and valued.",
+    name: "Ibrahim Yusuf",
+    details: "Engineering, Ahmadu Bello University",
     funded: "₦120,000",
   },
   {
-    // image: student3,
+    image: student3,
     quote:
-      "Through EduFund, I found sponsors who believed in my dream to become a doctor. Their support changed my life and gave me hope again.",
-    name: "Amaka Johnson",
-    details: "Medicine, University of Ibadan",
+      "Thanks to EduFund and the generous donors, I am now in my final year studying medicine. This platform truly changes lives.",
+    name: "Ada Nwankwo",
+    details: "Medicine, University of Nigeria",
     funded: "₦150,000",
   },
 ];
@@ -61,7 +60,7 @@ const Testimonials = () => {
         <div className="right">
           <FaQuoteRight className="quote-icon" />
           <p className="quote">"{current.quote}"</p>
-          <h4>{current.name}</h4>
+          <p className="name">{current.name}</p>
           <p className="details">{current.details}</p>
 
           <div className="controls">

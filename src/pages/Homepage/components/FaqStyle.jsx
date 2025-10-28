@@ -54,23 +54,23 @@ export const FaqStyle = styled.section`
   .help-header {
     margin-bottom: 50px;
 
-    .need-help {
+    /* .need-help {
       font-size: 0.85rem;
       font-weight: 500;
       letter-spacing: 1px;
       color: #c4c4c4;
       margin-bottom: 8px;
-    }
+    } */
 
     h2 {
       font-size: 1.8rem;
       margin-bottom: 10px;
     }
 
-    .subtitle {
+    /* .subtitle {
       font-size: 0.95rem;
       opacity: 0.9;
-    }
+    } */
   }
 
   .faq-columns {

@@ -23,7 +23,7 @@ export const TestimonialsStyle = styled.section`
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: 40px;
+    gap: 10px;
     background: linear-gradient(135deg, #f8fbff, #eef4ff);
     border-radius: 20px;
     padding: 50px 60px;
@@ -49,15 +49,14 @@ export const TestimonialsStyle = styled.section`
 
       .funded {
         position: absolute;
-        bottom: 10px;
+        bottom: -5px;
         left: 50%;
         transform: translateX(-50%);
         background: #00b050;
         color: #fff;
-        font-size: 0.85rem;
-        padding: 4px 12px;
+        font-size: 0.5rem;
+        padding: 4px 8px;
         border-radius: 8px;
-        font-weight: 600;
       }
     }
   }
@@ -71,7 +70,7 @@ export const TestimonialsStyle = styled.section`
       font-size: 2rem;
       color: #99b8ff;
       position: absolute;
-      right: 0;
+      right: -40px;
       top: 0;
     }
 
@@ -85,12 +84,12 @@ export const TestimonialsStyle = styled.section`
 
     h4 {
       font-size: 1.1rem;
-      font-weight: 700;
+      font-weight: 500;
       margin-bottom: 5px;
     }
 
     .details {
-      font-size: 0.95rem;
+      font-size: 0.65rem;
       color: #666;
       margin-bottom: 30px;
     }

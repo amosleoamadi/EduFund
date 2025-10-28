@@ -19,7 +19,7 @@ const Headers = () => {
   return (
     <Nav>
       <Logo>
-        {/* <img src={eduLogo} style={{ width: 150, height: 110 }} alt="" /> */}
+        {/* <img src={eduLogo} alt="" /> */}
         <FaGraduationCap className="logo-icon" />
         <span>EduFund</span>
       </Logo>
