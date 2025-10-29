@@ -25,6 +25,7 @@ import Discover from "../pages/donor-dashboard/components/Discover";
 import Donations from "../pages/donor-dashboard/components/Donations";
 import Impact from "../pages/donor-dashboard/components/Impact";
 import DonorSetting from "../pages/donor-dashboard/components/DonorSetting";
+import Contact from "../pages/Contact/Contact";
 
 export const Element = createBrowserRouter([
   {
@@ -43,9 +44,9 @@ export const Element = createBrowserRouter([
         path: "about",
         element: <About />,
       },
-  {
+      {
         path: "contact",
-        element: <About />,
+        element: <Contact />,
       },
     ],
   },

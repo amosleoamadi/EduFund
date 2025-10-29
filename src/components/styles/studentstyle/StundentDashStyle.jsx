@@ -7,9 +7,11 @@ export const StudDash = styled.main`
   display: flex;
   flex-direction: column;
 `;
+
 export const Header = styled.header`
   width: 100%;
-  height: 75px;
+  height: 78px;
+  z-index: 20;
   border-bottom: 1.184px solid #e5e7eb;
   background: #fff;
   box-shadow: 0 1.184px 3.553px 0 rgba(0, 0, 0, 0.1),
@@ -19,6 +21,7 @@ export const Header = styled.header`
   position: sticky;
   top: 0;
 `;
+
 export const Wrapper = styled.div`
   width: 95%;
   height: 100%;
@@ -26,6 +29,7 @@ export const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
+
 export const EduLogo = styled.div`
   width: 183.719px;
   height: 55.362px;
@@ -37,6 +41,7 @@ export const EduLogo = styled.div`
     object-fit: cover;
   }
 `;
+
 export const NotiProf = styled.div`
   width: 15%;
   height: 100%;
@@ -75,18 +80,36 @@ export const NotiProf = styled.div`
     align-items: center;
 
     .pic {
-      width: 50px;
-      height: 50px;
+      width: 45px;
+      height: 45px;
       border-radius: 50%;
       background-color: gray;
       cursor: pointer;
     }
   }
 `;
+
 export const DashLayout = styled.div`
   width: 100%;
-  height: calc(100% - 75px);
-  padding: 40px;
+  flex: 1;
   display: flex;
-  gap: 30px;
+  overflow: hidden;
+`;
+
+export const SideBarContainer = styled.div`
+  width: 25%;
+  height: calc(100vh - 78px);
+  position: sticky;
+  top: 78px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const OutletContent = styled.section`
+  width: 75%;
+  height: calc(100vh - 78px);
+  overflow-y: auto;
+  padding: 35px;
 `;

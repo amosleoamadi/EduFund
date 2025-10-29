@@ -4,6 +4,8 @@ import {
   EduLogo,
   Header,
   NotiProf,
+  OutletContent,
+  SideBarContainer,
   StudDash,
   Wrapper,
 } from "../../components/styles/studentstyle/StundentDashStyle";
@@ -33,8 +35,12 @@ const DashboardStudent = () => {
         </Wrapper>
       </Header>
       <DashLayout>
-        <Sidebar />
-        <Outlet />
+        <SideBarContainer>
+          <Sidebar />
+        </SideBarContainer>
+        <OutletContent>
+          <Outlet />
+        </OutletContent>
       </DashLayout>
     </StudDash>
   );

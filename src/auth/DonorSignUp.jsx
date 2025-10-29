@@ -22,6 +22,51 @@ import safe from "../assets/iconamoon_shield-yes-light.svg";
 const DonorSignUp = () => {
   const [active, setActive] = useState("individual");
   const nav = useNavigate();
+  const [donordetail, setDonordetail] = useState({
+    firstName: "",
+    lastName: "",
+    organizationName: "",
+    email: "",
+    password: "",
+  });
+
+  const conditions = {
+    length: donordetail.password.length >= 8,
+    uppercase: /[A-Z]/.test(donordetail.password),
+    lowercase: /[a-z]/.test(donordetail.password),
+    number: /\d/.test(donordetail.password),
+    special: /[!@#$%^&*(),.?":{}|<>]/.test(donordetail.password),
+  };
+
+  const passedCount = Object.values(conditions).filter(Boolean).length;
+  const allPassed = passedCount === 5;
+
+  const handleOnchange = (e) => {
+    const { name, value } = e.target;
+    setDonordetail((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleIndividualClick = () => {
+    setActive("individual");
+    setDonordetail((prev) => ({
+      ...prev,
+      organizationName: "",
+    }));
+  };
+
+  const handleOrganizationClick = () => {
+    setActive("organization");
+    setDonordetail((prev) => ({
+      ...prev,
+      firstName: "",
+      lastName: "",
+      email: "",
+    }));
+  };
+
   return (
     <DonorContainer>
       <LogoBar onClick={() => nav(-1)}>
@@ -33,13 +78,13 @@ const DonorSignUp = () => {
         <ToggleContainer>
           <ToggleButton
             active={active === "individual"}
-            onClick={() => setActive("individual")}
+            onClick={handleIndividualClick}
           >
             Individual
           </ToggleButton>
           <ToggleButton
             active={active === "organization"}
-            onClick={() => setActive("organization")}
+            onClick={handleOrganizationClick}
           >
             Organization
           </ToggleButton>
@@ -53,15 +98,19 @@ const DonorSignUp = () => {
                 placeholder="Alex"
                 type="text"
                 name="firstName"
+                value={donordetail.firstName}
+                onChange={handleOnchange}
               />
             </div>
             <div className="label_input">
-              <label htmlFor="firstName">Last name</label>
+              <label htmlFor="lastName">Last name</label>
               <Input
                 className="input_place"
                 placeholder="Lizzy"
                 type="text"
-                name="firstName"
+                name="lastName"
+                value={donordetail.lastName}
+                onChange={handleOnchange}
               />
             </div>
           </InpuLabel>
@@ -72,7 +121,9 @@ const DonorSignUp = () => {
                 className="input_place"
                 placeholder="Enter your organization name"
                 type="text"
-                name="organization"
+                name="organizationName"
+                value={donordetail.organizationName}
+                onChange={handleOnchange}
               />
             </LabelInput>
           )}
@@ -83,6 +134,8 @@ const DonorSignUp = () => {
               placeholder="john@example.com"
               type="text"
               name="email"
+              value={donordetail.email}
+              onChange={handleOnchange}
             />
           </LabelInput>
           <LabelInput>
@@ -91,7 +144,7 @@ const DonorSignUp = () => {
               className="input_place"
               placeholder="+234 800 000 0000"
               type="text"
-              name="email"
+              name="phoneNuber"
             />
           </LabelInput>
           <PasswordInput>
@@ -101,46 +154,52 @@ const DonorSignUp = () => {
               placeholder="Enter Password"
               type="text"
               name="password"
+              value={donordetail.password}
+              onChange={handleOnchange}
             />
             <div className="text">
               <p>Password Strength</p>
               <p>Weak</p>
             </div>
             <div className="boxes">
-              <div className="box1"></div>
-              <div className="box1"></div>
-              <div className="box1"></div>
-              <div className="box1"></div>
-              <div className="box1"></div>
+              <div className={`box1 ${conditions.length ? "good" : ""}`}></div>
+              <div
+                className={`box1 ${conditions.uppercase ? "good" : ""}`}
+              ></div>
+              <div
+                className={`box1 ${conditions.lowercase ? "good" : ""}`}
+              ></div>
+              <div className={`box1 ${conditions.number ? "good" : ""}`}></div>
+              <div className={`box1 ${conditions.special ? "good" : ""}`}></div>
             </div>
             <div className="description">
-              <nav>
+              <nav className={`click ${conditions.length ? "set" : ""}`}>
                 <span>
-                  <img src={cancel} alt="" />
+                  {conditions.length ? "✔" : <img src={cancel} alt="" />}
                 </span>
                 At least 8 characters
               </nav>
-              <nav>
+              <nav className={`click ${conditions.uppercase ? "set" : ""}`}>
                 <span>
-                  <img src={cancel} alt="" />
+                  {conditions.uppercase ? "✔" : <img src={cancel} alt="" />}
                 </span>
                 One uppercase letter
               </nav>
-              <nav>
+              <nav className={`click ${conditions.lowercase ? "set" : ""}`}>
                 <span>
-                  <img src={cancel} alt="" />
+                  {conditions.lowercase ? "✔" : <img src={cancel} alt="" />}
                 </span>
                 One lowercase letter
               </nav>
-              <nav>
+              <nav className={`click ${conditions.number ? "set" : ""}`}>
                 <span>
-                  <img src={cancel} alt="" />
+                  {conditions.number ? "✔" : <img src={cancel} alt="" />}
                 </span>
                 One number
               </nav>
-              <nav>
+              <nav className={`click ${conditions.special ? "set" : ""}`}>
                 <span>
-                  <img src={cancel} alt="" />
+                  {conditions.special ? "✔" : <img src={cancel} alt="" />}
                 </span>
                 One special character
               </nav>

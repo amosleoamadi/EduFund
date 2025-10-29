@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-// import eduLogo from "../../assets/EduFund Logo.png";
-import { FaGraduationCap } from "react-icons/fa";
+import eduLogo from "../../../public/Logo.png";
 
 import { FiChevronDown } from "react-icons/fi";
 
@@ -12,24 +11,38 @@ import {
   NavButtons,
   NavLinks,
 } from "./HeadersStyle";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Headers = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const location = useLocation();
+  const nav = useNavigate();
 
   return (
     <Nav>
       <Logo>
-        {/* <img src={eduLogo} alt="" /> */}
-        <FaGraduationCap className="logo-icon" />
-        <span>EduFund</span>
+        <img src={eduLogo} alt="" />
       </Logo>
 
       <NavLinks>
-        <a href="#home" className="active">
+        <nav
+          className={`btn ${location.pathname === "/" ? "actives" : ""}`}
+          onClick={() => nav("")}
+        >
           Home
-        </a>
-        <a href="#about">About Us</a>
-        <a href="#contact">Contact Us</a>
+        </nav>
+        <nav
+          className={`btn ${location.pathname === "/about" ? "actives" : ""}`}
+          onClick={() => nav("about")}
+        >
+          About Us
+        </nav>
+        <nav
+          className={`btn ${location.pathname === "/contact" ? "actives" : ""}`}
+          onClick={() => nav("contact")}
+        >
+          Contact Us
+        </nav>
       </NavLinks>
 
       <NavButtons>
@@ -43,13 +56,15 @@ const Headers = () => {
 
           {dropdownOpen && (
             <DropdownMenu>
-              <a href="#student">Student Sign in</a>
-              <a href="#sponsor">Donor Sign in</a>
+              <nav onClick={() => nav("/login")}>Student Sign in</nav>
+              <nav onClick={() => nav("/login")}>Donor Sign in</nav>
             </DropdownMenu>
           )}
         </Dropdown>
 
-        <button className="sign-up">Sign up for free</button>
+        <button className="sign-up" onClick={() => nav("/account-type")}>
+          Sign up for free
+        </button>
       </NavButtons>
     </Nav>
   );
