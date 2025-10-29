@@ -10,22 +10,22 @@ const FaqSection = () => {
     {
       question: "What is EduFund?",
       answer:
-        "EduFund is a transparent crowdfunding platform that helps students access quality education by connecting them with donors and supporters.",
+        "EduFund is a digital crowdfunding platform that connects verified students who struggle to pay their school fees with trusted donors, sponsors, and organizations willing to help. Every campaign is verified to ensure funds reach real students for their education.",
     },
     {
       question: "How do students get verified on EduFund?",
       answer:
-        "Students undergo a verification process to confirm their identity, school enrollment, and financial need.",
+        "Each student must upload valid identification, school admission details, and proof of enrollment. EduFund then cross-checks this information with the student’s institution or official verification APIs before approving their campaign.",
     },
     {
       question: "Can anyone donate on EduFund?",
       answer:
-        "Yes, anyone from anywhere in the world can safely support verified students on EduFund.",
+        "Yes. Individuals, organizations, and corporate sponsors can all donate to verified student campaigns. Donors can choose to support one student, multiple students, or contribute to EduFund’s general education support pool.",
     },
     {
       question: "Is my donation safe and secure?",
       answer:
-        "Yes. EduFund uses trusted and secure payment gateways to protect donor information and transactions.",
+        "Absolutely. EduFund uses trusted payment gateways and end-to-end encryption to protect all transactions. Funds are disbursed directly to verified school accounts  not to individual students  ensuring complete transparency.",
     },
   ];
 
@@ -33,22 +33,22 @@ const FaqSection = () => {
     {
       question: "Can a student run more than one campaign?",
       answer:
-        "Each student is allowed one active campaign at a time to ensure fair access to support.",
+        "No. Each student can only have one active campaign at a time. Once a campaign goal is reached and verified, the student can apply for another campaign only if approved by EduFund’s verification team.",
     },
     {
       question: "What happens if a campaign doesn’t reach its goal?",
       answer:
-        "Funds raised are still disbursed to the student, minus applicable transaction fees.",
+        "If a campaign doesn’t reach its target by the set deadline, donors are notified. The funds raised may still be disbursed proportionally toward tuition, or donors can choose to reassign their donation to another verified student campaign.",
     },
     {
       question: "Can schools or institutions partner with EduFund?",
       answer:
-        "Yes. EduFund partners with accredited schools and institutions to support students collectively.",
+        "Yes. EduFund actively partners with accredited schools and universities to verify student details and manage direct tuition payments.",
     },
     {
       question: "How long does it take for students to receive funds?",
       answer:
-        "Once verified, students typically receive funds within 3–5 business days after campaign completion.",
+        "Once a campaign is fully funded and verified, EduFund processes disbursement within 3–5 business days, directly to the student’s school account. Students and donors both receive confirmation updates once the transaction is completed.",
     },
   ];
 
@@ -74,11 +74,7 @@ const FaqSection = () => {
         </div>
 
         <div className="help-header">
-          {/* <p className="need-help">NEED HELP?</p> */}
           <h2>Frequently Asked Questions</h2>
-          {/* <p className="subtitle">
-            Before You Get Started, Here's What You Should Know.
-          </p> */}
         </div>
 
         <div className="faq-columns">

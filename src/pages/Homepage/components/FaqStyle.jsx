@@ -4,7 +4,7 @@ export const FaqStyle = styled.section`
   background: #00104e;
   color: #fff;
   text-align: center;
-  padding: 100px 10%;
+  padding: 70px 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -27,9 +27,9 @@ export const FaqStyle = styled.section`
     }
 
     p {
-      font-size: 1rem;
+      font-size: 0.85rem;
       color: #d5d8f0;
-      max-width: 600px;
+      max-width: 500px;
       margin-bottom: 25px;
       line-height: 1.6;
     }
@@ -37,9 +37,9 @@ export const FaqStyle = styled.section`
     .cta-button {
       background: #fff;
       color: #00104e;
-      padding: 0.9rem 2rem;
-      font-weight: 600;
-      font-size: 1rem;
+      padding: 0.6rem 1rem;
+      font-weight: normal;
+      font-size: 0.9rem;
       border: none;
       border-radius: 8px;
       cursor: pointer;
@@ -53,30 +53,19 @@ export const FaqStyle = styled.section`
 
   .help-header {
     margin-bottom: 50px;
-
-    /* .need-help {
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 1px;
-      color: #c4c4c4;
-      margin-bottom: 8px;
-    } */
+    margin-top: 150px;
 
     h2 {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
+      font-size: 1.4rem;
+      /* margin-bottom: 10px; */
     }
-
-    /* .subtitle {
-      font-size: 0.95rem;
-      opacity: 0.9;
-    } */
   }
 
   .faq-columns {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    text-align: left;
     gap: 40px;
     flex-wrap: wrap;
   }
@@ -90,8 +79,9 @@ export const FaqStyle = styled.section`
   .faq-item {
     background: #fff;
     color: #000;
-    border-radius: 6px;
-    margin-bottom: 10px;
+    /* border-radius: 6px; */
+    /* margin-bottom: 10px; */
+    border-bottom: 1px solid black;
     overflow: hidden;
     transition: all 0.3s ease;
 
@@ -128,8 +118,9 @@ export const FaqStyle = styled.section`
 
       p {
         font-size: 0.9rem;
-        opacity: 0.85;
-        line-height: 1.5;
+        /* opacity: 0.85; */
+        color: gray;
+        line-height: 2;
       }
     }
 

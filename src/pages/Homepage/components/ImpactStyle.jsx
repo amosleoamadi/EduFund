@@ -8,12 +8,12 @@ export const ImpactStyle = styled.section`
   text-align: center;
 
   h2 {
-    font-size: 2rem;
+    font-size: 2.5rem;
     margin-bottom: 10px;
   }
 
   .subtitle {
-    font-size: 1rem;
+    font-size: 1.2rem;
     opacity: 0.9;
     margin-bottom: 50px;
   }

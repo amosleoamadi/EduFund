@@ -141,7 +141,7 @@ import styled from "styled-components";
 export const FooterStyle = styled.footer`
   background-color: #00104e;
   color: #ffffff;
-  padding: 60px 10% 40px;
+  padding: 60px 7%;
   display: flex;
   justify-content: center;
   border-top: 0.2px solid grey;
@@ -152,12 +152,12 @@ export const FooterStyle = styled.footer`
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 40px;
+    gap: 20px;
     position: relative;
   }
 
   .footer-left {
-    flex: 1 1 320px;
+    flex: 3;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -174,33 +174,36 @@ export const FooterStyle = styled.footer`
     }
 
     .description {
-      font-size: 0.95rem;
-      line-height: 1.6;
+      font-size: 0.98rem;
+      line-height: 2;
       color: #c3c6e6;
       margin: 20px 0;
-      max-width: 340px;
+      max-width: 400px;
     }
 
     .copyright {
-      font-size: 0.85rem;
+      font-size: 0.98rem;
       color: #9da3c7;
-      margin-top: auto;
+      margin-top: 60px;
     }
   }
 
   .footer-links {
     display: flex;
-    flex: 2;
+    flex: 5;
     justify-content: space-around;
     gap: 80px;
+
+    /* background: #000; */
 
     .link-group {
       display: flex;
       flex-direction: column;
+      line-height: 2;
 
       h4 {
         font-size: 1rem;
-        font-weight: 600;
+        font-weight: normal;
         margin-bottom: 15px;
         color: #ffffff;
       }
@@ -219,7 +222,6 @@ export const FooterStyle = styled.footer`
     }
   }
 
-  /* 👇 This moves the social icons to the bottom right corner */
   .socials {
     position: absolute;
     right: 0;

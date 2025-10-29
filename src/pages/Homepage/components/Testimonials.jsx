@@ -21,7 +21,7 @@ const testimonials = [
       "EduFund didn't just helped me paid my fees it restored my faith in humanity. The verificatoon process made me feel save and valued.",
     name: "Ibrahim Yusuf",
     details: "Engineering, Ahmadu Bello University",
-    funded: "₦120,000",
+    funded: "₦280,000",
   },
   {
     image: student3,

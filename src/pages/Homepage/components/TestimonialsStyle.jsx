@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
 export const TestimonialsStyle = styled.section`
-  padding: 100px 10%;
+  padding: 40px 2%;
   text-align: center;
   background: #fff;
   color: #0a1442;
 
   h2 {
-    font-size: 2.2rem;
+    font-size: 2.7rem;
     font-weight: 800;
     color: #0a1442;
   }

@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 export const Nav = styled.nav`
   width: 100%;
-  background-color: #001b5e;
+  /* background-color: #001b5e; */
+  background-color: #00104e;
   color: #fff;
   display: flex;
   justify-content: space-between;
@@ -53,7 +54,7 @@ export const NavLinks = styled.div`
       bottom: -4px;
       width: 100%;
       height: 2px;
-      background-color: #00a8ff;
+      background-color: white;
       border-radius: 10px;
     }
   }
@@ -118,6 +119,8 @@ export const DropdownMenu = styled.div`
   background-color: #fff;
   color: #001b5e;
   border-radius: 8px;
+  padding: 20px;
+  border: 2px solid #0090db;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
