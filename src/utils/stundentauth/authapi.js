@@ -20,8 +20,26 @@ export const studentAuth = createApi({
         body: credential,
       }),
     }),
+    verifyOtp: builders.mutation({
+      query: ({ otp, email }) => ({
+        url: `/auth/verify/${email}`,
+        method: "POST",
+        body: { otp },
+      }),
+    }),
+    resendOtp: builders.mutation({
+      query: (email) => ({
+        url: "/auth/resend-otp",
+        method: "POST",
+        body: email,
+      }),
+    }),
   }),
 });
 
-export const { useStudentregisterMutation, useStudentloginMutation } =
-  studentAuth;
+export const {
+  useStudentregisterMutation,
+  useStudentloginMutation,
+  useVerifyOtpMutation,
+  useResendOtpMutation,
+} = studentAuth;

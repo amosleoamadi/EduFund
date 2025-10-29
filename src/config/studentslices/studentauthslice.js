@@ -1,36 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  students: {
-    firstname: "",
-    lastname: "",
-    email: "",
-    studentId: "",
-    studentToken: "",
-  },
+  firstname: "",
+  lastname: "",
+  email: "",
+  studentId: "",
+  studentToken: "",
+  role: "",
 };
 
 const studentauthSlice = createSlice({
   name: "student",
   initialState,
   reducers: {
-    setStudent: (state, { payload }) => {
-      state.students.firstname = payload;
-      state.students.lastname = payload;
-      state.students.email = payload;
-      state.students.studentId = payload;
-      state.students.studentToken = payload;
+    setStudent: (state, action) => {
+      return action.payload;
     },
 
     studentLogout: (state) => {
-      state.students.firstname = "";
-      state.students.lastname = "";
-      state.students.email = "";
-      state.students.studentId = "";
-      state.students.studentToken = "";
+      state.firstname = "";
+      state.lastname = "";
+      state.email = "";
+      state.studentId = "";
+      state.studentToken = "";
+      state.role = "";
     },
   },
 });
 
+export const selectStudentId = (state) => state.student.studentId;
+export const selectStudentEmail = (state) => state.student.email;
 export const { setStudent, studentLogout } = studentauthSlice.actions;
 export default studentauthSlice.reducer;

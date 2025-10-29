@@ -4,7 +4,7 @@ export const AccountContainer = styled.main`
   width: 100%;
   height: 100vh;
   background: #f9fafb;
-  padding: 35px;
+  padding: 30px;
 `;
 export const LogoBar = styled.div`
   width: 183.719px;
@@ -20,7 +20,7 @@ export const LogoBar = styled.div`
   }
 `;
 export const AccountType = styled.div`
-  width: 45%;
+  width: 48%;
   height: 78%;
   justify-self: center;
 
@@ -29,7 +29,6 @@ export const AccountType = styled.div`
     font-size: 25px;
     font-family: "Inter", sans-serif;
     font-weight: 700;
-    margin-bottom: 7px;
     text-align: center;
   }
 
@@ -43,12 +42,13 @@ export const AccountType = styled.div`
 `;
 export const Holder = styled.div`
   width: 100%;
-  height: 80%;
+  height: 85%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
+
 export const Details = styled.div`
-  width: 42%;
+  width: 47%;
   height: 100%;
   border-radius: 16px;
   border: 2px solid #e5e7eb;
@@ -56,6 +56,7 @@ export const Details = styled.div`
   padding: 25px;
   display: flex;
   flex-direction: column;
+  gap: 10px;
   align-items: center;
 
   .shoclar1 {
@@ -67,34 +68,32 @@ export const Details = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 12px;
   }
 
   h3 {
     color: #111827;
     font-family: "Inter", sans-serif;
-    font-size: 18px;
+    font-size: 20px;
   }
 
   p {
     font-family: Inter;
-    font-size: 16px;
+    font-size: 20px;
     color: #4b5563;
     font-weight: 400;
     font-size: 12px;
-    margin-bottom: 15px;
+    width: 75%;
   }
 
   ul {
     list-style-type: none;
-    margin-bottom: 15px;
 
     li {
       display: flex;
       gap: 10px;
       color: #4b5563;
       font-family: "Inter", sans-serif;
-      font-size: 11px;
+      font-size: 13px;
       font-style: normal;
       font-weight: 400;
       margin-bottom: 5px;
@@ -106,7 +105,7 @@ export const Details = styled.div`
   }
 
   .choose_btn {
-    width: 190px;
+    width: 100%;
     height: 43px;
     border-radius: 12px;
     border: 0 solid #e5e7eb;

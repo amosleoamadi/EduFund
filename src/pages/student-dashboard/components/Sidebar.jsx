@@ -110,6 +110,7 @@ const Holder = styled.div`
   .foot {
     display: flex;
     align-items: center;
+    justify-self: flex-end;
     color: #3d3d3d;
     font-size: 14px;
     gap: 5px;
@@ -135,7 +136,7 @@ const Container = styled.main`
   padding: 18px 18px 18px 18px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
+  gap: 10px;
   border-radius: 16.579px;
   border: 1.184px solid #e5e7eb;
   background: rgb(255, 255, 255);

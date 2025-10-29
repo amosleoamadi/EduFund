@@ -14,7 +14,9 @@ const FirstWithdraw = () => {
       <Amount>
         <Tag>
           <h3>Available for Withdrawal</h3>
-          <Button className="btn" text="Request Withdrawal" disabled />
+          <button className="btn" disabled>
+            Request Withdrawal
+          </button>
         </Tag>
         <MoneyBal>₦0</MoneyBal>
         <Down>
@@ -88,6 +90,11 @@ const Tag = styled.div`
     cursor: pointer;
     border: none;
     font-size: 14px;
+
+    &:disabled {
+      color: blue;
+      background-color: #ffffff81;
+    }
   }
 
   h3 {
