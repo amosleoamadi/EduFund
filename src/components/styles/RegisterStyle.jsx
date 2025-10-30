@@ -227,10 +227,21 @@ export const PasswordInput = styled.div`
     display: flex;
     flex-direction: column;
 
-    nav {
+    .click {
       display: flex;
-      gap: 10px;
+      align-items: center;
+      gap: 8px;
       color: #7b7e80;
+      font-size: 15px;
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    .set {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: green;
       font-size: 15px;
       font-weight: 400;
       margin-bottom: 6px;

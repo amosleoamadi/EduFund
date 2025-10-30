@@ -17,7 +17,7 @@ const AccoutType = () => {
 
   return (
     <AccountContainer>
-      <LogoBar>
+      <LogoBar onClick={() => nav(-1)}>
         <img src={img} alt="Logo" />
       </LogoBar>
       <AccountType>

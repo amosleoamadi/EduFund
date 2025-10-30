@@ -10,12 +10,13 @@ import img from "../assets/EduFundLogo.png";
 import { LabelInput } from "../components/styles/RegisterStyle";
 import Input from "../components/Ui/Input";
 import Button from "../components/Ui/Button";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const nav = useNavigate();
   return (
     <LogContainer>
-      <LogoBar>
+      <LogoBar onClick={() => nav(-1)}>
         <img src={img} alt="" />
       </LogoBar>
       <LogHolder>

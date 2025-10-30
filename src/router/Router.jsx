@@ -10,8 +10,6 @@ import EmailVerification from "../auth/EmailVerification";
 import RouterError from "./RouterError";
 import ResetPassword from "../auth/ResetPassword";
 import About from "../pages/About/AboutPage";
-import Contact from "../pages/Contact/Contact";
-
 import ResetEmailCode from "../auth/ResetEmailCode";
 import DonorSignUp from "../auth/DonorSignUp";
 import DashboardStudent from "../pages/student-dashboard/DashboardStudent";
@@ -27,6 +25,7 @@ import Discover from "../pages/donor-dashboard/components/Discover";
 import Donations from "../pages/donor-dashboard/components/Donations";
 import Impact from "../pages/donor-dashboard/components/Impact";
 import DonorSetting from "../pages/donor-dashboard/components/DonorSetting";
+import Contact from "../pages/Contact/Contact";
 
 export const Element = createBrowserRouter([
   {
@@ -42,11 +41,13 @@ export const Element = createBrowserRouter([
         element: <Homepage />,
       },
       {
-        path: "about", element:<About/>
+        path: "about",
+        element: <About />,
       },
       {
-        path: "contact", element:<Contact/>
-      }
+        path: "contact",
+        element: <Contact />,
+      },
     ],
   },
   {

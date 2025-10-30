@@ -5,52 +5,50 @@ import { GrFavorite } from "react-icons/gr";
 import { CiSearch } from "react-icons/ci";
 import { SlBadge } from "react-icons/sl";
 import { LuSettings } from "react-icons/lu";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import safe from "../../../assets/iconamoon_shield-yes-light.svg";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
 const DonorSideBar = () => {
-  const [active, setActice] = useState("overview");
+  const location = useLocation();
   const nav = useNavigate();
   return (
     <Container>
       <nav
-        className={`btn ${active === "overview" ? "active" : ""}`}
-        onClick={() => {
-          setActice("overview"), nav("");
-        }}
+        className={`btn ${location.pathname === "" ? "active" : ""}`}
+        onClick={() => nav("")}
       >
         <MdOutlineHome className="bars" /> Overview
       </nav>
       <nav
-        className={`btn ${active === "campaign" ? "active" : ""}`}
-        onClick={() => {
-          setActice("campaign"), nav("/donor_dashboard/donation");
-        }}
+        className={`btn ${
+          location.pathname === "/donor_dashboard/donation" ? "active" : ""
+        }`}
+        onClick={() => nav("/donor_dashboard/donation")}
       >
         <GrFavorite className="bar" /> My Donations
       </nav>
       <nav
-        className={`btn ${active === "donors" ? "active" : ""}`}
-        onClick={() => {
-          setActice("donors"), nav("/donor_dashboard/discover");
-        }}
+        className={`btn ${
+          location.pathname === "/donor_dashboard/discover" ? "active" : ""
+        }`}
+        onClick={() => nav("/donor_dashboard/discover")}
       >
         <CiSearch className="bar" /> Discover
       </nav>
       <nav
-        className={`btn ${active === "verify" ? "active" : ""}`}
-        onClick={() => {
-          setActice("verify"), nav("/donor_dashboard/impact");
-        }}
+        className={`btn ${
+          location.pathname === "/donor_dashboard/impact" ? "active" : ""
+        }`}
+        onClick={() => nav("/donor_dashboard/impact")}
       >
         <SlBadge className="bar" /> Impact
       </nav>
       <nav
-        className={`btn ${active === "setting" ? "active" : ""}`}
-        onClick={() => {
-          setActice("setting"), nav("/donor_dashboard/donor-setting");
-        }}
+        className={`btn ${
+          location.pathname === "/donor_dashboard/donor-setting" ? "active" : ""
+        }`}
+        onClick={() => nav("/donor_dashboard/donor-setting")}
       >
         <LuSettings className="bar" /> Settings
       </nav>
@@ -118,8 +116,8 @@ const Holder = styled.div`
 `;
 const Container = styled.main`
   display: flex;
-  width: 21%;
-  height: 90%;
+  width: 85%;
+  height: 85%;
   min-height: max-content;
   padding: 18px 18px 18px 18px;
   flex-direction: column;

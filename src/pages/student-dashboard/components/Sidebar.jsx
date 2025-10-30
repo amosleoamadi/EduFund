@@ -6,61 +6,63 @@ import { LuTarget } from "react-icons/lu";
 import { GoPeople } from "react-icons/go";
 import { TbMoneybag } from "react-icons/tb";
 import { LuSettings } from "react-icons/lu";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import safe from "../../../assets/iconamoon_shield-yes-light.svg";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
 const Sidebar = () => {
-  const [active, setActice] = useState("overview");
+  const location = useLocation();
   const nav = useNavigate();
   return (
     <Container>
       <nav
-        className={`btn ${active === "overview" ? "active" : ""}`}
-        onClick={() => {
-          setActice("overview"), nav("");
-        }}
+        className={`btn ${
+          location.pathname === "/student-dashbord" ? "active" : ""
+        }`}
+        onClick={() => nav("")}
       >
         <MdOutlineHome className="bars" /> Overview
       </nav>
       <nav
-        className={`btn ${active === "campaign" ? "active" : ""}`}
-        onClick={() => {
-          setActice("campaign"), nav("/student-dashbord/campaigns");
-        }}
+        className={`btn ${
+          location.pathname === "/student-dashbord/campaigns" ? "active" : ""
+        }`}
+        onClick={() => nav("/student-dashbord/campaigns")}
       >
         <LuTarget className="bar" /> My Campaign
       </nav>
       <nav
-        className={`btn ${active === "donor" ? "active" : ""}`}
-        onClick={() => {
-          setActice("donor"), nav("/student-dashbord/donors");
-        }}
+        className={`btn ${
+          location.pathname === "/student-dashbord/donors" ? "active" : ""
+        }`}
+        onClick={() => nav("/student-dashbord/donors")}
       >
         <GoPeople className="bar" /> Donors
       </nav>
       <nav
-        className={`btn ${active === "verify" ? "active" : ""}`}
-        onClick={() => {
-          setActice("verify"), nav("/student-dashbord/verification");
-        }}
+        className={`btn ${
+          location.pathname === "/student-dashbord/verification" ? "active" : ""
+        }`}
+        onClick={() => nav("/student-dashbord/verification")}
       >
         <GoVerified className="bar" /> Verification
       </nav>
       <nav
-        className={`btn ${active === "withdraw" ? "active" : ""}`}
-        onClick={() => {
-          setActice("withdraw"), nav("/student-dashbord/withdraws");
-        }}
+        className={`btn ${
+          location.pathname === "/student-dashbord/withdraws" ? "active" : ""
+        }`}
+        onClick={() => nav("/student-dashbord/withdraws")}
       >
         <TbMoneybag className="bar" /> Withdrawals
       </nav>
       <div className="divider"></div>
       <nav
-        className={`btn ${active === "setting" ? "active" : ""}`}
-        onClick={() => {
-          setActice("setting"), nav("/student-dashbord/student-setting");
-        }}
+        className={`btn ${
+          location.pathname === "/student-dashbord/student-setting"
+            ? "active"
+            : ""
+        }`}
+        onClick={() => nav("/student-dashbord/student-setting")}
       >
         <LuSettings className="bar" /> Settings
       </nav>
@@ -127,16 +129,14 @@ const Holder = styled.div`
 `;
 const Container = styled.main`
   display: flex;
-  width: 21%;
-  height: 95%;
+  width: 85%;
+  height: 85%;
   min-height: max-content;
   padding: 18px 18px 18px 18px;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
   border-radius: 16.579px;
-  position: sticky;
-  top: 0;
   border: 1.184px solid #e5e7eb;
   background: rgb(255, 255, 255);
   box-shadow: 0 11.842px 17.763px -3.553px rgba(0, 0, 0, 0.1),
