@@ -12,6 +12,7 @@ const Hero = () => {
           EduFund connects verified students with trusted donors to keep dreams
           alive and classrooms full.
         </p>
+
         <div className="buttons">
           <button className="primary" onClick={() => nav("/register")}>
             Start a Campaign
@@ -20,6 +21,7 @@ const Hero = () => {
             Donate Now
           </button>
         </div>
+
         <div className="stats">
           <StatsBox>
             <h3>₦12M+</h3>
@@ -35,6 +37,15 @@ const Hero = () => {
           </StatsBox>
         </div>
       </div>
+      <DonationPopup>
+        <div className="icon">🤍</div>
+        <div className="text">
+          <p>Recent Impact</p>
+          <h4>₦75,000 donated</h4>
+          <p>3 minutes ago</p>
+        </div>
+      </DonationPopup>
+
       <div className="heroImage"></div>
     </HeroSection>
   );

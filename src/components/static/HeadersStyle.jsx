@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Nav = styled.nav`
   width: 100%;
   height: 5rem;
-  background :  #001145;
+  background-color: #001b5e;
   color: #fff;
   display: flex;
   justify-content: space-between;
@@ -109,6 +109,8 @@ export const DropdownMenu = styled.div`
   background-color: #fff;
   color: #001b5e;
   border-radius: 8px;
+  padding: 20px;
+  border: 2px solid #0090db;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;

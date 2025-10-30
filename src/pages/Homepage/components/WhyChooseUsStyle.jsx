@@ -2,18 +2,19 @@ import styled from "styled-components";
 
 export const WhyChooseUsStyle = styled.section`
   width: 100%;
-  background: #f8faff;
-  padding: 80px 10%;
+  background: #e4dada;
+  background-color: #ffffff;
+  padding: 80px 5%;
   text-align: center;
 
   h2 {
-    font-size: 2rem;
+    font-size: 3rem;
     color: #031b88;
     margin-bottom: 10px;
   }
 
   .subtitle {
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: #555;
     margin-bottom: 50px;
   }
@@ -22,6 +23,7 @@ export const WhyChooseUsStyle = styled.section`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    text-align: left;
     gap: 25px;
   }
 
@@ -29,7 +31,7 @@ export const WhyChooseUsStyle = styled.section`
     background: #ffffff;
     padding: 30px 25px;
     border-radius: 16px;
-    width: 300px;
+    width: 350px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -45,7 +47,7 @@ export const WhyChooseUsStyle = styled.section`
       background: #e9edff;
       width: 55px;
       height: 55px;
-      border-radius: 50%;
+      border-radius: 20%;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -55,9 +57,10 @@ export const WhyChooseUsStyle = styled.section`
     }
 
     h3 {
-      font-size: 1.1rem;
-      color: #031b88;
+      font-size: 1.5rem;
+      color: black;
       margin-bottom: 8px;
+      font-weight: normal;
     }
 
     p {
