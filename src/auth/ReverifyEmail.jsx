@@ -5,20 +5,18 @@ import img from "../assets/EduFundLogo.png";
 import Input from "../components/Ui/Input";
 import {
   useResendOtpMutation,
-  useVerifyOtpMutation,
+  useReverifyEmailMutation,
 } from "../utils/stundentauth/authapi";
-import { useSelector, useDispatch } from "react-redux";
 import { Spin } from "antd";
-import { selectStudentEmail } from "../config/studentslices/studentauthslice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
-const EmailVerification = () => {
+const ReverifyEmail = () => {
   const [otp, setOtp] = useState();
-  const email = useSelector(selectStudentEmail);
-  const [veryOtp, { isLoading }] = useVerifyOtpMutation();
+  const [veryOtp, { isLoading }] = useReverifyEmailMutation();
   const nav = useNavigate();
   const [resendOtp] = useResendOtpMutation();
+  const email = JSON.parse(localStorage.getItem("userEmail"));
 
   const handleVerificationCodeChange = (e) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
@@ -29,9 +27,8 @@ const EmailVerification = () => {
     e.preventDefault();
     try {
       const res = await veryOtp({ otp, email: email }).unwrap();
-      console.log(res);
       toast.success(res?.message);
-      nav("/login");
+      nav("/reset-password");
     } catch (err) {
       toast.error(err?.data?.message);
     }
@@ -84,7 +81,7 @@ const EmailVerification = () => {
   );
 };
 
-export default EmailVerification;
+export default ReverifyEmail;
 const InputVerify = styled.div`
   width: 100%;
   height: max-content;

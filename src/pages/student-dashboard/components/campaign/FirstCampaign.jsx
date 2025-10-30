@@ -45,6 +45,7 @@ const Content = styled.main`
 const Wrapper = styled.section`
   width: 100%;
   height: 60%;
+  min-height: max-content;
   border-radius: 15.7px;
   border: 1.121px solid #e5e7eb;
   background: rgb(255, 255, 255);

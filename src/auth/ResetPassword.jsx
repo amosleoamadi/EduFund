@@ -1,11 +1,66 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { LogoBar } from "../components/styles/AccountStyle";
 import img from "../assets/EduFundLogo.png";
 import Input from "../components/Ui/Input";
 import Button from "../components/Ui/Button";
+import toast from "react-hot-toast";
+import { useResetPasswordMutation } from "../utils/stundentauth/authapi";
+import { Spin } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const ResetPassword = () => {
+  const [userPassword, setUserPassword] = useState({
+    password: "",
+    conPass: "",
+  });
+
+  const nav = useNavigate();
+  const email = JSON.parse(localStorage.getItem("userEmail"));
+  const [newPassword, { isLoading }] = useResetPasswordMutation();
+
+  const handleOnchange = (e) => {
+    const { name, value } = e.target;
+    setUserPassword((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const conditions = {
+    length: userPassword.password.length >= 8,
+    uppercase: /[A-Z]/.test(userPassword.password),
+    lowercase: /[a-z]/.test(userPassword.password),
+    number: /\d/.test(userPassword.password),
+    special: /[!@#$%^&*(),.?":{}|<>]/.test(userPassword.password),
+  };
+
+  const passedCount = Object.values(conditions).filter(Boolean).length;
+  const allPassed = passedCount === 5;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { password } = userPassword;
+    if (!(userPassword.password || userPassword.conPass)) {
+      toast.error("Input field");
+    } else if (!allPassed) {
+      toast.error(
+        "Password must include at least one uppercase, lowercase, number, special character and 8 character long"
+      );
+    } else if (!(userPassword.password === userPassword.conPass)) {
+      toast.error("Password does not match");
+    } else {
+      try {
+        const res = await newPassword({ password, email: email }).unwrap();
+        toast.success(res?.message);
+        localStorage.removeItem("userEmail");
+        nav("/login");
+      } catch (error) {
+        toast.error(error?.data?.message);
+      }
+    }
+  };
+
   return (
     <Container>
       <LogoBar>
@@ -21,15 +76,23 @@ const ResetPassword = () => {
           placeholder="Enter Password"
           type="text"
           name="password"
+          value={userPassword.password}
+          onChange={handleOnchange}
         />
         <Input
           className="pass"
           placeholder="Re-enter Password"
           type="text"
-          name="con_password"
+          name="conPass"
+          value={userPassword.conPass}
+          onChange={handleOnchange}
         />
       </Holder>
-      <Button className="con_pass" text="Confirm New Password" />
+      <Button
+        className="con_pass"
+        text={isLoading ? <Spin /> : "Confirm New Password"}
+        onClick={handleSubmit}
+      />
     </Container>
   );
 };

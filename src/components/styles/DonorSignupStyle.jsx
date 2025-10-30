@@ -117,7 +117,7 @@ export const ToggleButton = styled.div`
   align-items: center;
   padding: 8px;
 `;
-export const DonorForm = styled.div`
+export const DonorForm = styled.form`
   width: 100%;
   height: max-content;
   display: flex;

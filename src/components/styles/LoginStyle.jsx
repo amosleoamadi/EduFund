@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 export const LogContainer = styled.main`
   width: 100%;
@@ -40,7 +41,7 @@ export const LogHolder = styled.div`
     margin-bottom: 20px;
   }
 `;
-export const LogForm = styled.div`
+export const LogForm = styled.form`
   width: 100%;
   height: max-content;
   display: flex;
@@ -91,13 +92,13 @@ export const RemContent = styled.div`
     font-style: normal;
     font-weight: 400;
   }
-
-  nav {
-    color: #1a3de9;
-    font-family: "Inter", sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    cursor: pointer;
-  }
+`;
+export const Gations = styled(NavLink)`
+  color: #1a3de9;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
 `;

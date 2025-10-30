@@ -1,5 +1,5 @@
 import React from "react";
-import { HeroSection, StatsBox } from "./HeroStyle";
+import { DonationPopup, HeroSection, StatsBox } from "./HeroStyle";
 import { useNavigate } from "react-router-dom";
 
 const Hero = () => {

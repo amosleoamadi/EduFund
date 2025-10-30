@@ -42,6 +42,7 @@ const Contianer = styled.main`
 const Wrapper = styled.div`
   width: 100%;
   height: 48%;
+  min-height: max-content;
   border-radius: 15.699px;
   border: 1.121px solid #e5e7eb;
   background: rgb(255, 255, 255);
