@@ -20,6 +20,10 @@ const Contact = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setInputData({
+      email: "",
+      message: "",
+    });
     console.log(Baseurl);
     if (!inputData.email || !inputData.message) {
       toast.error("please fill in your details");
@@ -28,8 +32,9 @@ const Contact = () => {
         const res = await axios.post(`${Baseurl}/contact-us`, inputData);
         toast.success("message successfully sent");
         setInputData(res?.data);
+        console.log("working", res);
       } catch (error) {
-        toast.error(error?.data?.message);
+        console.log("message not sent", error);
       }
     }
   };
@@ -44,7 +49,7 @@ const Contact = () => {
           <input
             type="email"
             name="email"
-            value={inputData.Email}
+            value={inputData.email}
             placeholder="your email address"
             className="form"
             onChange={handleChange}
@@ -56,7 +61,7 @@ const Contact = () => {
             name="message"
             value={inputData.message}
             onChange={handleChange}
-            placeholder="Enter your message"
+            placeholder="Drop your message here"
             required
           />
           <div
