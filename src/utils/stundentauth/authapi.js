@@ -15,7 +15,7 @@ export const studentAuth = createApi({
     }),
     studentlogin: builders.mutation({
       query: (credential) => ({
-        url: "/auth/login/student",
+        url: "/auth/login",
         method: "POST",
         body: credential,
       }),
@@ -34,6 +34,26 @@ export const studentAuth = createApi({
         body: email,
       }),
     }),
+    forgetPassword: builders.mutation({
+      query: (email) => ({
+        url: `/auth/forgot-password/${email}`,
+        method: "POST",
+      }),
+    }),
+    reverifyEmail: builders.mutation({
+      query: ({ otp, email }) => ({
+        url: `/auth/verify-reset-password/${email}`,
+        method: "POST",
+        body: { otp },
+      }),
+    }),
+    resetPassword: builders.mutation({
+      query: ({ password, email }) => ({
+        url: `/auth/reset-password/${email}`,
+        method: "POST",
+        body: { password },
+      }),
+    }),
   }),
 });
 
@@ -42,4 +62,7 @@ export const {
   useStudentloginMutation,
   useVerifyOtpMutation,
   useResendOtpMutation,
+  useForgetPasswordMutation,
+  useReverifyEmailMutation,
+  useResetPasswordMutation,
 } = studentAuth;

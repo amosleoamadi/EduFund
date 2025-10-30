@@ -109,6 +109,8 @@ export const DropdownMenu = styled.div`
   background-color: #fff;
   color: #001b5e;
   border-radius: 8px;
+  padding: 20px;
+  border: 2px solid #0090db;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;

@@ -61,10 +61,10 @@ const DashOverview = () => {
         <InfoIcon>ℹ️</InfoIcon>
         <InfoText>
           Campaign Live! 🎉
-          <p>
+          <span>
             Your campaign has been verified and is now live on the platform.
             Donors can now discover and support your education journey.
-          </p>
+          </span>
         </InfoText>
       </InfoBanner>
 
@@ -263,6 +263,8 @@ const InfoText = styled.p`
   font-size: 0.875rem;
   line-height: 1.5;
   color: #016630;
+  display: flex;
+  flex-direction: column;
 `;
 
 const StatsGrid = styled.div`

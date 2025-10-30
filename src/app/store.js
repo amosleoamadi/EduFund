@@ -1,5 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { studentAuth } from "../utils/stundentauth/authapi";
+import { donorAuth } from "../utils/donorauth/donorauth";
+import donorAuthReducer from "../config/donorslices/donorslice";
 import studentauthReducer from "../config/studentslices/studentauthslice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -15,7 +17,7 @@ import {
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["student"],
+  whitelist: ["student", "donor"],
 };
 
 const persistedReducer = persistReducer(
@@ -26,6 +28,11 @@ const persistedReducer = persistReducer(
       action
     ),
     student: studentauthReducer(state.student, action),
+    [donorAuth.reducerPath]: donorAuth.reducer(
+      state[donorAuth.reducerPath],
+      action
+    ),
+    donor: donorAuthReducer(state.donor, action),
   })
 );
 
@@ -36,7 +43,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(studentAuth.middleware),
+    }).concat(studentAuth.middleware, donorAuth.middleware),
 });
 
 export const persistor = persistStore(store);

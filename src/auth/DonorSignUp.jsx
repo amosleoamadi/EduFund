@@ -18,14 +18,22 @@ import cancel from "../assets/cancel.svg";
 import { NavLink, useNavigate } from "react-router-dom";
 import Button from "../components/Ui/Button";
 import safe from "../assets/iconamoon_shield-yes-light.svg";
+import { useDonorIndividualMutation } from "../utils/donorauth/donorauth";
+import { Spin } from "antd";
+import { useDispatch } from "react-redux";
+import { setDonor } from "../config/donorslices/donorslice";
 
 const DonorSignUp = () => {
   const [active, setActive] = useState("individual");
   const nav = useNavigate();
+  const dispatch = useDispatch();
+  const [individual, { isLoading }] = useDonorIndividualMutation();
+  const [organization] = useDonorIndividualMutation();
   const [donordetail, setDonordetail] = useState({
     firstName: "",
     lastName: "",
     organizationName: "",
+    phoneNumber: "",
     email: "",
     password: "",
   });
@@ -67,6 +75,45 @@ const DonorSignUp = () => {
     }));
   };
 
+  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+  const handleSumbit = async (e) => {
+    e.preventDefault();
+    const { firstName, lastName, email, password, phoneNumber } = donordetail;
+    const data = {
+      firstName,
+      lastName,
+      email,
+      password,
+      phoneNumber,
+    };
+    if (
+      !(
+        donordetail.password ||
+        donordetail.email ||
+        donordetail.firstName ||
+        donordetail.lastName ||
+        donordetail.organizationName
+      )
+    ) {
+      toast.error("Input correct details");
+    } else if (!emailRegex.test(donordetail.email)) {
+      toast.error("Invalid Email format");
+    } else if (!allPassed) {
+      toast.error("Password is not strong");
+    } else if (active === "individual") {
+      try {
+        const response = await individual(data).unwrap();
+        console.log(response);
+        // dispatch(setDonor({
+
+        // }))
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   return (
     <DonorContainer>
       <LogoBar onClick={() => nav(-1)}>
@@ -89,7 +136,7 @@ const DonorSignUp = () => {
             Organization
           </ToggleButton>
         </ToggleContainer>
-        <DonorForm>
+        <DonorForm onSubmit={handleSumbit}>
           <InpuLabel>
             <div className="label_input">
               <label htmlFor="firstName">First name</label>
@@ -144,7 +191,9 @@ const DonorSignUp = () => {
               className="input_place"
               placeholder="+234 800 000 0000"
               type="text"
-              name="phoneNuber"
+              name="phoneNumber"
+              value={donordetail.phoneNumber}
+              onChange={handleOnchange}
             />
           </LabelInput>
           <PasswordInput>
@@ -215,7 +264,11 @@ const DonorSignUp = () => {
               <span>Privacy Policy</span>
             </NavLink>
           </p>
-          <Button className="signup_btn" text="Sign up" />
+          <Button
+            className="signup_btn"
+            text={isLoading ? <Spin /> : "Sign up"}
+            type="submit"
+          />
         </DonorForm>
         <p className="signin">
           Already have an account?{" "}

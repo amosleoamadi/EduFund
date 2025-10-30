@@ -6,7 +6,6 @@ const initialState = {
   email: "",
   studentId: "",
   studentToken: "",
-  role: "",
 };
 
 const studentauthSlice = createSlice({
@@ -23,7 +22,6 @@ const studentauthSlice = createSlice({
       state.email = "";
       state.studentId = "";
       state.studentToken = "";
-      state.role = "";
     },
   },
 });
