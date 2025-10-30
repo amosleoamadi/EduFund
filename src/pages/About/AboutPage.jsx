@@ -3,6 +3,7 @@ import { FaUserGraduate, FaHandHoldingHeart } from "react-icons/fa";
 import { FaSackDollar } from "react-icons/fa6";
 import { GiGraduateCap } from "react-icons/gi";
 import Akeem from "../../assets/Akeem.jpg";
+import Hameedah from "../../assets/Hameedah.jpg"
 import Amos from "../../assets/Amos.jpg";
 import Femi from "../../assets/Femi_Eric.png";
 import Godwin from "../../assets/Godwin.jpg";
@@ -90,12 +91,12 @@ const About = () => {
       title: "Olarewaju Alawiye",
       description: "Back-End Developer",
     },
-    // {
-    //   id: 12,
-    //   image: Mustapha,
-    //   title: "Mustapha Hameedah",
-    //   description: "Back-End Developer",
-    // },
+    {
+      id: 12,
+      image: Hameedah,
+      title: "Mustapha Hameedah",
+      description: "Back-End Developer",
+    },
   ];
 
   return (

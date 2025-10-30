@@ -13,6 +13,6 @@ createRoot(document.getElementById("root")).render(
         <App />
       </Provider>
     </StrictMode>
-    <Toaster position="top-center" />
+    <Toaster position="top-right" />
   </>
 );
