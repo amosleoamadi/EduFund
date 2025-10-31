@@ -1,23 +1,23 @@
-import { FaShieldAlt, FaUsers, FaSchool } from "react-icons/fa";
+import { LuShield, LuSchool, LuUsers } from "react-icons/lu";
 import { HowItWorksStyle } from "./HowItWorksStyle";
 
 const HowItWorks = () => {
   const steps = [
     {
       id: 1,
-      icon: <FaShieldAlt />,
+      icon: <LuShield />,
       title: "Verify",
       text: "Students and donors complete our secure verification process to ensure authenticity and build trust.",
     },
     {
       id: 2,
-      icon: <FaUsers />,
+      icon: <LuUsers />,
       title: "Fundraise",
       text: "Students create campaigns while donors discover verified profiles and compelling stories.",
     },
     {
       id: 3,
-      icon: <FaSchool />,
+      icon: <LuSchool />,
       title: "Impact Delivered",
       text: "Donations go directly to partner schools, ensuring funds are used for education only.",
     },

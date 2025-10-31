@@ -1,6 +1,7 @@
 import React from "react";
-import { HeroSection, StatsBox } from "./HeroStyle";
+import { DonationPopup, HeroSection, StatsBox } from "./HeroStyle";
 import { useNavigate } from "react-router-dom";
+import { IoMdHeartEmpty } from "react-icons/io";
 
 const Hero = () => {
   const nav = useNavigate();
@@ -8,10 +9,10 @@ const Hero = () => {
     <HeroSection>
       <div className="heroText">
         <h1>Empowering Education Through Trust</h1>
-        <p>
+        <span className="connector">
           EduFund connects verified students with trusted donors to keep dreams
           alive and classrooms full.
-        </p>
+        </span>
 
         <div className="buttons">
           <button className="primary" onClick={() => nav("/register")}>
@@ -38,7 +39,10 @@ const Hero = () => {
         </div>
       </div>
       <DonationPopup>
-        <div className="icon">🤍</div>
+        <div>
+          {" "}
+          <IoMdHeartEmpty className="love" />
+        </div>
         <div className="text">
           <p>Recent Impact</p>
           <h4>₦75,000 donated</h4>

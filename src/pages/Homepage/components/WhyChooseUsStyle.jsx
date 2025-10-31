@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const WhyChooseUsStyle = styled.section`
   width: 100%;
   background: #e4dada;
-  background-color: #ffffff;
+  background-color: #e9edff;
   padding: 80px 5%;
   text-align: center;
 
@@ -51,8 +51,8 @@ export const WhyChooseUsStyle = styled.section`
       display: flex;
       justify-content: center;
       align-items: center;
-      color: #031b88;
-      font-size: 1.5rem;
+      color: #0b84ba;
+      font-size: 1.8rem;
       margin-bottom: 15px;
     }
 
