@@ -45,6 +45,8 @@ const Login = () => {
       toast.success(res?.message);
       if (userRole === "student") {
         nav("/student-dashbord");
+      } else {
+        nav("/donor_dashboard");
       }
     } catch (err) {
       toast.error(err?.data?.message);

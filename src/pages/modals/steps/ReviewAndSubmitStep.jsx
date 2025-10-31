@@ -1,189 +1,158 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "antd";
-import { FaCheckCircle } from "react-icons/fa";
+import { FiCheckCircle } from "react-icons/fi";
 
-const ReviewAndSubmitStep = ({ allFormData, onPrev, onSubmitFinal }) => {
-  const { academicDetails, campaignInformation, yourStory } = allFormData;
-
-  const formattedFundingGoal = new Intl.NumberFormat("en-NG", {
-    style: "currency",
-    currency: "NGN",
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0,
-  }).format(campaignInformation.fundingGoal);
+const ReviewAndSubmitStep = ({ formData }) => {
   return (
-    <div>
-      <SectionContainer>
+    <ReviewContainer>
+      <ReviewSection>
         <SectionTitle>Academic Details</SectionTitle>
-        <DetailGrid>
-          <DetailItem>
-            <DetailLabel>School</DetailLabel>
-            <DetailValue>{academicDetails.schoolName}</DetailValue>
-          </DetailItem>
-          <DetailItem>
-            <DetailLabel>Year/Level</DetailLabel>
-            <DetailValue>{academicDetails.yearLevel}</DetailValue>
-          </DetailItem>
-          <DetailItem>
-            <DetailLabel>Matric Number</DetailLabel>
-            <DetailValue>{academicDetails.matricNumber}</DetailValue>
-          </DetailItem>
-          <DetailItem>
-            <DetailLabel>JAMB Reg</DetailLabel>
-            <DetailValue>{academicDetails.jambRegistrationNumber}</DetailValue>
-          </DetailItem>
-        </DetailGrid>
-      </SectionContainer>
+        <ReviewGrid>
+          <ReviewItem>
+            <ReviewLabel>School</ReviewLabel>
+            <ReviewValue>{formData.schoolName}</ReviewValue>
+          </ReviewItem>
+          <ReviewItem>
+            <ReviewLabel>Year/Level</ReviewLabel>
+            <ReviewValue>{formData.yearLevel}</ReviewValue>
+          </ReviewItem>
+          <ReviewItem>
+            <ReviewLabel>Matric Number</ReviewLabel>
+            <ReviewValue>{formData.matricNumber}</ReviewValue>
+          </ReviewItem>
+          <ReviewItem>
+            <ReviewLabel>JAMB Reg</ReviewLabel>
+            <ReviewValue>{formData.jambNumber}</ReviewValue>
+          </ReviewItem>
+        </ReviewGrid>
+      </ReviewSection>
 
-      <SectionContainer>
+      <ReviewSection>
         <SectionTitle>Campaign Information</SectionTitle>
-        <DetailItem style={{ marginBottom: 15 }}>
-          <DetailLabel>Title</DetailLabel>
-          <DetailValue>{campaignInformation.campaignTitle}</DetailValue>
-        </DetailItem>
-        <DetailItem style={{ marginBottom: 15 }}>
-          <DetailLabel>Funding Goal</DetailLabel>
-          <FundingGoalDisplay>{formattedFundingGoal}</FundingGoalDisplay>
-        </DetailItem>
-        <DetailItem>
-          <DetailLabel>Story Preview</DetailLabel>
-          <StoryPreview>{yourStory.story}</StoryPreview>
-        </DetailItem>
-      </SectionContainer>
 
-      <NextStepsBox>
-        <NextStepsTitle>Next steps after submission:</NextStepsTitle>
-        <NextStepsList>
-          <li>
-            <CheckIcon /> Your campaign will be reviewed by our admin team
-          </li>
-          <li>
-            <CheckIcon /> You'll receive a notification once it's approved
-          </li>
-          <li>
-            <CheckIcon /> Approved campaigns go live immediately
-          </li>
-          <li>
-            <CheckIcon /> You can start sharing and receiving donations
-          </li>
-        </NextStepsList>
-      </NextStepsBox>
+        <ReviewGrid>
+          <ReviewItem fullWidth>
+            <ReviewLabel>Title</ReviewLabel>
+            <ReviewValue>{formData.campaignTitle}</ReviewValue>
+          </ReviewItem>
 
-      <ActionsContainer>
-        <Button onClick={onPrev}>Back</Button>
-        <Button type="primary" onClick={onSubmitFinal}>
-          <FaCheckCircle style={{ marginRight: 8 }} /> Create Campaign
-        </Button>
-      </ActionsContainer>
-    </div>
+          <ReviewItem>
+            <ReviewLabel>Funding Goal</ReviewLabel>
+            <ReviewValue>
+              ₦{Number(formData.fundingGoal).toLocaleString()}
+            </ReviewValue>
+          </ReviewItem>
+
+          <ReviewItem>
+            <ReviewLabel>Campaign Duration</ReviewLabel>
+            <ReviewValue>{formData.campaignDuration} Days</ReviewValue>
+          </ReviewItem>
+        </ReviewGrid>
+
+        <Divider></Divider>
+
+        <ReviewItem fullWidth>
+          <ReviewLabel>Story Preview</ReviewLabel>
+          <StoryPreview>{formData.story}</StoryPreview>
+        </ReviewItem>
+      </ReviewSection>
+
+      <SuccessBox>
+        <div>
+          <SuccessTitle>✓ Next steps after submission:</SuccessTitle>
+          <SuccessList>
+            <li>Your campaign will be reviewed by our admin team</li>
+            <li>You'll receive a notification once it's approved</li>
+            <li>Approved campaigns go live immediately</li>
+            <li>You can start sharing and receiving donations</li>
+          </SuccessList>
+        </div>
+      </SuccessBox>
+    </ReviewContainer>
   );
 };
 
 export default ReviewAndSubmitStep;
-const SectionContainer = styled.div`
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 25px;
-  border: 1px solid #eee;
+const ReviewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const ReviewSection = styled.div`
+  background-color: #f0f9ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 16px;
 `;
 
 const SectionTitle = styled.h3`
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
-  color: #333;
-  margin-top: 0;
-  margin-bottom: 15px;
+  color: #1f2937;
+  margin: 0 0 12px 0;
 `;
 
-const DetailGrid = styled.div`
+const ReviewGrid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 15px 25px;
+  gap: 20px;
 `;
 
-const DetailItem = styled.div`
+const ReviewItem = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 4px;
+  grid-column: ${({ fullWidth }) => (fullWidth ? "1 / -1" : "auto")};
 `;
 
-const DetailLabel = styled.span`
-  font-size: 13px;
-  color: #777;
-  margin-bottom: 4px;
+const ReviewLabel = styled.span`
+  font-size: 12px;
+  color: #6b7280;
   font-weight: 500;
 `;
 
-const DetailValue = styled.span`
-  font-size: 15px;
-  color: #333;
-  font-weight: 600;
-`;
-
-const FundingGoalDisplay = styled.span`
-  font-size: 15px;
-  font-weight: 600;
-  color: #007bff;
+const ReviewValue = styled.span`
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
 `;
 
 const StoryPreview = styled.div`
-  font-size: 14px;
-  color: #555;
+  background-color: #fff;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #374151;
   line-height: 1.6;
-  margin-top: 15px;
-  max-height: 150px;
-  overflow-y: auto;
-  border-top: 1px solid #f0f0f0;
-  padding-top: 15px;
-  white-space: pre-wrap;
 `;
 
-const NextStepsBox = styled.div`
-  background-color: #e6f9ed;
-  border-radius: 8px;
-  padding: 18px 20px;
+const Divider = styled.hr`
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 10px 0 20px 0;
+`;
+
+const SuccessBox = styled.div`
+  background-color: #dcfce7;
+  border: 1px solid #86efac;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  color: #166534;
+`;
+
+const SuccessTitle = styled.div`
+  font-weight: 600;
+  margin-bottom: 8px;
+`;
+
+const SuccessList = styled.ul`
+  margin: 0;
+  padding-left: 20px;
   display: flex;
   flex-direction: column;
-  color: #1a473a;
-  margin-top: 25px;
-`;
-
-const NextStepsTitle = styled.h4`
-  font-size: 15px;
-  font-weight: 700;
-  margin: 0 0 10px 0;
-`;
-
-const NextStepsList = styled.ul`
-  margin: 0;
-  padding-left: 0;
-  list-style: none;
-  font-size: 14px;
-
-  li {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 8px;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-`;
-
-const CheckIcon = styled(FaCheckCircle)`
-  color: #28a745;
-  margin-right: 8px;
-  font-size: 18px;
-  flex-shrink: 0;
-`;
-
-const ActionsContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  margin-top: 30px;
-  border-top: 1px solid #f0f0f0;
-  padding-top: 20px;
+  gap: 4px;
 `;

@@ -1,162 +1,148 @@
 import React from "react";
 import styled from "styled-components";
-import { Button, Form, Input } from "antd";
-import { FaChevronRight, FaShieldAlt } from "react-icons/fa";
-import { TiDocumentText } from "react-icons/ti";
-import { TfiIdBadge } from "react-icons/tfi";
-import { FaGraduationCap } from "react-icons/fa";
-import { GoHash } from "react-icons/go";
+import { FiBook, FiHash, FiAward } from "react-icons/fi";
 
-const AcademicDetailsStep = ({ formData, onNext, onPrev }) => {
-  const [form] = Form.useForm();
-
-  const handleFinish = (values) => {
-    onNext(values);
+const AcademicDetailsStep = ({ formData, setFormData, errors }) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      initialValues={formData}
-      onFinish={handleFinish}
-      requiredMark={false}
-    >
+    <FormContainer>
       <FormGroup>
-        <Form.Item
-          label={
-            <LabelWithIcon>
-              <TiDocumentText style={{ color: "#0056b3", fontSize: "18px" }} />{" "}
-              School Name
-            </LabelWithIcon>
-          }
+        <Label>
+          <FiBook size={16} />
+          School Name
+        </Label>
+        <Input
+          type="text"
           name="schoolName"
-          rules={[
-            { required: true, message: "Please enter your school name!" },
-          ]}
-        >
-          <Input placeholder="e.g., University of Lagos" />
-        </Form.Item>
+          placeholder="e.g., University of Lagos"
+          value={formData.schoolName || ""}
+          onChange={handleChange}
+          error={errors.schoolName}
+        />
+        {errors.schoolName && <ErrorMessage>{errors.schoolName}</ErrorMessage>}
       </FormGroup>
 
       <FormGroup>
-        <Form.Item
-          label={
-            <LabelWithIcon>
-              <TfiIdBadge style={{ color: "#0056b3", fontSize: "18px" }} />{" "}
-              Year/Level
-            </LabelWithIcon>
-          }
+        <Label>
+          <FiAward size={16} />
+          Year/Level
+        </Label>
+        <Input
+          type="text"
           name="yearLevel"
-          rules={[
-            {
-              required: true,
-              message: "Please enter your current year/level!",
-            },
-          ]}
-        >
-          <Input placeholder="e.g., 300 Level or Year 3" />
-        </Form.Item>
+          placeholder="e.g., 300 Level or Year 3"
+          value={formData.yearLevel || ""}
+          onChange={handleChange}
+          error={errors.yearLevel}
+        />
+        {errors.yearLevel && <ErrorMessage>{errors.yearLevel}</ErrorMessage>}
       </FormGroup>
 
       <FormGroup>
-        <Form.Item
-          label={
-            <LabelWithIcon>
-              <FaGraduationCap style={{ color: "#0056b3", fontSize: "18px" }} />{" "}
-              Matric Number
-            </LabelWithIcon>
-          }
+        <Label>
+          <FiHash size={16} />
+          Matric Number
+        </Label>
+        <Input
+          type="text"
           name="matricNumber"
-          rules={[
-            { required: true, message: "Please enter your matric number!" },
-          ]}
-        >
-          <Input placeholder="e.g., UNILAG/CSC/2021/1234" />
-        </Form.Item>
+          placeholder="e.g., UNILAG/CSC/2021/1234"
+          value={formData.matricNumber || ""}
+          onChange={handleChange}
+          error={errors.matricNumber}
+        />
+        {errors.matricNumber && (
+          <ErrorMessage>{errors.matricNumber}</ErrorMessage>
+        )}
       </FormGroup>
 
       <FormGroup>
-        <Form.Item
-          label={
-            <LabelWithIcon>
-              <GoHash style={{ color: "#0056b3", fontSize: "18px" }} /> Jamb
-              Registration Number
-            </LabelWithIcon>
-          }
-          name="jambRegistrationNumber"
-          rules={[
-            {
-              required: true,
-              message: "Please enter your JAMB registration number!",
-            },
-          ]}
-        >
-          <Input placeholder="e.g., 12345678AB" />
-        </Form.Item>
+        <Label>
+          <FiHash size={16} />
+          JAMB Registration Number
+        </Label>
+        <Input
+          type="text"
+          name="jambNumber"
+          placeholder="e.g., 12345678AB"
+          value={formData.jambNumber || ""}
+          onChange={handleChange}
+          error={errors.jambNumber}
+        />
+        {errors.jambNumber && <ErrorMessage>{errors.jambNumber}</ErrorMessage>}
       </FormGroup>
 
       <InfoBox>
-        <InfoIcon />
+        <span>ℹ️</span>
         <span>
           This information will be verified by our admin team to ensure campaign
           authenticity.
         </span>
       </InfoBox>
-
-      <ActionsContainer>
-        <Button onClick={onPrev} disabled={true}>
-          Cancel
-        </Button>
-        <NextButton type="primary" htmlType="submit">
-          Continue <FaChevronRight />
-        </NextButton>
-      </ActionsContainer>
-    </Form>
+    </FormContainer>
   );
 };
 
 export default AcademicDetailsStep;
-const FormGroup = styled.div`
-  margin-bottom: 20px;
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
-const LabelWithIcon = styled.span`
+const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const Label = styled.label`
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
   display: flex;
   align-items: center;
   gap: 8px;
 `;
 
-const InfoBox = styled.div`
-  background-color: #e6f0ff;
-  border-radius: 8px;
-  padding: 15px 20px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  color: #0056b3;
-  margin-top: 25px;
+const Input = styled.input`
+  padding: 12px;
+  border: 1px solid ${(props) => (props.error ? "#ef4444" : "#e5e7eb")};
+  border-radius: 6px;
   font-size: 14px;
-  line-height: 1.5;
+  background-color: #f9fafb;
+  transition: border-color 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: #2563eb;
+    background-color: #fff;
+  }
+
+  &::placeholder {
+    color: #9ca3af;
+  }
 `;
 
-const InfoIcon = styled(FaShieldAlt)`
-  font-size: 20px;
-  color: #007bff;
-  margin-top: 2px;
-  flex-shrink: 0;
+const ErrorMessage = styled.span`
+  font-size: 12px;
+  color: #ef4444;
+  margin-top: 4px;
 `;
 
-const ActionsContainer = styled.div`
+const InfoBox = styled.div`
+  background-color: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 12px;
   display: flex;
-  justify-content: flex-end;
-  gap: 15px;
-  margin-top: 30px;
-  border-top: 1px solid #f0f0f0;
-  padding-top: 20px;
-`;
-
-const NextButton = styled(Button)`
-  display: flex;
-  align-items: center;
-  gap: 5px;
+  gap: 8px;
+  font-size: 13px;
+  color: #1e40af;
 `;
