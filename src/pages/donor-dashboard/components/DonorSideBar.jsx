@@ -15,8 +15,10 @@ const DonorSideBar = () => {
   return (
     <Container>
       <nav
-        className={`btn ${location.pathname === "" ? "active" : ""}`}
-        onClick={() => nav("")}
+        className={`btn ${
+          location.pathname === "/donor_dashboard" ? "active" : ""
+        }`}
+        onClick={() => nav("/donor_dashboard")}
       >
         <MdOutlineHome className="bars" /> Overview
       </nav>

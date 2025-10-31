@@ -1,134 +1,122 @@
 import React from "react";
 import styled from "styled-components";
-import { Button, Form, Input } from "antd";
-import { FaExclamationCircle, FaChevronRight } from "react-icons/fa";
 
-const { TextArea } = Input;
-
-const YourStoryStep = ({ formData, onNext, onPrev }) => {
-  const [form] = Form.useForm();
-  const storyText = Form.useWatch("story", form);
-  const characterCount = storyText ? storyText.length : 0;
-  const minChars = 500;
-  const maxChars = 1000;
-  const isTooShort = characterCount > 0 && characterCount < minChars;
-  const isTooLong = characterCount > maxChars;
-  const hasError = isTooShort || isTooLong;
-
-  const handleFinish = (values) => {
-    if (!hasError) {
-      onNext(values);
+const YourStoryStep = ({ formData, setFormData, errors }) => {
+  const handleChange = (e) => {
+    const { value } = e.target;
+    if (value.length <= 1000) {
+      setFormData((prev) => ({
+        ...prev,
+        story: value,
+      }));
     }
   };
+
+  const charCount = formData.story?.length || 0;
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      initialValues={formData}
-      onFinish={handleFinish}
-      requiredMark={false}
-    >
+    <FormContainer>
       <FormGroup>
-        <Form.Item
-          label="Your Story"
-          name="story"
-          rules={[
-            { required: true, message: "Please tell your story!" },
-            {
-              validator: (_, value) => {
-                if (
-                  !value ||
-                  (value.length >= minChars && value.length <= maxChars)
-                ) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  new Error(`Aim for ${minChars}-${maxChars} characters.`)
-                );
-              },
-            },
-          ]}
-        >
-          <TextArea
-            style={{ resize: "none" }}
-            rows={8}
-            placeholder="Share your journey, challenges, dreams, and why you need support. Be authentic and personal - donors connect with real stories."
-            showCount={{
-              formatter: ({ count }) => (
-                <CharacterCount $error={hasError}>
-                  {count} characters • Aim for {minChars}-{maxChars} characters
-                </CharacterCount>
-              ),
-            }}
-          />
-        </Form.Item>
+        <Label>Your Story</Label>
+        <Textarea
+          placeholder="Share your journey, challenges, dreams, and why you need support. Be authentic and personal donors connect with real stories."
+          value={formData.story || ""}
+          onChange={handleChange}
+          error={errors.story}
+        />
+        <CharacterCount error={charCount < 500 || charCount > 1000}>
+          {charCount} characters • Aim for 500-1000 characters
+        </CharacterCount>
+        {errors.story && <ErrorMessage>{errors.story}</ErrorMessage>}
       </FormGroup>
 
-      <WhatToIncludeBox>
-        <WarningIcon />
+      <InfoBox>
         <div>
-          <h4>What to include in your story:</h4>
-          <ul>
+          <InfoTitle>💡 What to include in your story:</InfoTitle>
+          <InfoList>
             <li>Your academic background and achievements</li>
             <li>Current challenges you're facing</li>
             <li>Your goals and aspirations</li>
             <li>How the funds will help you</li>
             <li>Your commitment to giving back</li>
-          </ul>
+          </InfoList>
         </div>
-      </WhatToIncludeBox>
-
-      <ActionsContainer>
-        <Button onClick={onPrev}>Back</Button>
-        <Button type="primary" htmlType="submit" disabled={hasError}>
-          Continue <FaChevronRight />
-        </Button>
-      </ActionsContainer>
-    </Form>
+      </InfoBox>
+    </FormContainer>
   );
 };
 
 export default YourStoryStep;
-const FormGroup = styled.div`
-  margin-bottom: 20px;
-`;
-
-const CharacterCount = styled.p`
-  font-size: 12px;
-  color: ${(props) => (props.$error ? "#ff4d4f" : "#777")};
-  margin-top: -10px;
-`;
-
-const WhatToIncludeBox = styled.div`
-  background-color: #fff3cd;
-  border-radius: 8px;
-  padding: 15px 20px;
+const FormContainer = styled.div`
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  color: #664d03;
-  margin-top: 25px;
-  font-size: 14px;
-  line-height: 1.5;
+  flex-direction: column;
+  gap: 16px;
+`;
 
-  ul {
-    margin: 0;
-    padding-left: 20px;
+const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const Label = styled.label`
+  font-size: 14px;
+  font-weight: 500;
+  color: #1f2937;
+`;
+
+const Textarea = styled.textarea`
+  padding: 12px;
+  border: 1px solid ${(props) => (props.error ? "#ef4444" : "#e5e7eb")};
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #f9fafb;
+  font-family: inherit;
+  resize: none;
+  min-height: 120px;
+  transition: border-color 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: #2563eb;
+    background-color: #fff;
+  }
+
+  &::placeholder {
+    color: #9ca3af;
   }
 `;
 
-const WarningIcon = styled(FaExclamationCircle)`
-  font-size: 20px;
-  color: #ffc107;
-  margin-top: 2px;
-  flex-shrink: 0;
+const CharacterCount = styled.div`
+  font-size: 12px;
+  color: ${(props) => (props.error ? "#ef4444" : "#6b7280")};
+  text-align: right;
 `;
 
-const ActionsContainer = styled.div`
+const ErrorMessage = styled.span`
+  font-size: 12px;
+  color: #ef4444;
+`;
+
+const InfoBox = styled.div`
+  background-color: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 6px;
+  padding: 12px;
   display: flex;
-  justify-content: space-between;
-  gap: 15px;
-  margin-top: 30px;
-  border-top: 1px solid #f0f0f0;
-  padding-top: 20px;
+  gap: 8px;
+  font-size: 13px;
+  color: #92400e;
+`;
+
+const InfoTitle = styled.div`
+  font-weight: 600;
+  margin-bottom: 8px;
+`;
+
+const InfoList = styled.ul`
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 `;

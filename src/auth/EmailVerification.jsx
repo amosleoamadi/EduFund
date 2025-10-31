@@ -9,16 +9,21 @@ import {
 } from "../utils/stundentauth/authapi";
 import { useSelector, useDispatch } from "react-redux";
 import { Spin } from "antd";
-import { selectStudentEmail } from "../config/studentslices/studentauthslice";
+import {
+  selectStudentEmail,
+  setStudent,
+} from "../config/studentslices/studentauthslice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { setDonor } from "../config/donorslices/donorslice";
 
 const EmailVerification = () => {
   const [otp, setOtp] = useState();
-  const email = useSelector(selectStudentEmail);
   const [veryOtp, { isLoading }] = useVerifyOtpMutation();
   const nav = useNavigate();
   const [resendOtp] = useResendOtpMutation();
+  const dispatch = useDispatch();
+  const email = JSON.parse(localStorage.getItem("EmailDetails"));
 
   const handleVerificationCodeChange = (e) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
@@ -29,9 +34,15 @@ const EmailVerification = () => {
     e.preventDefault();
     try {
       const res = await veryOtp({ otp, email: email }).unwrap();
-      console.log(res);
+      dispatch(setStudent({ studentToken: res?.token }));
+      dispatch(setDonor({ donorToken: res?.token }));
       toast.success(res?.message);
-      nav("/login");
+      localStorage.removeItem("EmailDetails");
+      if (res?.data?.role === "student") {
+        nav("/student-dashbord");
+      } else {
+        nav("/donor_dashboard");
+      }
     } catch (err) {
       toast.error(err?.data?.message);
     }

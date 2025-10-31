@@ -29,7 +29,6 @@ import Contact from "../pages/Contact/Contact";
 import StudentLinkShare from "../pages/modals/StudentLinkShare";
 import RequestWithdraw from "../pages/modals/RequestWithdraw";
 import WithdrawalReq from "../pages/modals/WithdrawalReq";
-import GlobalStep from "../pages/modals/steps/GlobalStep";
 import ReverifyEmail from "../auth/ReverifyEmail";
 
 export const Element = createBrowserRouter([
@@ -153,6 +152,6 @@ export const Element = createBrowserRouter([
   },
   {
     path: "/modal",
-    element: <GlobalStep />,
+    element: <WithdrawalReq />,
   },
 ]);
