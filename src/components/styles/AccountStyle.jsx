@@ -3,13 +3,14 @@ import styled from "styled-components";
 export const AccountContainer = styled.main`
   width: 100%;
   height: 100vh;
+  min-height: max-content;
   background: #f9fafb;
   padding: 30px;
 `;
 export const LogoBar = styled.div`
   width: 183.719px;
   height: 55.362px;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
   cursor: pointer;
   color: #1a3de9;
 
