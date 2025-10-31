@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import DonorFirst from "./donor-com/DonorFirst";
+import DonorList from "./donor-com/DonorList";
 
 const Donors = () => {
   return (
     <Content>
-      <DonorFirst />
+      {/* <DonorFirst /> */}
+      <DonorList />
     </Content>
   );
 };

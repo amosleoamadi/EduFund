@@ -1,11 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { LogoBar } from "../components/styles/AccountStyle";
 import img from "../assets/EduFundLogo.png";
 import Input from "../components/Ui/Input";
-import Button from "../components/Ui/Button";
+import {
+  useResendOtpMutation,
+  useVerifyOtpMutation,
+} from "../utils/stundentauth/authapi";
+import { useSelector, useDispatch } from "react-redux";
+import { Spin } from "antd";
+import { selectStudentEmail } from "../config/studentslices/studentauthslice";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const EmailVerification = () => {
+  const [otp, setOtp] = useState();
+  const email = useSelector(selectStudentEmail);
+  const [veryOtp, { isLoading }] = useVerifyOtpMutation();
+  const nav = useNavigate();
+  const [resendOtp] = useResendOtpMutation();
+
+  const handleVerificationCodeChange = (e) => {
+    const value = e.target.value.replace(/[^0-9]/g, "");
+    setOtp(value);
+  };
+
+  const handleSumbit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await veryOtp({ otp, email: email }).unwrap();
+      console.log(res);
+      toast.success(res?.message);
+      nav("/login");
+    } catch (err) {
+      toast.error(err?.data?.message);
+    }
+  };
+
+  const handleResendOtp = async () => {
+    try {
+      const res = await resendOtp({ email: email }).unwrap();
+      toast.success(res?.message);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <MailHolder>
       <LogoBar>
@@ -14,7 +53,7 @@ const EmailVerification = () => {
       <h3>Verify Email Address</h3>
       <p>Enter the 6-digit code sent to your email</p>
       <Wrapper>
-        <VerifyContent>
+        <VerifyContent onSubmit={handleSumbit}>
           <InputVerify>
             <label htmlFor="verify">Verification Code</label>
             <Input
@@ -22,13 +61,20 @@ const EmailVerification = () => {
               placeholder="Enter 6-digit code"
               type="text"
               name="otp"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              value={otp}
+              onChange={handleVerificationCodeChange}
             />
           </InputVerify>
-          <p>Code sent to henrydonal971@gmail.com</p>
+          <p>Code sent to {email}</p>
           <p>
-            Didn't receive the code? <span>Resend</span>
+            Didn't receive the code?{" "}
+            <span onClick={handleResendOtp}>Resend</span>
           </p>
-          <Button className="verify_btn" text="Verify code" />
+          <button className="verify_btn" type="submit" disabled={isLoading}>
+            {isLoading ? <Spin /> : "Verify code"}
+          </button>
           <p className="signin">
             Already have an account? <span>Sign in</span>
           </p>

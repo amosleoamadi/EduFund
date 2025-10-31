@@ -1,26 +1,28 @@
 .Hero_container {
   width: 100%;
-  height: 60vh;
-  min-height: max-content;
+  height: max-content;
+  /* min-height: max-content; */
 }
 .container {
   width: 100%;
-  height: 100%;
-  padding: 60px;
-  background: rgb(2, 2, 63);
+  height: 426px;
+  padding: 100px;
+  background: #001145;
 }
 .text {
   font-weight: 700;
   font-family: "Roboto", sans-serif;
-  font-size: 3rem;
+  font-size: 60px;
   color: white;
   padding: 0.3rem;
 }
 .text2 {
   color: white;
-  width: 100%;
-  font-size: 1.4rem;
+  width: 550px;
+  font-size: 22px;
+  font-weight: 300;
   margin-top: 0.5rem;
+  max-width: 100%;
 }
 .impact-section {
   text-align: center;
@@ -46,7 +48,7 @@
 .impact-card {
   background: #ffffff;
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   padding: 2.5rem 1.7rem;
   text-align: left;
   transition: all 0.3s ease;

@@ -12,8 +12,6 @@ const Homepage = () => {
       <HowItWorks />
       <WhyChooseUs />
       <Impact />
-      <Testimonials />
-      <FaqSection />
     </>
   );
 };

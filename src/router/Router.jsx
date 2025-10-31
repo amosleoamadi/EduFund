@@ -26,6 +26,11 @@ import Donations from "../pages/donor-dashboard/components/Donations";
 import Impact from "../pages/donor-dashboard/components/Impact";
 import DonorSetting from "../pages/donor-dashboard/components/DonorSetting";
 import Contact from "../pages/Contact/Contact";
+import StudentLinkShare from "../pages/modals/StudentLinkShare";
+import RequestWithdraw from "../pages/modals/RequestWithdraw";
+import WithdrawalReq from "../pages/modals/WithdrawalReq";
+import GlobalStep from "../pages/modals/steps/GlobalStep";
+import ReverifyEmail from "../auth/ReverifyEmail";
 
 export const Element = createBrowserRouter([
   {
@@ -77,6 +82,10 @@ export const Element = createBrowserRouter([
   {
     path: "/reset-password",
     element: <ResetPassword />,
+  },
+  {
+    path: "/reverify",
+    element: <ReverifyEmail />,
   },
   {
     path: "/email-reset",
@@ -141,5 +150,9 @@ export const Element = createBrowserRouter([
         element: <DonorSetting />,
       },
     ],
+  },
+  {
+    path: "/modal",
+    element: <GlobalStep />,
   },
 ]);
