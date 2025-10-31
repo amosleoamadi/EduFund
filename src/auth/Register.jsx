@@ -80,7 +80,7 @@ const Register = () => {
             role: res?.data?.role,
           })
         );
-        localStorage.setItem("EmailDetails", res?.data?.email);
+        localStorage.setItem("EmailDetails", JSON.stringify(res?.data?.email));
         toast.success(res?.message);
         nav("/verify-email");
       } catch (err) {

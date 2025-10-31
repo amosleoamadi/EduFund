@@ -17,6 +17,9 @@ export const Nav = styled.nav`
 export const Logo = styled.div`
   width: 150px;
   height: 80px;
+  width: 150px;
+  height: 80px;
+
 
   img {
     width: 100%;
@@ -41,6 +44,12 @@ export const NavLinks = styled.div`
     &:hover {
       text-decoration: underline;
     }
+  }
+
+  .actives {
+    text-decoration: underline;
+    font-weight: normal;
+    font-size: 1rem;
   }
 
   .actives {
@@ -101,7 +110,7 @@ export const Dropdown = styled.div`
 `;
 
 export const DropdownMenu = styled.div`
-  position: absolute;
+   position: absolute;
   top: 45px;
   left: 50%;
   transform: translateX(-50%) translateY(-10px);
@@ -143,3 +152,5 @@ export const DropdownMenu = styled.div`
     }
   }
 `;
+ 
+

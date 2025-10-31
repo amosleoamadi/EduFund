@@ -17,9 +17,8 @@ export const ReqContainer = styled.main`
 `;
 export const RegContent = styled.div`
   width: 45%;
-  height: 103vh;
   min-height: max-content;
-  padding: 24px 93px 23px 93px;
+  padding: 23px 93px 23px 93px;
   display: flex;
   flex-direction: column;
   align-items: center;
