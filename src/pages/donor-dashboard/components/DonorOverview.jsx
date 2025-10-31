@@ -8,16 +8,17 @@ import { LiaIdBadgeSolid } from "react-icons/lia";
 import { FaAngleRight } from "react-icons/fa6";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import "../../../components/styles/DonorOverview.css";
-import Ibrahim from '../../../assets/Ibrahhim.jpg';
-import Chioma from '../../../assets/Chioma.jpg';
-import Container from '../../../assets/Container.png';
+import Ibrahim from "../../../assets/Ibrahhim.jpg";
+import Chioma from "../../../assets/Chioma.jpg";
+import Container from "../../../assets/Container.png";
 import { CiSearch } from "react-icons/ci";
 import { SlBadge } from "react-icons/sl";
-import ProgressBar from "./ProgressBar";
+import { useNavigate } from "react-router-dom";
+import Donor_Chart from "./Donor_Chart";
 
 const DonorOverview = () => {
-
-  const [progress, setProgress] = useState(40) 
+  const nav = useNavigate();
+  const [progress, setProgress] = useState(40);
 
   const stats = [
     {
@@ -54,39 +55,47 @@ const DonorOverview = () => {
       icon: <LuTarget size={25} color="#f97316" />,
       change: "Excellent",
       changeColor: "orange",
-      subIcon: <LiaIdBadgeSolid size={16} color="#d8752e"/>
+      subIcon: <LiaIdBadgeSolid size={16} color="#d8752e" />,
     },
   ];
   const cardDate = [
     {
-      id:1,
+      id: 1,
       name: "Chioma Adebayo",
       degree: "Computer Science Degree - UNILAG",
       price: "150,000",
       progress: 85,
       date: "10/18/2025",
-      img: Chioma
+      img: Chioma,
     },
     {
-      id:2,
+      id: 2,
       name: "Ibrahim Yusuf",
       degree: "Medicine Degree - ABU",
       price: "200,000",
       progress: 62,
       date: "10/15/2025",
-      img: Ibrahim
+      img: Ibrahim,
     },
     {
-      id:3,
+      id: 3,
       name: "Blessing Okafor",
       degree: "Law Degree - UI",
       price: "100,000",
       progress: 45,
       date: "10/10/2025",
-      img: Container
+      img: Container,
     },
-  ]
-
+    {
+      id: 3,
+      name: "Blessing Okafor",
+      degree: "Law Degree - UI",
+      price: "100,000",
+      progress: 45,
+      date: "10/10/2025",
+      img: Container,
+    },
+  ];
 
   return (
     <div className="container1">
@@ -119,47 +128,71 @@ const DonorOverview = () => {
         <aside>
           <div className="recent">
             <h1>Recent Donations</h1>
-            <p>View All <FaAngleRight /></p>
+            <p>
+              View All <FaAngleRight />
+            </p>
           </div>
           <div className="donation-card-container">
-            {
-            cardDate.map((e)=>(
-               <div className="donation-card" key={e.id}>
-                  <div className="card-img">
-                    <img  src={e.img} alt="" />
-                  </div>
-                  <div className="card-degree-container" >
-                    <div >
-                       <h2 style={{display:"flex", alignItems:"center", gap:'0.5rem'}}>{e.name} <FaRegCircleCheck color="#155DFC"/></h2>
-                       <p>{e.degree}</p>
-                       <div className="progress-container">
-                          <div className="progress-track">
-                            <div className="progress-bar" style={{ width: `${e.progress}%` }}></div>
-                          </div>
-                          <p>{e.progress}%</p>
-                       </div>
+            {cardDate.map((e) => (
+              <div className="donation-card" key={e.id}>
+                <div className="card-img">
+                  <img src={e.img} alt="" />
+                </div>
+                <div className="card-degree-container">
+                  <div>
+                    <h2
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                      }}
+                    >
+                      {e.name} <FaRegCircleCheck color="#155DFC" />
+                    </h2>
+                    <p>{e.degree}</p>
+                    <div className="progress-container">
+                      <div className="progress-track">
+                        <div
+                          className="progress-bar"
+                          style={{ width: `${e.progress}%` }}
+                        ></div>
+                      </div>
+                      <p>{e.progress}%</p>
                     </div>
-                    <div className="card-date">
-                      <h2>{e.price}</h2>
-                      <p>{e.date}</p>
-                    </div>
                   </div>
+                  <div className="card-date">
+                    <h2>{e.price}</h2>
+                    <p>{e.date}</p>
+                  </div>
+                </div>
               </div>
-            ))
-          }
+            ))}
           </div>
-          
         </aside>
         <aside>
-          <div className="recent"> 
+          <div className="recent">
             <h1>Quick Actions</h1>
           </div>
           <div className="side">
-               <span className="discover"> <CiSearch />Discover Campaigns</span>
-             <span className="discover">  <SlBadge />view impact stories</span>    
+            <span
+              className="discover"
+              onClick={() => nav("/donor_dashboard/discover")}
+            >
+              {" "}
+              <CiSearch />
+              Discover Campaigns
+            </span>
+            <span
+              className="discover"
+              onClick={() => nav("/donor_dashboard/impact")}
+            >
+              {" "}
+              <SlBadge />
+              view impact stories
+            </span>
           </div>
           <div className="month">
-            <h2 className>This Month's Impacts</h2>
+            <h2>This Month's Impacts</h2>
             <div className="write_up">
               <h3 className="writes">Donations</h3>
               <p className="write_2">₦350,000</p>
@@ -173,8 +206,10 @@ const DonorOverview = () => {
               <p className="write_2">2 campaigns</p>
             </div>
           </div>
-         
         </aside>
+      </div>
+      <div className="chart_img">
+        <Donor_Chart />
       </div>
     </div>
   );
