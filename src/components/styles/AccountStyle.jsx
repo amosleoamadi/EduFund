@@ -10,7 +10,7 @@ export const AccountContainer = styled.main`
 export const LogoBar = styled.div`
   width: 183.719px;
   height: 55.362px;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
   cursor: pointer;
   color: #1a3de9;
 

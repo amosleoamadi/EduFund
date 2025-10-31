@@ -44,7 +44,6 @@ const Headers = () => {
         </nav>
       </NavLinks>
 
-      {/* Sign In / Sign Up Buttons */}
       <NavButtons>
         <Dropdown
           onMouseEnter={() => setDropdownOpen(true)}
