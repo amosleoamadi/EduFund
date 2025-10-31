@@ -1,28 +1,25 @@
 import React from "react";
 import { WhyChooseUsStyle } from "./WhyChooseUsStyle";
-import {
-  FaUserCheck,
-  FaLock,
-  FaSchool,
-  FaUsers,
-  FaHeart,
-} from "react-icons/fa";
-import { MdVisibility } from "react-icons/md";
+import { FaSchool } from "react-icons/fa";
+import { RiGraduationCapLine } from "react-icons/ri";
+import { LuShield, LuUsers } from "react-icons/lu";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
+import { FiLock } from "react-icons/fi";
 
 const WhyChooseUs = () => {
   const features = [
     {
-      icon: <FaUserCheck />,
+      icon: <LuShield />,
       title: "Verified Students Only",
       desc: "Every campaign is backed by verified student and school credentials.",
     },
     {
-      icon: <MdVisibility />,
+      icon: <MdOutlineRemoveRedEye />,
       title: "Transparent Fund Tracking",
       desc: "Donors see exactly how and when funds are used.",
     },
     {
-      icon: <FaLock />,
+      icon: <FiLock />,
       title: "Secure Donations",
       desc: "End-to-end encrypted payment gateway ensures funds go directly to the cause.",
     },
@@ -32,12 +29,12 @@ const WhyChooseUs = () => {
       desc: "Funds sent directly to educational institutions.",
     },
     {
-      icon: <FaUsers />,
+      icon: <LuUsers />,
       title: "Trusted by Communities",
       desc: "Supported by schools, NGOs, and giving communities across Nigeria.",
     },
     {
-      icon: <FaHeart />,
+      icon: <RiGraduationCapLine />,
       title: "Empowering Real Impact",
       desc: "Your support doesn’t just pay tuition — it changes lives.",
     },

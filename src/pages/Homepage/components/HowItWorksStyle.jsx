@@ -10,7 +10,7 @@ export const HowItWorksStyle = styled.section`
   h2 {
     font-size: 3rem;
     font-weight: 700;
-    color: #0a1a3f;
+    color: #001145;
     margin-bottom: 10px;
   }
 
@@ -53,12 +53,12 @@ export const HowItWorksStyle = styled.section`
     width: 35px;
     height: 35px;
     background: #0b57d0;
+    font-weight: normal;
     color: #fff;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 600;
     font-size: 0.9rem;
     box-shadow: 0 4px 8px rgba(0, 50, 150, 0.3);
   }

@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
 export const FaqStyle = styled.section`
-  background: #00104e;
+  background-color: #001145;
   color: #fff;
   text-align: center;
-  padding: 70px 10%;
+  padding: 70px 6%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -65,8 +65,10 @@ export const FaqStyle = styled.section`
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    /* background: #000; */
+    width: 100%;
     text-align: left;
-    gap: 40px;
+    gap: 80px;
     flex-wrap: wrap;
   }
 
@@ -91,6 +93,7 @@ export const FaqStyle = styled.section`
       align-items: center;
       padding: 18px 20px;
       cursor: pointer;
+      font-size: 0.9rem;
       font-weight: 600;
       background: #fff;
       transition: background 0.3s ease;
@@ -100,7 +103,7 @@ export const FaqStyle = styled.section`
       }
 
       .arrow {
-        font-size: 1.2rem;
+        font-size: 2rem;
         transition: transform 0.3s ease;
       }
 
