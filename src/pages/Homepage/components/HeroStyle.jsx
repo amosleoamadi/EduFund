@@ -3,28 +3,31 @@ import heroBg from "../../../assets/heroPix.jpg";
 
 export const HeroSection = styled.section`
   width: 100%;
-  height: calc(100vh - 5rem);
+  height: 100vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 80px 10%;
+  padding: 80px 6%;
   background: url(${heroBg}) center/cover no-repeat;
   color: white;
   flex-wrap: wrap;
   position: relative;
+  box-shadow: rgba(0, 0, 0, 0.15) 5.95px 5.95px 6.6px;
 
   .heroText {
     flex: 1;
-    min-width: 300px;
+    min-width: 3rem;
+    margin-top: 2.5%;
 
     h1 {
-      font-size: 3rem;
+      font-size: 3.3rem;
       margin-bottom: 1rem;
       line-height: 1.3;
     }
 
-    p {
-      font-size: 1.2rem;
+    .connector {
+      width: 100%;
+      font-size: 1.1rem;
       margin-bottom: 1.5rem;
       opacity: 0.9;
       max-width: 450px;
@@ -32,24 +35,39 @@ export const HeroSection = styled.section`
 
     .buttons {
       display: flex;
-      gap: 15px;
+      gap: 10%;
+      margin-top: 12%;
+      width: 80%;
 
       .primary {
+        width: 35%;
         background: #ff3366;
         color: white;
         border: none;
-        padding: 10px 20px;
+        padding: 3px 10px;
         border-radius: 8px;
         cursor: pointer;
+
+        &:hover {
+          background: #920640;
+          transition: all 350ms ease-in-out;
+        }
       }
 
       .secondary {
+        width: 35%;
         background: transparent;
         border: 1.5px solid white;
         color: white;
         padding: 10px 20px;
         border-radius: 8px;
         cursor: pointer;
+
+        &:hover {
+          background: white;
+          color: #001145;
+          transition: all 350ms ease-in-out;
+        }
       }
     }
 
@@ -87,13 +105,17 @@ export const HeroSection = styled.section`
 `;
 
 export const StatsBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  line-height: 2;
+
   h3 {
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: normal;
   }
 
   p {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: normal;
     /* opacity: 0.9; */
   }
@@ -111,18 +133,18 @@ export const DonationPopup = styled.div`
   cursor: default;
   position: absolute;
   right: 36%;
-  bottom: 15%;
+  bottom: 17%;
   line-height: 13px;
 
-  .icon {
-    background: #34a853;
-    /* color: white;
-    border: none; */
+  .love {
     font-size: 1rem;
+    color: white;
+    background: #34a853;
     border-radius: 20%;
     width: 30px;
     height: 30px;
     display: flex;
+    padding: 5px;
     align-items: center;
     justify-content: center;
     margin-right: 10px;
