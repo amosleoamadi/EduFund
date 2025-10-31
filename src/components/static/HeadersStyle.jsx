@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Nav = styled.nav`
   width: 100%;
   height: 5rem;
-  background :  #001145;
+  background:#001145;
   color: #fff;
   display: flex;
   justify-content: space-between;
@@ -17,6 +17,9 @@ export const Nav = styled.nav`
 export const Logo = styled.div`
   width: 150px;
   height: 80px;
+  width: 150px;
+  height: 80px;
+
 
   img {
     width: 100%;
@@ -30,16 +33,25 @@ export const NavLinks = styled.div`
   align-items: center;
   gap: 35px;
 
+  
   .btn {
     color: #f2f2f2;
     text-decoration: none;
     font-weight: 500;
     font-size: 1rem;
     cursor: pointer;
+    cursor: pointer;
 
     &:hover {
       color: #00a8ff;
     }
+  }
+
+  .actives {
+    color: #00a8ff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
   }
 
   .actives {
@@ -103,12 +115,14 @@ export const Dropdown = styled.div`
 `;
 
 export const DropdownMenu = styled.div`
-  position: absolute;
+   position: absolute;
   top: 45px;
   right: 0;
   background-color: #fff;
   color: #001b5e;
   border-radius: 8px;
+  padding: 20px;
+  border: 2px solid #0090db;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
@@ -116,6 +130,7 @@ export const DropdownMenu = styled.div`
   overflow: hidden;
   z-index: 1000;
 
+  
   nav {
     padding: 10px 15px;
     text-decoration: none;
@@ -124,6 +139,7 @@ export const DropdownMenu = styled.div`
     font-size: 0.9rem;
     transition: 0.3s;
     cursor: pointer;
+    cursor: pointer;
 
     &:hover {
       background-color: #f5f5f5;
@@ -131,3 +147,5 @@ export const DropdownMenu = styled.div`
     }
   }
 `;
+ 
+

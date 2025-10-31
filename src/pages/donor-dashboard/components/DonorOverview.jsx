@@ -8,7 +8,11 @@ import { LiaIdBadgeSolid } from "react-icons/lia";
 import { FaAngleRight } from "react-icons/fa6";
 import { FaRegCircleCheck } from "react-icons/fa6";
 import "../../../components/styles/DonorOverview.css";
-import Joy from '../../../assets/Joy.jpg'
+import Ibrahim from '../../../assets/Ibrahhim.jpg';
+import Chioma from '../../../assets/Chioma.jpg';
+import Container from '../../../assets/Container.png';
+import { CiSearch } from "react-icons/ci";
+import { SlBadge } from "react-icons/sl";
 import ProgressBar from "./ProgressBar";
 
 const DonorOverview = () => {
@@ -59,9 +63,9 @@ const DonorOverview = () => {
       name: "Chioma Adebayo",
       degree: "Computer Science Degree - UNILAG",
       price: "150,000",
-      progress: 70,
+      progress: 85,
       date: "10/18/2025",
-      img: Joy
+      img: Chioma
     },
     {
       id:2,
@@ -70,7 +74,7 @@ const DonorOverview = () => {
       price: "200,000",
       progress: 62,
       date: "10/15/2025",
-      img: Joy
+      img: Ibrahim
     },
     {
       id:3,
@@ -79,7 +83,7 @@ const DonorOverview = () => {
       price: "100,000",
       progress: 45,
       date: "10/10/2025",
-      img: Joy
+      img: Container
     },
   ]
 
@@ -128,13 +132,12 @@ const DonorOverview = () => {
                     <div >
                        <h2 style={{display:"flex", alignItems:"center", gap:'0.5rem'}}>{e.name} <FaRegCircleCheck color="#155DFC"/></h2>
                        <p>{e.degree}</p>
-                       
-                          <div className="progress-container">
-                              <div className="progress-bar" style={{width:`${e.progress}%`}}></div>
-                              <p>{e.progress}%</p>
-                         </div>
-                         
-                       
+                       <div className="progress-container">
+                          <div className="progress-track">
+                            <div className="progress-bar" style={{ width: `${e.progress}%` }}></div>
+                          </div>
+                          <p>{e.progress}%</p>
+                       </div>
                     </div>
                     <div className="card-date">
                       <h2>{e.price}</h2>
@@ -147,7 +150,31 @@ const DonorOverview = () => {
           </div>
           
         </aside>
-        <aside></aside>
+        <aside>
+          <div className="recent"> 
+            <h1>Quick Actions</h1>
+          </div>
+          <div className="side">
+               <span className="discover"> <CiSearch />Discover Campaigns</span>
+             <span className="discover">  <SlBadge />view impact stories</span>    
+          </div>
+          <div className="month">
+            <h2 className>This Month's Impacts</h2>
+            <div className="write_up">
+              <h3 className="writes">Donations</h3>
+              <p className="write_2">₦350,000</p>
+            </div>
+            <div className="write_up">
+              <h3 className="writes">Student</h3>
+              <p className="write_2">3 students</p>
+            </div>
+            <div className="write_up">
+              <h3 className="writes">Campaigns</h3>
+              <p className="write_2">2 campaigns</p>
+            </div>
+          </div>
+         
+        </aside>
       </div>
     </div>
   );

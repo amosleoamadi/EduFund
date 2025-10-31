@@ -8,7 +8,7 @@ export const HowItWorksStyle = styled.section`
   color: #0a1a3f;
 
   h2 {
-    font-size: 2.2rem;
+    font-size: 3rem;
     font-weight: 700;
     color: #0a1a3f;
     margin-bottom: 10px;
@@ -17,7 +17,7 @@ export const HowItWorksStyle = styled.section`
   > p {
     color: #445;
     margin-bottom: 60px;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 
   .steps-container {

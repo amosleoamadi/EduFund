@@ -8,10 +8,10 @@ export const HeroSection = styled.section`
   justify-content: space-between;
   align-items: center;
   padding: 80px 10%;
-  background: linear-gradient(100deg, #031b88, #0a58ca);
   background: url(${heroBg}) center/cover no-repeat;
   color: white;
   flex-wrap: wrap;
+  position: relative;
 
   .heroText {
     flex: 1;
@@ -87,14 +87,68 @@ export const HeroSection = styled.section`
 `;
 
 export const StatsBox = styled.div`
-  text-align: center;
-
   h3 {
-    font-size: 1.5rem;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: normal;
   }
+
   p {
-    font-size: 0.9rem;
-    opacity: 0.9;
+    font-size: 10px;
+    font-weight: normal;
+    /* opacity: 0.9; */
+  }
+`;
+
+export const DonationPopup = styled.div`
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 12px;
+  padding: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: fit-content;
+  transition: all 0.3s ease;
+  cursor: default;
+  position: absolute;
+  right: 36%;
+  bottom: 15%;
+  line-height: 13px;
+
+  .icon {
+    background: #34a853;
+    /* color: white;
+    border: none; */
+    font-size: 1rem;
+    border-radius: 20%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+  }
+
+  .text {
+    h4 {
+      margin: 0;
+      font-size: 0.7rem;
+      color: black;
+      font-weight: normal;
+    }
+    p {
+      margin: 0;
+      font-size: 0.55rem;
+      color: gray;
+      font-weight: normal;
+    }
+  }
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    margin: 25px auto 0;
   }
 `;
