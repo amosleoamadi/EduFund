@@ -1,120 +1,155 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Steps, Button } from "antd";
-import { FaTimes, FaCheckCircle } from "react-icons/fa";
+import { FiX } from "react-icons/fi";
 import AcademicDetailsStep from "./AcademicDetailsStep";
 import CampaignInformationStep from "./CampaignInformationStep";
 import YourStoryStep from "./YourStoryStep";
 import ReviewAndSubmitStep from "./ReviewAndSubmitStep";
+import ProgressInndicator from "./ProgressInndicator";
 
-const { Step } = Steps;
+const CampaignCreation = ({ setCreate, create }) => {
+  const stepTitles = {
+    1: "Academic Details",
+    2: "Your Story",
+    3: "Campaign Information",
+    4: "Review & Submit",
+  };
 
-const CampaignCreation = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const stepSubtitles = {
+    1: "Provide your academic information for verification",
+    2: "Share your story with potential donors",
+    3: "Set up your campaign goal and title",
+    4: "Review all details before creating your campaign",
+  };
+
+  const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
-    academicDetails: {},
-    campaignInformation: {},
-    yourStory: {},
+    schoolName: "",
+    yearLevel: "",
+    matricNumber: "",
+    jambNumber: "",
+    story: "",
+    campaignTitle: "",
+    fundingGoal: "",
+    campaignDuration: "",
   });
+  const [errors, setErrors] = useState({});
 
-  const updateFormData = (stepName, data) => {
-    setFormData((prev) => ({
-      ...prev,
-      [stepName]: { ...prev[stepName], ...data },
-    }));
-  };
+  const validateStep = (step) => {
+    const newErrors = {};
 
-  const steps = [
-    {
-      title: "Academic Details",
-      subtitle: "Provide your academic information for verification",
-      component: AcademicDetailsStep,
-      dataKey: "academicDetails",
-    },
-    {
-      title: "Campaign Information",
-      subtitle: "Set up your campaign goal and title",
-      component: CampaignInformationStep,
-      dataKey: "campaignInformation",
-    },
-    {
-      title: "Your Story",
-      subtitle: "Share your story with potential donors",
-      component: YourStoryStep,
-      dataKey: "yourStory",
-    },
-    {
-      title: "Review & Submit",
-      subtitle: "Review all details before creating your campaign",
-      component: ReviewAndSubmitStep,
-      dataKey: "review",
-    },
-  ];
-
-  const handleNext = (data) => {
-    if (steps[currentStep].dataKey) {
-      updateFormData(steps[currentStep].dataKey, data);
+    if (step === 1) {
+      if (!formData.schoolName?.trim())
+        newErrors.schoolName = "School name is required";
+      if (!formData.yearLevel?.trim())
+        newErrors.yearLevel = "Year/Level is required";
+      if (!formData.matricNumber?.trim())
+        newErrors.matricNumber = "Matric number is required";
+      if (!formData.jambNumber?.trim())
+        newErrors.jambNumber = "JAMB number is required";
     }
-    setCurrentStep(currentStep + 1);
+
+    if (step === 2) {
+      if (!formData.story?.trim()) newErrors.story = "Story is required";
+      if (formData.story?.length < 500)
+        newErrors.story = "Story must be at least 500 characters";
+      if (formData.story?.length > 1000)
+        newErrors.story = "Story must not exceed 1000 characters";
+    }
+
+    if (step === 3) {
+      if (!formData.campaignTitle?.trim())
+        newErrors.campaignTitle = "Campaign title is required";
+      if (!formData.fundingGoal)
+        newErrors.fundingGoal = "Funding goal is required";
+      if (!formData.campaignDuration)
+        newErrors.campaignDuration = "Campaign duration is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handlePrev = () => {
-    setCurrentStep(currentStep - 1);
+  const handleContinue = () => {
+    if (validateStep(currentStep)) {
+      if (currentStep === 4) {
+        // Submit campaign
+        console.log("Campaign submitted:", formData);
+        onClose();
+      } else {
+        setCurrentStep(currentStep + 1);
+      }
+    }
   };
 
-  const handleSubmitFinal = () => {
-    console.log("Final Form Data:", formData);
-    alert("Campaign Created Successfully! (Check console for data)");
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+      setErrors({});
+    }
   };
 
-  const handleClose = () => {
-    console.log("Modal closed");
-  };
-
-  const CurrentStepComponent = steps[currentStep].component;
-  const currentStepData = steps[currentStep].dataKey
-    ? formData[steps[currentStep].dataKey]
-    : formData;
   return (
-    <ModalOverlay>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
-        <CloseButton onClick={handleClose}>
-          <FaTimes />
-        </CloseButton>
+    <>
+      {create && (
+        <Backdrop>
+          <ModalContainer onClick={(e) => e.stopPropagation()}>
+            <ModalHeader>
+              <HeaderContent>
+                <Title>{stepTitles[currentStep]}</Title>
+                <Subtitle>{stepSubtitles[currentStep]}</Subtitle>
+              </HeaderContent>
+              <CloseButton onClick={() => setCreate()}>
+                <FiX />
+              </CloseButton>
+            </ModalHeader>
 
-        <Header>
-          <Title>{steps[currentStep].title}</Title>
-          <Subtitle>{steps[currentStep].subtitle}</Subtitle>
-        </Header>
+            <ProgressContainer>
+              <ProgressInndicator currentStep={currentStep} />
+            </ProgressContainer>
 
-        <StepIconWrapper>
-          <Steps current={currentStep} size="small">
-            {steps.map((item, index) => (
-              <Step
-                key={item.title}
-                title={item.title}
-                icon={index < currentStep ? <FaCheckCircle /> : undefined}
-              />
-            ))}
-          </Steps>
-        </StepIconWrapper>
+            <ContentArea>
+              {currentStep === 1 && (
+                <AcademicDetailsStep
+                  formData={formData}
+                  setFormData={setFormData}
+                  errors={errors}
+                />
+              )}
+              {currentStep === 2 && (
+                <YourStoryStep
+                  formData={formData}
+                  setFormData={setFormData}
+                  errors={errors}
+                />
+              )}
+              {currentStep === 3 && (
+                <CampaignInformationStep
+                  formData={formData}
+                  setFormData={setFormData}
+                  errors={errors}
+                />
+              )}
+              {currentStep === 4 && <ReviewAndSubmitStep formData={formData} />}
+            </ContentArea>
 
-        <StepsContent>
-          <CurrentStepComponent
-            formData={currentStepData}
-            onNext={handleNext}
-            onPrev={handlePrev}
-            onSubmitFinal={handleSubmitFinal}
-            allFormData={formData}
-          />
-        </StepsContent>
-      </ModalContent>
-    </ModalOverlay>
+            <FooterContainer>
+              <BackButton onClick={handleBack} disabled={currentStep === 1}>
+                Back
+              </BackButton>
+              <ContinueButton onClick={handleContinue}>
+                {currentStep === 4 ? "Create Campaign" : "Continue"}
+              </ContinueButton>
+            </FooterContainer>
+          </ModalContainer>
+        </Backdrop>
+      )}
+    </>
   );
 };
 
 export default CampaignCreation;
-const ModalOverlay = styled.div`
+const Backdrop = styled.div`
   position: fixed;
   top: 0;
   left: 0;
@@ -123,103 +158,112 @@ const ModalOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
-  align-items: center;
-  z-index: 1000;
   overflow-y: auto;
-  padding: 20px;
+  z-index: 50;
+  padding: 25px 0;
 `;
 
-const ModalContent = styled.div`
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: #fff;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -4px rgba(0, 0, 0, 0.1);
-  padding: 30px;
+const ModalContainer = styled.div`
+  background-color: #fff;
   border-radius: 12px;
+  width: 90%;
   width: 45%;
-  position: relative;
-  font-family: Arial, sans-serif;
+  height: 70%;
+  min-height: max-content;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin: auto 0;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 `;
 
-const CloseButton = styled.button`
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #333;
-  z-index: 10;
-  &:hover {
-    color: #000;
-  }
+const ModalHeader = styled.div`
+  padding: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 `;
 
-const Header = styled.div`
-  margin-bottom: 20px;
+const HeaderContent = styled.div`
+  flex: 1;
 `;
 
 const Title = styled.h2`
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 700;
-  color: #333;
-  margin: 0;
+  color: #1f2937;
+  margin: 0 0 4px 0;
 `;
 
 const Subtitle = styled.p`
   font-size: 14px;
-  color: #666;
-  margin: 5px 0 0 0;
+  color: #6b7280;
+  margin: 0;
 `;
 
-const StepsContent = styled.div`
-  margin-top: 20px;
-  padding: 20px 0;
-`;
-
-const ActionsContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  padding-top: 20px;
-  border-top: 1px solid #f0f0f0;
-`;
-
-export const NextButton = styled(Button)`
+const CloseButton = styled.button`
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0;
   display: flex;
   align-items: center;
-  gap: 5px;
+  justify-content: center;
+
+  &:hover {
+    color: #1f2937;
+  }
 `;
 
-const StepIconWrapper = styled.div`
-  .ant-steps-item-icon {
-    font-size: 16px;
-    line-height: 1;
-    height: 32px;
-    width: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+const ProgressContainer = styled.div`
+  padding: 0 24px;
+`;
+
+const ContentArea = styled.div`
+  flex: 1;
+  /* overflow-y: auto; */
+  padding: 24px;
+`;
+
+const FooterContainer = styled.div`
+  padding: 24px;
+  /* border-top: 1px solid #e5e7eb; */
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+`;
+
+const Button = styled.button`
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
   }
-  .ant-steps-item-process .ant-steps-item-icon {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: white;
+`;
+
+const BackButton = styled(Button)`
+  background-color: #f3f4f6;
+  color: #1f2937;
+  flex: 1;
+
+  &:hover:not(:disabled) {
+    background-color: #e5e7eb;
   }
-  .ant-steps-item-finish .ant-steps-item-icon {
-    background-color: #28a745;
-    border-color: #28a745;
-    color: white;
-  }
-  .ant-steps-item-wait .ant-steps-item-icon {
-    background-color: #f0f2f5;
-    border-color: #d9d9d9;
-    color: #999;
+`;
+
+const ContinueButton = styled(Button)`
+  background-color: #2563eb;
+  color: #fff;
+  flex: 1;
+
+  &:hover:not(:disabled) {
+    background-color: #1d4ed8;
   }
 `;

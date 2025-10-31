@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const AccountContainer = styled.main`
   width: 100%;
   height: 100vh;
+  min-height: max-content;
   background: #f9fafb;
   padding: 30px;
 `;
@@ -20,8 +21,9 @@ export const LogoBar = styled.div`
   }
 `;
 export const AccountType = styled.div`
-  width: 48%;
-  height: 78%;
+  width: 52%;
+  height: 85%;
+  min-height: max-content;
   justify-self: center;
 
   h3 {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { FiShare2 } from "react-icons/fi";
 import amount from "../../../../assets/amount.svg";
@@ -9,13 +9,21 @@ import { GrFavorite } from "react-icons/gr";
 import { GoShareAndroid } from "react-icons/go";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { SlBadge } from "react-icons/sl";
+import StudentLinkShare from "../../../modals/StudentLinkShare";
+import CampaignCreation from "../../../modals/steps/CampaignCreation";
 
 const DashOverview = () => {
+  const [share, setShare] = useState(false);
+  const [createcampaign, setCreateCampaign] = useState(false);
   const donors = [
     { name: "Dr. Oluwaseun Adebayo", amount: "₦10,500", status: "Verified" },
     { name: "Mrs. Amara Okafor", amount: "₦8,200", status: "Verified" },
     { name: "Chioma Okonkwo", amount: "₦5,000", status: "Pending" },
   ];
+
+  const handleOpen = () => {
+    setShare(true);
+  };
 
   const activities = [
     {
@@ -54,7 +62,16 @@ const DashOverview = () => {
           <WelcomeText>Welcome back, Femi Eric! 👋</WelcomeText>
           <Text>Here's your campaign progress today</Text>
         </SubText>
-        <CreateButton>+ Create Campaign</CreateButton>
+        <>
+          <CreateButton onClick={() => setCreateCampaign(true)}>
+            + Create Campaign
+          </CreateButton>
+
+          <CampaignCreation
+            create={createcampaign}
+            setCreate={setCreateCampaign}
+          />
+        </>
       </Header>
 
       <InfoBanner>
@@ -126,9 +143,13 @@ const DashOverview = () => {
               </StatusButton>
             </Para>
           </Contents>
-          <ShareButton>
-            <FiShare2 /> Share
-          </ShareButton>
+          <>
+            <ShareButton onClick={handleOpen}>
+              <FiShare2 /> Share
+            </ShareButton>
+
+            <StudentLinkShare show={share} setShow={setShare} />
+          </>
         </CampaignHeader>
         <CampaignText>
           <ProgressText>Campaign Progress</ProgressText>
@@ -201,10 +222,11 @@ const DashboardContainer = styled.div`
 `;
 
 const Header = styled.div`
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 
 const WelcomeText = styled.h1`

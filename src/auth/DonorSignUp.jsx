@@ -18,17 +18,23 @@ import cancel from "../assets/cancel.svg";
 import { NavLink, useNavigate } from "react-router-dom";
 import Button from "../components/Ui/Button";
 import safe from "../assets/iconamoon_shield-yes-light.svg";
-import { useDonorIndividualMutation } from "../utils/donorauth/donorauth";
+import {
+  useDonorIndividualMutation,
+  useDonorOrganizationMutation,
+} from "../utils/donorauth/donorauth";
 import { Spin } from "antd";
 import { useDispatch } from "react-redux";
 import { setDonor } from "../config/donorslices/donorslice";
+import toast from "react-hot-toast";
 
 const DonorSignUp = () => {
   const [active, setActive] = useState("individual");
   const nav = useNavigate();
   const dispatch = useDispatch();
-  const [individual, { isLoading }] = useDonorIndividualMutation();
-  const [organization] = useDonorIndividualMutation();
+  const [individual, { isLoading: isVerifyLoading }] =
+    useDonorIndividualMutation();
+  const [organization, { isLoading: isOrganLoading }] =
+    useDonorOrganizationMutation();
   const [donordetail, setDonordetail] = useState({
     firstName: "",
     lastName: "",
@@ -104,12 +110,40 @@ const DonorSignUp = () => {
     } else if (active === "individual") {
       try {
         const response = await individual(data).unwrap();
-        console.log(response);
-        // dispatch(setDonor({
-
-        // }))
+        dispatch(
+          setDonor({
+            donorFirstname: response?.data?.firstName,
+            donorLastname: response?.data?.lastName,
+            donorEmail: response?.data?.email,
+            donorId: response?.data?._id,
+          })
+        );
+        toast.success(response?.message);
+        localStorage.setItem(
+          "EmailDetails",
+          JSON.stringify(response?.data?.email)
+        );
+        nav("/verify-email");
       } catch (err) {
-        console.log(err);
+        toast.error(err?.data?.message);
+      }
+    } else if (active === "organization") {
+      try {
+        const res = await organization(donordetail).unwrap();
+        console.log(res);
+        dispatch(
+          setDonor({
+            donorFirstname: res?.data?.firstName,
+            donorLastname: res?.data?.lastName,
+            donorEmail: res?.data?.email,
+            donorId: res?.data?._id,
+          })
+        );
+        toast.success(res?.message);
+        localStorage.setItem("EmailDetails", JSON.stringify(res?.data?.email));
+        nav("/verify-email");
+      } catch (err) {
+        toast.error(err?.data?.message);
       }
     }
   };
@@ -208,7 +242,7 @@ const DonorSignUp = () => {
             />
             <div className="text">
               <p>Password Strength</p>
-              <p>Weak</p>
+              <p>{allPassed ? "Strong" : "Weak"}</p>
             </div>
             <div className="boxes">
               <div className={`box1 ${conditions.length ? "good" : ""}`}></div>
@@ -266,7 +300,7 @@ const DonorSignUp = () => {
           </p>
           <Button
             className="signup_btn"
-            text={isLoading ? <Spin /> : "Sign up"}
+            text={isVerifyLoading || isOrganLoading ? <Spin /> : "Sign up"}
             type="submit"
           />
         </DonorForm>

@@ -71,7 +71,6 @@ const Register = () => {
     } else {
       try {
         const res = await register(studentdetail).unwrap();
-        console.log(res);
         dispatch(
           setStudent({
             firstname: res?.data?.firstName,
@@ -81,6 +80,7 @@ const Register = () => {
             role: res?.data?.role,
           })
         );
+        localStorage.setItem("EmailDetails", JSON.stringify(res?.data?.email));
         toast.success(res?.message);
         nav("/verify-email");
       } catch (err) {

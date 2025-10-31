@@ -9,68 +9,73 @@ import {
   FaShareSquare,
 } from "react-icons/fa";
 
-const StudentLinkShare = () => {
+const StudentLinkShare = ({ show, setShow }) => {
   const handleCopy = () => {
     navigator.clipboard.writeText(campaignLink);
     alert("Link copied to clipboard!");
   };
   return (
-    <ModalOverlay>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
-        <CloseButton>&times;</CloseButton>
+    <>
+      {show && (
+        <ModalOverlay>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <CloseButton onClick={() => setShow(false)}>&times;</CloseButton>
 
-        <Header>
-          <Title>Share Your Campaign</Title>
-          <Subtitle>Help spread the word and reach more donors</Subtitle>
-        </Header>
+            <Header>
+              <Title>Share Your Campaign</Title>
+              <Subtitle>Help spread the word and reach more donors</Subtitle>
+            </Header>
 
-        <ButtonGrid>
-          <ShareButton>
-            <Icon platform="WhatsApp">
-              <FaWhatsapp />
-            </Icon>
-            WhatsApp
-          </ShareButton>
-          <ShareButton>
-            <Icon platform="Twitter">
-              <FaTwitter />
-            </Icon>
-            Twitter / X
-          </ShareButton>
-          <ShareButton>
-            <Icon platform="Facebook">
-              <FaFacebookF />
-            </Icon>
-            Facebook
-          </ShareButton>
-          <ShareButton>
-            <Icon platform="LinkedIn">
-              <FaLinkedinIn />
-            </Icon>
-            LinkedIn
-          </ShareButton>
-        </ButtonGrid>
+            <ButtonGrid>
+              <ShareButton>
+                <Icon platform="WhatsApp">
+                  <FaWhatsapp />
+                </Icon>
+                WhatsApp
+              </ShareButton>
+              <ShareButton>
+                <Icon platform="Twitter">
+                  <FaTwitter />
+                </Icon>
+                Twitter / X
+              </ShareButton>
+              <ShareButton>
+                <Icon platform="Facebook">
+                  <FaFacebookF />
+                </Icon>
+                Facebook
+              </ShareButton>
+              <ShareButton>
+                <Icon platform="LinkedIn">
+                  <FaLinkedinIn />
+                </Icon>
+                LinkedIn
+              </ShareButton>
+            </ButtonGrid>
 
-        <LinkLabel>Campaign Link</LinkLabel>
-        <LinkContainer>
-          <LinkDisplay type="text" readOnly />
-          <CopyButton onClick={handleCopy}>
-            <CopyIcon />
-            Copy
-          </CopyButton>
-        </LinkContainer>
+            <LinkLabel>Campaign Link</LinkLabel>
+            <LinkContainer>
+              <LinkDisplay type="text" readOnly />
+              <CopyButton onClick={handleCopy}>
+                <CopyIcon />
+                Copy
+              </CopyButton>
+            </LinkContainer>
 
-        <ImpactBox>
-          <ImpactHeader>
-            <StyledFaShareSquare />
-            Share Impact
-          </ImpactHeader>
-          <ImpactText>
-            Your campaign has been shared 156 times and viewed by 2,340 people!
-          </ImpactText>
-        </ImpactBox>
-      </ModalContent>
-    </ModalOverlay>
+            <ImpactBox>
+              <ImpactHeader>
+                <StyledFaShareSquare />
+                Share Impact
+              </ImpactHeader>
+              <ImpactText>
+                Your campaign has been shared 156 times and viewed by 2,340
+                people!
+              </ImpactText>
+            </ImpactBox>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+    </>
   );
 };
 

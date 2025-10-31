@@ -14,8 +14,6 @@ const ResetEmailCode = () => {
   const [resendEmail, { isLoading }] = useForgetPasswordMutation();
   const nav = useNavigate();
 
-  console.log(resendMail);
-
   const handleResend = async (e) => {
     e.preventDefault();
     try {
@@ -35,7 +33,7 @@ const ResetEmailCode = () => {
       <h3>Reset password</h3>
       <p>Enter your email to receive a verification code</p>
       <nav>Go back to Sign in</nav>
-      <Holder onSubmit={handleResend}>
+      <Holder>
         <h4>Profile Email</h4>
         <LabelInput>
           <label htmlFor="email">Email Address</label>
@@ -52,7 +50,8 @@ const ResetEmailCode = () => {
       <Button
         className="verify_btn"
         text={isLoading ? "Sending..." : "Send Verification Code"}
-        type="submit"
+        onClick={handleResend}
+        disabled={isLoading}
       />
     </Content>
   );

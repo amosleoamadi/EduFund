@@ -19,7 +19,7 @@ export const SummaryCards = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  background: linear-gradient(135deg, #031b88, #0177ff);
+  background: #2563eb;
   padding: 25px;
   border-radius: 14px;
   color: #fff;
