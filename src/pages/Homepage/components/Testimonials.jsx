@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import { TestimonialsStyle } from "./TestimonialsStyle";
 import { FaQuoteRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-import student1 from "../../../assets/Chioma Adebayo image.jpg";
-import student2 from "../../../assets/Ibrahhim Yusuf image.jpg";
-import student3 from "../../../assets/Container.png";
+import student1 from "../../../assets/Chioma.jpg"
+import student2 from "../../../assets/Ibrahhim.jpg"
+import student3 from "../../../assets/Container.png"
+
 
 const testimonials = [
   {
