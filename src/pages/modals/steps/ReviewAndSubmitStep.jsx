@@ -1,0 +1,158 @@
+import React from "react";
+import styled from "styled-components";
+import { FiCheckCircle } from "react-icons/fi";
+
+const ReviewAndSubmitStep = ({ formData }) => {
+  return (
+    <ReviewContainer>
+      <ReviewSection>
+        <SectionTitle>Academic Details</SectionTitle>
+        <ReviewGrid>
+          <ReviewItem>
+            <ReviewLabel>School</ReviewLabel>
+            <ReviewValue>{formData.schoolName}</ReviewValue>
+          </ReviewItem>
+          <ReviewItem>
+            <ReviewLabel>Year/Level</ReviewLabel>
+            <ReviewValue>{formData.yearLevel}</ReviewValue>
+          </ReviewItem>
+          <ReviewItem>
+            <ReviewLabel>Matric Number</ReviewLabel>
+            <ReviewValue>{formData.matricNumber}</ReviewValue>
+          </ReviewItem>
+          <ReviewItem>
+            <ReviewLabel>JAMB Reg</ReviewLabel>
+            <ReviewValue>{formData.jambNumber}</ReviewValue>
+          </ReviewItem>
+        </ReviewGrid>
+      </ReviewSection>
+
+      <ReviewSection>
+        <SectionTitle>Campaign Information</SectionTitle>
+
+        <ReviewGrid>
+          <ReviewItem fullWidth>
+            <ReviewLabel>Title</ReviewLabel>
+            <ReviewValue>{formData.campaignTitle}</ReviewValue>
+          </ReviewItem>
+
+          <ReviewItem>
+            <ReviewLabel>Funding Goal</ReviewLabel>
+            <ReviewValue>
+              ₦{Number(formData.fundingGoal).toLocaleString()}
+            </ReviewValue>
+          </ReviewItem>
+
+          <ReviewItem>
+            <ReviewLabel>Campaign Duration</ReviewLabel>
+            <ReviewValue>{formData.campaignDuration} Days</ReviewValue>
+          </ReviewItem>
+        </ReviewGrid>
+
+        <Divider></Divider>
+
+        <ReviewItem fullWidth>
+          <ReviewLabel>Story Preview</ReviewLabel>
+          <StoryPreview>{formData.story}</StoryPreview>
+        </ReviewItem>
+      </ReviewSection>
+
+      <SuccessBox>
+        <div>
+          <SuccessTitle>✓ Next steps after submission:</SuccessTitle>
+          <SuccessList>
+            <li>Your campaign will be reviewed by our admin team</li>
+            <li>You'll receive a notification once it's approved</li>
+            <li>Approved campaigns go live immediately</li>
+            <li>You can start sharing and receiving donations</li>
+          </SuccessList>
+        </div>
+      </SuccessBox>
+    </ReviewContainer>
+  );
+};
+
+export default ReviewAndSubmitStep;
+const ReviewContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+
+const ReviewSection = styled.div`
+  background-color: #f0f9ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  padding: 16px;
+`;
+
+const SectionTitle = styled.h3`
+  font-size: 14px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 12px 0;
+`;
+
+const ReviewGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+`;
+
+const ReviewItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  grid-column: ${({ fullWidth }) => (fullWidth ? "1 / -1" : "auto")};
+`;
+
+const ReviewLabel = styled.span`
+  font-size: 12px;
+  color: #6b7280;
+  font-weight: 500;
+`;
+
+const ReviewValue = styled.span`
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
+`;
+
+const StoryPreview = styled.div`
+  background-color: #fff;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #374151;
+  line-height: 1.6;
+`;
+
+const Divider = styled.hr`
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 10px 0 20px 0;
+`;
+
+const SuccessBox = styled.div`
+  background-color: #dcfce7;
+  border: 1px solid #86efac;
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  color: #166534;
+`;
+
+const SuccessTitle = styled.div`
+  font-weight: 600;
+  margin-bottom: 8px;
+`;
+
+const SuccessList = styled.ul`
+  margin: 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;

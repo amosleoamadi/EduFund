@@ -18,14 +18,28 @@ import cancel from "../assets/cancel.svg";
 import { NavLink, useNavigate } from "react-router-dom";
 import Button from "../components/Ui/Button";
 import safe from "../assets/iconamoon_shield-yes-light.svg";
+import {
+  useDonorIndividualMutation,
+  useDonorOrganizationMutation,
+} from "../utils/donorauth/donorauth";
+import { Spin } from "antd";
+import { useDispatch } from "react-redux";
+import { setDonor } from "../config/donorslices/donorslice";
+import toast from "react-hot-toast";
 
 const DonorSignUp = () => {
   const [active, setActive] = useState("individual");
   const nav = useNavigate();
+  const dispatch = useDispatch();
+  const [individual, { isLoading: isVerifyLoading }] =
+    useDonorIndividualMutation();
+  const [organization, { isLoading: isOrganLoading }] =
+    useDonorOrganizationMutation();
   const [donordetail, setDonordetail] = useState({
     firstName: "",
     lastName: "",
     organizationName: "",
+    phoneNumber: "",
     email: "",
     password: "",
   });
@@ -67,6 +81,73 @@ const DonorSignUp = () => {
     }));
   };
 
+  const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+
+  const handleSumbit = async (e) => {
+    e.preventDefault();
+    const { firstName, lastName, email, password, phoneNumber } = donordetail;
+    const data = {
+      firstName,
+      lastName,
+      email,
+      password,
+      phoneNumber,
+    };
+    if (
+      !(
+        donordetail.password ||
+        donordetail.email ||
+        donordetail.firstName ||
+        donordetail.lastName ||
+        donordetail.organizationName
+      )
+    ) {
+      toast.error("Input correct details");
+    } else if (!emailRegex.test(donordetail.email)) {
+      toast.error("Invalid Email format");
+    } else if (!allPassed) {
+      toast.error("Password is not strong");
+    } else if (active === "individual") {
+      try {
+        const response = await individual(data).unwrap();
+        dispatch(
+          setDonor({
+            donorFirstname: response?.data?.firstName,
+            donorLastname: response?.data?.lastName,
+            donorEmail: response?.data?.email,
+            donorId: response?.data?._id,
+          })
+        );
+        toast.success(response?.message);
+        localStorage.setItem(
+          "EmailDetails",
+          JSON.stringify(response?.data?.email)
+        );
+        nav("/verify-email");
+      } catch (err) {
+        toast.error(err?.data?.message);
+      }
+    } else if (active === "organization") {
+      try {
+        const res = await organization(donordetail).unwrap();
+        console.log(res);
+        dispatch(
+          setDonor({
+            donorFirstname: res?.data?.firstName,
+            donorLastname: res?.data?.lastName,
+            donorEmail: res?.data?.email,
+            donorId: res?.data?._id,
+          })
+        );
+        toast.success(res?.message);
+        localStorage.setItem("EmailDetails", JSON.stringify(res?.data?.email));
+        nav("/verify-email");
+      } catch (err) {
+        toast.error(err?.data?.message);
+      }
+    }
+  };
+
   return (
     <DonorContainer>
       <LogoBar onClick={() => nav(-1)}>
@@ -89,7 +170,7 @@ const DonorSignUp = () => {
             Organization
           </ToggleButton>
         </ToggleContainer>
-        <DonorForm>
+        <DonorForm onSubmit={handleSumbit}>
           <InpuLabel>
             <div className="label_input">
               <label htmlFor="firstName">First name</label>
@@ -144,7 +225,9 @@ const DonorSignUp = () => {
               className="input_place"
               placeholder="+234 800 000 0000"
               type="text"
-              name="phoneNuber"
+              name="phoneNumber"
+              value={donordetail.phoneNumber}
+              onChange={handleOnchange}
             />
           </LabelInput>
           <PasswordInput>
@@ -159,7 +242,7 @@ const DonorSignUp = () => {
             />
             <div className="text">
               <p>Password Strength</p>
-              <p>Weak</p>
+              <p>{allPassed ? "Strong" : "Weak"}</p>
             </div>
             <div className="boxes">
               <div className={`box1 ${conditions.length ? "good" : ""}`}></div>
@@ -215,7 +298,11 @@ const DonorSignUp = () => {
               <span>Privacy Policy</span>
             </NavLink>
           </p>
-          <Button className="signup_btn" text="Sign up" />
+          <Button
+            className="signup_btn"
+            text={isVerifyLoading || isOrganLoading ? <Spin /> : "Sign up"}
+            type="submit"
+          />
         </DonorForm>
         <p className="signin">
           Already have an account?{" "}

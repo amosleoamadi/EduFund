@@ -1,12 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { LogoBar } from "../components/styles/AccountStyle";
 import img from "../assets/EduFundLogo.png";
 import Input from "../components/Ui/Input";
 import { LabelInput } from "../components/styles/RegisterStyle";
 import Button from "../components/Ui/Button";
+import { useForgetPasswordMutation } from "../utils/stundentauth/authapi";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const ResetEmailCode = () => {
+  const [resendMail, setResendMail] = useState("");
+  const [resendEmail, { isLoading }] = useForgetPasswordMutation();
+  const nav = useNavigate();
+
+  const handleResend = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await resendEmail(resendMail).unwrap();
+      localStorage.setItem("userEmail", JSON.stringify(response?.data?.email));
+      toast.success(response?.message);
+      nav("/reverify");
+    } catch (error) {
+      toast.error(error?.data?.message);
+    }
+  };
   return (
     <Content>
       <LogoBar>
@@ -23,11 +41,18 @@ const ResetEmailCode = () => {
             className="input_place"
             placeholder="john@example.com"
             type="text"
-            name="email"
+            name="resendMail"
+            value={resendMail}
+            onChange={(e) => setResendMail(e.target.value)}
           />
         </LabelInput>
       </Holder>
-      <Button className="verify_btn" text="Send Verification Code" />
+      <Button
+        className="verify_btn"
+        text={isLoading ? "Sending..." : "Send Verification Code"}
+        onClick={handleResend}
+        disabled={isLoading}
+      />
     </Content>
   );
 };
@@ -79,7 +104,7 @@ const Content = styled.div`
   }
 `;
 
-const Holder = styled.div`
+const Holder = styled.form`
   width: 30%;
   height: max-content;
   border-radius: 20px;

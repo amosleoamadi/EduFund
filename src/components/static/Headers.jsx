@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { useLocation, useNavigate } from "react-router-dom";
 import eduLogo from "../../../public/Logo.png";
-
-import { FiChevronDown } from "react-icons/fi";
 
 import {
   Dropdown,
@@ -11,7 +11,6 @@ import {
   NavButtons,
   NavLinks,
 } from "./HeadersStyle";
-import { useLocation, useNavigate } from "react-router-dom";
 
 const Headers = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -21,45 +20,52 @@ const Headers = () => {
   return (
     <Nav>
       <Logo>
-        <img src={eduLogo} alt="" />
+        <img src={eduLogo} alt="EduFund Logo" />
       </Logo>
 
       <NavLinks>
         <nav
           className={`btn ${location.pathname === "/" ? "actives" : ""}`}
-          onClick={() => nav("")}
+          onClick={() => nav("/")}
         >
           Home
         </nav>
         <nav
           className={`btn ${location.pathname === "/about" ? "actives" : ""}`}
-          onClick={() => nav("about")}
+          onClick={() => nav("/about")}
         >
           About Us
         </nav>
         <nav
           className={`btn ${location.pathname === "/contact" ? "actives" : ""}`}
-          onClick={() => nav("contact")}
+          onClick={() => nav("/contact")}
         >
           Contact Us
         </nav>
       </NavLinks>
 
+      {/* Sign In / Sign Up Buttons */}
       <NavButtons>
-        <Dropdown>
+        <Dropdown
+          onMouseEnter={() => setDropdownOpen(true)}
+          onMouseLeave={() => setDropdownOpen(false)}
+        >
           <button
             className="sign-in"
             onClick={() => setDropdownOpen(!dropdownOpen)}
           >
-            Sign In <FiChevronDown className="icon" />
+            Sign In{" "}
+            {dropdownOpen ? (
+              <FiChevronUp className="icon" />
+            ) : (
+              <FiChevronDown className="icon" />
+            )}
           </button>
 
-          {dropdownOpen && (
-            <DropdownMenu>
-              <nav onClick={() => nav("/login")}>Student Sign in</nav>
-              <nav onClick={() => nav("/login")}>Donor Sign in</nav>
-            </DropdownMenu>
-          )}
+          <DropdownMenu className={dropdownOpen ? "show" : ""}>
+            <nav onClick={() => nav("/login")}>Student Sign in</nav>
+            <nav onClick={() => nav("/login")}>Donor Sign in</nav>
+          </DropdownMenu>
         </Dropdown>
 
         <button className="sign-up" onClick={() => nav("/account-type")}>

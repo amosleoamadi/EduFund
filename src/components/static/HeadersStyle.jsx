@@ -2,13 +2,13 @@ import styled from "styled-components";
 
 export const Nav = styled.nav`
   width: 100%;
-  height: 5rem;
-  background:#001145;
+  height: 4rem;
+  background-color: #001145;
   color: #fff;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px 8%;
+  padding: 10px 5%;
   position: sticky;
   top: 0;
   z-index: 999;
@@ -31,33 +31,30 @@ export const Logo = styled.div`
 export const NavLinks = styled.div`
   display: flex;
   align-items: center;
-  gap: 35px;
+  gap: 50px;
 
-  
   .btn {
     color: #f2f2f2;
     text-decoration: none;
-    font-weight: 500;
+    font-weight: normal;
     font-size: 1rem;
     cursor: pointer;
-    cursor: pointer;
+    transition: all 350ms ease-in-out;
 
     &:hover {
-      color: #00a8ff;
+      text-decoration: underline;
     }
   }
 
   .actives {
-    color: #00a8ff;
-    text-decoration: none;
-    font-weight: 500;
+    text-decoration: underline;
+    font-weight: normal;
     font-size: 1rem;
   }
 
   .actives {
-    color: #00a8ff;
-    text-decoration: none;
-    font-weight: 500;
+    text-decoration: underline;
+    font-weight: normal;
     font-size: 1rem;
   }
 
@@ -76,14 +73,14 @@ export const NavButtons = styled.div`
     font-size: 0.95rem;
     font-weight: 500;
     border-radius: 8px;
-    transition: all 0.3s ease;
+    transition: all 350ms ease-in-out;
   }
 
   .sign-in {
     background: transparent;
-    border: 1.5px solid #fff;
+    border: 2px solid #fff;
     color: #fff;
-    padding: 8px 18px;
+    padding: 7px 10px;
     display: flex;
     align-items: center;
     gap: 6px;
@@ -91,18 +88,16 @@ export const NavButtons = styled.div`
     .icon {
       font-size: 1rem;
     }
-
-    &:hover {
-      background: #fff;
-      color: #001b5e;
-    }
   }
 
   .sign-up {
     background-color: #00a8ff;
     color: #fff;
     border: none;
-    padding: 8px 18px;
+    font-size: 0.9rem;
+    padding: 9px 19px;
+    font-weight: normal;
+    transition: all 350ms ease-in-out;
 
     &:hover {
       background-color: #0090db;
@@ -117,32 +112,42 @@ export const Dropdown = styled.div`
 export const DropdownMenu = styled.div`
    position: absolute;
   top: 45px;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(-10px);
+
   background-color: #fff;
-  color: #001b5e;
+  color: black;
   border-radius: 8px;
-  padding: 20px;
+  padding: 18px 35px 18px 10px;
   border: 2px solid #0090db;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   min-width: 180px;
   overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  /* transform: translateY(-10px); */
+  transition: all 350ms ease-in-out;
   z-index: 1000;
 
-  
+  &.show {
+    opacity: 1;
+    visibility: visible;
+    /* transform: translateY(0); */
+    transform: translateX(-50%) translateY(0);
+  }
+
   nav {
     padding: 10px 15px;
     text-decoration: none;
-    color: #001b5e;
-    font-weight: 500;
+    color: #001145;
+    font-weight: normal;
     font-size: 0.9rem;
-    transition: 0.3s;
-    cursor: pointer;
+    transition: all 350ms ease-in-out;
     cursor: pointer;
 
     &:hover {
-      background-color: #f5f5f5;
       color: #007bff;
     }
   }
