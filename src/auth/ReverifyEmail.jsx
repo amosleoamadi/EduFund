@@ -94,6 +94,15 @@ const InputVerify = styled.div`
     font-weight: 400;
     line-height: 28px;
     color: #0a0a0a;
+
+    @media (max-width: 768px) {
+      font-size: 14px;
+      line-height: 24px;
+    }
+
+    @media (min-width: 769px) and (max-width: 1023px) {
+      font-size: 15px;
+    }
   }
 
   .input {
@@ -112,8 +121,19 @@ const InputVerify = styled.div`
     border: 1px solid #d1d5db;
     background: #fff;
     outline: none;
+
+    @media (max-width: 768px) {
+      height: 45px;
+      font-size: 14px;
+    }
+
+    @media (min-width: 769px) and (max-width: 1023px) {
+      height: 48px;
+      font-size: 15px;
+    }
   }
 `;
+
 const MailHolder = styled.div`
   width: 100%;
   height: 100vh;
@@ -135,7 +155,49 @@ const MailHolder = styled.div`
     font-style: normal;
     font-weight: 400;
   }
+
+  @media (max-width: 768px) {
+    background: #fff;
+    padding: 20px;
+    min-height: 100vh;
+
+    h3 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1023px) {
+    padding: 30px;
+
+    h3 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 16px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    padding: 35px;
+
+    h3 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 17.107px;
+    }
+  }
 `;
+
 const Wrapper = styled.div`
   margin-top: 25px;
   width: 35%;
@@ -146,7 +208,32 @@ const Wrapper = styled.div`
   box-shadow: 0 2px 20px -3px rgba(0, 0, 0, 0.1);
   justify-self: center;
   padding: 25px;
+
+  @media (max-width: 768px) {
+    width: 90%;
+    height: auto;
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    padding: 20px 0;
+    margin-top: 15px;
+  }
+
+  @media (min-width: 769px) and (max-width: 1023px) {
+    width: 55%;
+    height: auto;
+    padding: 25px;
+    margin-top: 25px;
+  }
+
+  @media (min-width: 1024px) {
+    width: 40%;
+    height: 55%;
+    padding: 25px;
+    margin-top: 25px;
+  }
 `;
+
 const VerifyContent = styled.form`
   width: 100%;
   height: 100%;
@@ -164,6 +251,25 @@ const VerifyContent = styled.form`
     cursor: pointer;
     font-size: 17px;
     color: #fff;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      height: 45px;
+      font-size: 15px;
+      margin-top: 20px;
+    }
+
+    @media (min-width: 769px) and (max-width: 1023px) {
+      width: 70%;
+      height: 48px;
+      font-size: 16px;
+    }
+
+    @media (min-width: 1024px) {
+      width: 60%;
+      height: 48px;
+      font-size: 17px;
+    }
   }
 
   p {
@@ -174,6 +280,19 @@ const VerifyContent = styled.form`
     font-style: normal;
     font-weight: 400;
 
+    @media (max-width: 768px) {
+      font-size: 13px;
+      margin-top: 12px;
+    }
+
+    @media (min-width: 769px) and (max-width: 1023px) {
+      font-size: 14px;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 15px;
+    }
+
     span {
       color: #155dfc;
       font-family: "Inter", sans-serif;
@@ -181,6 +300,18 @@ const VerifyContent = styled.form`
       font-style: normal;
       font-weight: 400;
       cursor: pointer;
+
+      @media (max-width: 768px) {
+        font-size: 13px;
+      }
+
+      @media (min-width: 769px) and (max-width: 1023px) {
+        font-size: 15px;
+      }
+
+      @media (min-width: 1024px) {
+        font-size: 16px;
+      }
     }
   }
 
@@ -192,12 +323,36 @@ const VerifyContent = styled.form`
     font-style: normal;
     font-weight: 400;
 
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
+
+    @media (min-width: 769px) and (max-width: 1023px) {
+      font-size: 13px;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 14px;
+    }
+
     span {
       color: #2563eb;
       font-size: 14px;
       font-style: normal;
       font-weight: 500;
       cursor: pointer;
+
+      @media (max-width: 768px) {
+        font-size: 12px;
+      }
+
+      @media (min-width: 769px) and (max-width: 1023px) {
+        font-size: 13px;
+      }
+
+      @media (min-width: 1024px) {
+        font-size: 14px;
+      }
     }
   }
 `;

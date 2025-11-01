@@ -1,4 +1,4 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { studentAuth } from "../utils/stundentauth/authapi";
 import { donorAuth } from "../utils/donorauth/donorauth";
 import donorAuthReducer from "../config/donorslices/donorslice";
@@ -14,27 +14,20 @@ import {
   REGISTER,
 } from "redux-persist";
 
+const rootReducer = combineReducers({
+  [studentAuth.reducerPath]: studentAuth.reducer,
+  [donorAuth.reducerPath]: donorAuth.reducer,
+  student: studentauthReducer,
+  donor: donorAuthReducer,
+});
+
 const persistConfig = {
   key: "root",
   storage,
   whitelist: ["student", "donor"],
 };
 
-const persistedReducer = persistReducer(
-  persistConfig,
-  (state = {}, action) => ({
-    [studentAuth.reducerPath]: studentAuth.reducer(
-      state[studentAuth.reducerPath],
-      action
-    ),
-    student: studentauthReducer(state.student, action),
-    [donorAuth.reducerPath]: donorAuth.reducer(
-      state[donorAuth.reducerPath],
-      action
-    ),
-    donor: donorAuthReducer(state.donor, action),
-  })
-);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
