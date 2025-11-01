@@ -112,7 +112,7 @@ const Donations = () => {
                         ></div>
                       </div>
                 </div>
-                {/* donor-status */}
+              
                 <div className={e.progressStatus === "Completed" ? "color-green" : "color-blue"}>
                    {e.progressStatusIcon}
                    <p>{e.progressStatus}</p>
