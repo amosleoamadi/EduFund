@@ -195,4 +195,72 @@ const Container = styled.main`
       letter-spacing: 0.32px;
     }
   }
+
+  @media (max-width: 1024px) {
+    padding: 25px;
+
+    h3 {
+      font-size: 26px;
+      margin-bottom: 10px;
+    }
+
+    .first {
+      font-size: 14px;
+      margin-bottom: 25px;
+    }
+
+    .second {
+      font-size: 15px;
+      line-height: 26px;
+    }
+
+    .service {
+      margin-top: 12px;
+
+      h3 {
+        font-size: 22px;
+      }
+
+      p {
+        font-size: 15px;
+        line-height: 26px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px;
+    height: auto;
+    min-height: 100vh;
+
+    h3 {
+      font-size: 22px;
+      margin-bottom: 8px;
+    }
+
+    .first {
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .second {
+      font-size: 14px;
+      line-height: 24px;
+      letter-spacing: 0.28px;
+    }
+
+    .service {
+      margin-top: 10px;
+
+      h3 {
+        font-size: 18px;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: 24px;
+        letter-spacing: 0.28px;
+      }
+    }
+  }
 `;

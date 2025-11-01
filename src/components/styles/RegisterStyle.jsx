@@ -7,6 +7,15 @@ export const ReqContainer = styled.main`
   background: linear-gradient(269deg, #fff 4.29%, #f4f8fd 88.02%);
   padding: 35px;
 
+  @media (max-width: 768px) {
+    padding: 20px;
+    background: #fff;
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px;
+  }
+
   .foot {
     display: flex;
     align-items: center;
@@ -15,6 +24,7 @@ export const ReqContainer = styled.main`
     color: rgba(59, 53, 53, 0.8);
   }
 `;
+
 export const RegContent = styled.div`
   width: 45%;
   min-height: max-content;
@@ -27,14 +37,44 @@ export const RegContent = styled.div`
   box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.05);
   justify-self: center;
 
+  @media (max-width: 1024px) {
+    width: 70%;
+    padding: 23px 60px 23px 60px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 16px 20px 16px 20px;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 16px 20px 16px 20px;
+    background: transparent;
+    box-shadow: none;
+  }
+
   h2 {
     font-family: "Inter", sans-serif;
     font-size: 28px;
     color: #222;
     font-weight: 700;
     margin-bottom: 23px;
+
+    @media (max-width: 768px) {
+      font-size: 24px;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 20px;
+      margin-bottom: 16px;
+    }
   }
 `;
+
 export const RegForm = styled.form`
   width: 100%;
   height: 90%;
@@ -49,6 +89,11 @@ export const RegForm = styled.form`
     font-weight: 400;
     margin-bottom: 12px;
 
+    @media (max-width: 480px) {
+      font-size: 12px;
+      margin-bottom: 10px;
+    }
+
     span {
       color: #2563eb;
       font-family: "Inter", sans-serif;
@@ -56,6 +101,10 @@ export const RegForm = styled.form`
       font-style: normal;
       font-weight: 500;
       cursor: pointer;
+
+      @media (max-width: 480px) {
+        font-size: 12px;
+      }
     }
   }
 
@@ -71,6 +120,17 @@ export const RegForm = styled.form`
     color: #fff;
     cursor: pointer;
     margin-bottom: 10px;
+
+    @media (max-width: 768px) {
+      padding: 12px 60px 12px 60px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+      padding: 12px 40px 12px 40px;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
   }
 
   .signin {
@@ -81,15 +141,24 @@ export const RegForm = styled.form`
     font-style: normal;
     font-weight: 400;
 
+    @media (max-width: 480px) {
+      font-size: 12px;
+    }
+
     span {
       color: #2563eb;
       font-size: 14px;
       font-style: normal;
       font-weight: 500;
       cursor: pointer;
+
+      @media (max-width: 480px) {
+        font-size: 12px;
+      }
     }
   }
 `;
+
 export const InpuLabel = styled.div`
   width: 100%;
   height: max-content;
@@ -97,11 +166,20 @@ export const InpuLabel = styled.div`
   justify-content: space-between;
   margin-bottom: 12px;
 
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 12px;
+  }
+
   .label_input {
     width: 48%;
     height: 100%;
     display: flex;
     flex-direction: column;
+
+    @media (max-width: 480px) {
+      width: 100%;
+    }
 
     label {
       color: #3b3535;
@@ -110,6 +188,10 @@ export const InpuLabel = styled.div`
       font-style: normal;
       font-weight: 500;
       margin-bottom: 6px;
+
+      @media (max-width: 480px) {
+        font-size: 13px;
+      }
     }
 
     .input_place {
@@ -123,12 +205,18 @@ export const InpuLabel = styled.div`
       color: #222;
       font-size: 15px;
 
+      @media (max-width: 480px) {
+        height: 45px;
+        font-size: 14px;
+      }
+
       &:placeholder-shown {
         color: #adaebc;
       }
     }
   }
 `;
+
 export const LabelInput = styled.div`
   width: 100%;
   height: max-content;
@@ -143,6 +231,10 @@ export const LabelInput = styled.div`
     font-style: normal;
     font-weight: 500;
     margin-bottom: 6px;
+
+    @media (max-width: 480px) {
+      font-size: 13px;
+    }
   }
 
   .input_place {
@@ -155,6 +247,11 @@ export const LabelInput = styled.div`
     outline: none;
     color: #222;
     font-size: 15px;
+
+    @media (max-width: 480px) {
+      height: 45px;
+      font-size: 14px;
+    }
 
     &:placeholder-shown {
       color: #adaebc;
@@ -176,6 +273,10 @@ export const PasswordInput = styled.div`
     font-style: normal;
     font-weight: 500;
     margin-bottom: 6px;
+
+    @media (max-width: 480px) {
+      font-size: 13px;
+    }
   }
 
   .input_place {
@@ -190,6 +291,12 @@ export const PasswordInput = styled.div`
     font-size: 15px;
     margin-bottom: 10px;
 
+    @media (max-width: 480px) {
+      height: 45px;
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+
     &:placeholder-shown {
       color: #adaebc;
     }
@@ -201,6 +308,11 @@ export const PasswordInput = styled.div`
     color: #7b7e80;
     font-size: 15px;
     margin-bottom: 6px;
+
+    @media (max-width: 480px) {
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
   }
 
   .boxes {
@@ -208,11 +320,19 @@ export const PasswordInput = styled.div`
     justify-content: space-between;
     margin-bottom: 12px;
 
+    @media (max-width: 480px) {
+      margin-bottom: 10px;
+    }
+
     .box1 {
       width: 70px;
       height: 5px;
       border-radius: 4.5px;
       background: rgba(123, 126, 128, 0.7);
+
+      @media (max-width: 480px) {
+        width: 60px;
+      }
     }
 
     .good {
@@ -220,6 +340,10 @@ export const PasswordInput = styled.div`
       height: 5px;
       border-radius: 4.5px;
       background: green;
+
+      @media (max-width: 480px) {
+        width: 60px;
+      }
     }
   }
 
@@ -235,6 +359,12 @@ export const PasswordInput = styled.div`
       font-size: 15px;
       font-weight: 400;
       margin-bottom: 6px;
+
+      @media (max-width: 480px) {
+        font-size: 13px;
+        margin-bottom: 5px;
+        gap: 6px;
+      }
     }
 
     .set {
@@ -245,6 +375,12 @@ export const PasswordInput = styled.div`
       font-size: 15px;
       font-weight: 400;
       margin-bottom: 6px;
+
+      @media (max-width: 480px) {
+        font-size: 13px;
+        margin-bottom: 5px;
+        gap: 6px;
+      }
     }
   }
 `;

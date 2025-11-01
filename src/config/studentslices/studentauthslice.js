@@ -13,7 +13,11 @@ const studentauthSlice = createSlice({
   initialState,
   reducers: {
     setStudent: (state, action) => {
-      return action.payload;
+      state.firstname = action.payload.firstname;
+      state.lastname = action.payload.lastname;
+      state.email = action.payload.email;
+      state.studentId = action.payload.studentId;
+      state.studentToken = action.payload.studentToken;
     },
 
     studentLogout: (state) => {
@@ -28,5 +32,6 @@ const studentauthSlice = createSlice({
 
 export const selectStudentId = (state) => state.student.studentId;
 export const selectStudentEmail = (state) => state.student.email;
+export const selectStundentToken = (state) => state.student.studentToken;
 export const { setStudent, studentLogout } = studentauthSlice.actions;
 export default studentauthSlice.reducer;
