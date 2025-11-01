@@ -6,7 +6,25 @@ export const DonorContainer = styled.main`
   min-height: max-content;
   background: linear-gradient(269deg, #fff 0.79%, #f4f8fd 98.01%);
   padding: 35px;
+
+  @media (min-width: 1024px) {
+    padding: 40px;
+  }
+
+  @media (max-width: 1023px) and (min-width: 769px) {
+    padding: 30px;
+  }
+
+  @media (max-width: 768px) {
+    background: #ffffff;
+    padding: 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 15px;
+  }
 `;
+
 export const DonorContent = styled.div`
   width: 45%;
   height: 100vh;
@@ -20,6 +38,30 @@ export const DonorContent = styled.div`
   flex-direction: column;
   align-items: center;
 
+  @media (min-width: 1024px) {
+    width: 45%;
+    padding: 10px 93px;
+  }
+
+  @media (max-width: 1023px) and (min-width: 769px) {
+    width: 75%;
+    padding: 10px 50px;
+  }
+
+  @media (max-width: 768px) {
+    width: 90%;
+    background: transparent;
+    box-shadow: none;
+    padding: 10px 30px;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    background: transparent;
+    box-shadow: none;
+    padding: 10px 20px;
+  }
+
   .terms {
     color: #4b5563;
     font-family: "Inter", sans-serif;
@@ -28,6 +70,11 @@ export const DonorContent = styled.div`
     font-weight: 400;
     margin-bottom: 15px;
 
+    @media (max-width: 480px) {
+      font-size: 12px;
+      margin-bottom: 12px;
+    }
+
     span {
       color: #2563eb;
       font-family: "Inter", sans-serif;
@@ -35,6 +82,10 @@ export const DonorContent = styled.div`
       font-style: normal;
       font-weight: 500;
       cursor: pointer;
+
+      @media (max-width: 480px) {
+        font-size: 12px;
+      }
     }
   }
 
@@ -44,6 +95,18 @@ export const DonorContent = styled.div`
     color: #222;
     font-weight: 700;
     margin-bottom: 8px;
+
+    @media (max-width: 1023px) and (min-width: 769px) {
+      font-size: 26px;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 24px;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 20px;
+    }
   }
 
   p {
@@ -51,6 +114,10 @@ export const DonorContent = styled.div`
     font-style: normal;
     font-weight: 400;
     color: rgba(59, 53, 53, 0.8);
+
+    @media (max-width: 480px) {
+      font-size: 14px;
+    }
   }
 
   .signup_btn {
@@ -66,6 +133,11 @@ export const DonorContent = styled.div`
     color: #fff;
     cursor: pointer;
     margin-bottom: 15px;
+
+    @media (max-width: 480px) {
+      height: 40px;
+      font-size: 14px;
+    }
   }
 
   .signin {
@@ -76,12 +148,20 @@ export const DonorContent = styled.div`
     font-style: normal;
     font-weight: 400;
 
+    @media (max-width: 480px) {
+      font-size: 13px;
+    }
+
     span {
       color: #2563eb;
       font-size: 14px;
       font-style: normal;
       font-weight: 500;
       cursor: pointer;
+
+      @media (max-width: 480px) {
+        font-size: 13px;
+      }
     }
   }
 
@@ -91,8 +171,14 @@ export const DonorContent = styled.div`
     justify-content: center;
     margin-top: 16px;
     color: rgba(59, 53, 53, 0.8);
+
+    @media (max-width: 480px) {
+      margin-top: 12px;
+      font-size: 12px;
+    }
   }
 `;
+
 export const ToggleContainer = styled.div`
   display: flex;
   width: 100%;
@@ -102,7 +188,12 @@ export const ToggleContainer = styled.div`
   padding: 5px;
   margin-top: 15px;
   margin-bottom: 15px;
+
+  @media (max-width: 480px) {
+    height: 40px;
+  }
 `;
+
 export const ToggleButton = styled.div`
   flex: 1;
   border: none;
@@ -116,7 +207,13 @@ export const ToggleButton = styled.div`
   display: flex;
   align-items: center;
   padding: 8px;
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+    padding: 6px;
+  }
 `;
+
 export const DonorForm = styled.form`
   width: 100%;
   height: max-content;

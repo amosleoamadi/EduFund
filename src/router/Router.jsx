@@ -30,6 +30,7 @@ import StudentLinkShare from "../pages/modals/StudentLinkShare";
 import RequestWithdraw from "../pages/modals/RequestWithdraw";
 import WithdrawalReq from "../pages/modals/WithdrawalReq";
 import ReverifyEmail from "../auth/ReverifyEmail";
+import PrivateRoute from "./PrivateRoute";
 
 export const Element = createBrowserRouter([
   {
@@ -95,59 +96,64 @@ export const Element = createBrowserRouter([
     element: <DonorSignUp />,
   },
   {
-    path: "/student-dashbord",
-    element: <DashboardStudent />,
+    element: <PrivateRoute />,
     children: [
       {
-        index: true,
-        element: <Overview />,
+        path: "/student-dashbord",
+        element: <DashboardStudent />,
+        children: [
+          {
+            index: true,
+            element: <Overview />,
+          },
+          {
+            path: "campaigns",
+            element: <MyCampaign />,
+          },
+          {
+            path: "donors",
+            element: <Donors />,
+          },
+          {
+            path: "verification",
+            element: <Verificcations />,
+          },
+          {
+            path: "withdraws",
+            element: <Withdrawals />,
+          },
+          {
+            path: "student-setting",
+            element: <StudentSetting />,
+          },
+        ],
       },
       {
-        path: "campaigns",
-        element: <MyCampaign />,
-      },
-      {
-        path: "donors",
-        element: <Donors />,
-      },
-      {
-        path: "verification",
-        element: <Verificcations />,
-      },
-      {
-        path: "withdraws",
-        element: <Withdrawals />,
-      },
-      {
-        path: "student-setting",
-        element: <StudentSetting />,
-      },
-    ],
-  },
-  {
-    path: "/donor_dashboard",
-    element: <DonorDashboard />,
-    children: [
-      {
-        index: true,
-        element: <DonorOverview />,
-      },
-      {
-        path: "discover",
-        element: <Discover />,
-      },
-      {
-        path: "donation",
-        element: <Donations />,
-      },
-      {
-        path: "impact",
-        element: <Impact />,
-      },
+        path: "/donor_dashboard",
+        element: <DonorDashboard />,
+        children: [
+          {
+            index: true,
+            element: <DonorOverview />,
+          },
+          {
+            path: "discover",
+            element: <Discover />,
+          },
+          {
+            path: "donation",
+            element: <Donations />,
+          },
+          {
+            path: "impact",
+            element: <Impact />,
+          },
 
-      {
-        path: "donor-setting",
-        element: <DonorSetting />,
+          {
+            path: "donor-setting",
+            element: <DonorSetting />,
+          },
+        ],
       },
     ],
   },

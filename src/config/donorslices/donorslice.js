@@ -13,7 +13,11 @@ const donorSlice = createSlice({
   initialState,
   reducers: {
     setDonor: (state, action) => {
-      return action.payload;
+      state.donorFirstname = action.payload.donorFirstname;
+      state.donorLastname = action.payload.donorLastname;
+      state.donorEmail = action.payload.donorEmail;
+      state.donorId = action.payload.donorId;
+      state.donorToken = action.payload.donorToken;
     },
 
     donorLogout: (state) => {
@@ -26,5 +30,6 @@ const donorSlice = createSlice({
   },
 });
 
+export const selectDonorToken = (state) => state.donor.donorToken;
 export const { setDonor, donorLogout } = donorSlice.actions;
 export default donorSlice.reducer;

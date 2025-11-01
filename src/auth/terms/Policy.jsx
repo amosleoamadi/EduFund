@@ -156,7 +156,44 @@ const Contact = styled.div`
     font-weight: 400;
     margin-bottom: 13px;
   }
+
+  @media (max-width: 1024px) {
+    h3 {
+      font-size: 22px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 16px;
+
+    h3 {
+      font-size: 20px;
+    }
+
+    p {
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 12px;
+
+    h3 {
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+  }
 `;
+
 const Handle = styled.div`
   margin-top: 20px;
 
@@ -183,7 +220,59 @@ const Handle = styled.div`
       color: #222;
     }
   }
+
+  @media (max-width: 1024px) {
+    h3 {
+      font-size: 22px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+
+    ul li {
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 16px;
+
+    h3 {
+      font-size: 20px;
+    }
+
+    p {
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    ul li {
+      font-size: 13px;
+      margin-bottom: 5px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 12px;
+
+    h3 {
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    ul li {
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+  }
 `;
+
 const Content = styled.main`
   width: 100%;
   height: 100vh;
@@ -215,7 +304,67 @@ const Content = styled.main`
     line-height: 28px;
     letter-spacing: 0.32px;
   }
+
+  @media (max-width: 1024px) {
+    padding: 28px;
+
+    h3 {
+      font-size: 26px;
+      margin-bottom: 12px;
+    }
+
+    .first {
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    .second {
+      font-size: 15px;
+      line-height: 26px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 20px;
+
+    h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .first {
+      font-size: 13px;
+      margin-bottom: 20px;
+    }
+
+    .second {
+      font-size: 14px;
+      line-height: 24px;
+      letter-spacing: 0.28px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: 16px;
+
+    h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+
+    .first {
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+
+    .second {
+      font-size: 13px;
+      line-height: 22px;
+      letter-spacing: 0px;
+    }
+  }
 `;
+
 const Info = styled.div`
   margin-top: 20px;
 
@@ -246,6 +395,79 @@ const Info = styled.div`
       margin-bottom: 8px;
       color: #222;
       font-size: 15px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    h3 {
+      font-size: 22px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+
+    ul {
+      margin-top: 16px;
+
+      h4 {
+        margin-bottom: 6px;
+      }
+
+      li {
+        font-size: 14px;
+        margin-bottom: 6px;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 16px;
+
+    h3 {
+      font-size: 20px;
+    }
+
+    p {
+      font-size: 13px;
+    }
+
+    ul {
+      margin-top: 12px;
+
+      h4 {
+        margin-bottom: 5px;
+      }
+
+      li {
+        font-size: 13px;
+        margin-bottom: 5px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 12px;
+
+    h3 {
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 12px;
+    }
+
+    ul {
+      margin-top: 10px;
+
+      h4 {
+        margin-bottom: 4px;
+      }
+
+      li {
+        font-size: 12px;
+        margin-bottom: 4px;
+      }
     }
   }
 `;

@@ -130,7 +130,47 @@ const Holder = styled.div`
     padding-left: 10px;
     outline: none;
   }
+
+  @media (max-width: 1023px) and (min-width: 769px) {
+    width: 50%;
+    height: auto;
+    padding: 20px;
+    margin-top: 20px;
+
+    h4 {
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+
+    .pass {
+      height: 45px;
+      margin-bottom: 18px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    height: auto;
+    background: transparent;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 15px 0;
+    margin-top: 10px;
+    margin-bottom: 20px;
+
+    h4 {
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .pass {
+      height: 42px;
+      margin-bottom: 15px;
+      padding-left: 8px;
+    }
+  }
 `;
+
 const Container = styled.div`
   width: 100%;
   height: 100vh;
@@ -173,5 +213,49 @@ const Container = styled.div`
     font-size: 13px;
     margin-top: 10px;
     cursor: pointer;
+  }
+
+  @media (max-width: 1023px) and (min-width: 769px) {
+    padding: 25px;
+
+    .con_pass {
+      width: 45%;
+      height: 44px;
+    }
+
+    h3 {
+      font-size: 26px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    height: 100%;
+    background: #ffffff;
+    padding: 20px;
+
+    .con_pass {
+      width: 70%;
+      height: 42px;
+      font-size: 14px;
+    }
+
+    h3 {
+      font-size: 22px;
+      margin-bottom: 6px;
+    }
+
+    p {
+      font-size: 13px;
+    }
+
+    nav {
+      font-size: 12px;
+      margin-top: 8px;
+    }
   }
 `;

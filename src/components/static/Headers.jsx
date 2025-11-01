@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom";
-import eduLogo from "../../../public/Logo.png";
+import eduLogo from "../../assets/Edulogo.png";
 
 import {
   Dropdown,
