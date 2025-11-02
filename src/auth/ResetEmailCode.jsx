@@ -102,6 +102,48 @@ const Content = styled.div`
     font-size: 17px;
     color: #fff;
   }
+
+  @media (max-width: 768px) {
+    background: #fff;
+    padding: 20px;
+
+    h3 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+
+    nav {
+      font-size: 12px;
+    }
+
+    .verify_btn {
+      width: 60%;
+      height: 44px;
+      font-size: 15px;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1023px) {
+    padding: 30px;
+
+    h3 {
+      font-size: 28px;
+    }
+
+    p {
+      font-size: 14px;
+    }
+
+    .verify_btn {
+      width: 30%;
+      height: 46px;
+      font-size: 16px;
+    }
+  }
 `;
 
 const Holder = styled.form`
@@ -121,5 +163,27 @@ const Holder = styled.form`
     font-weight: 700;
     text-align: center;
     margin-bottom: 18px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+    margin-top: 20px;
+
+    h4 {
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1023px) {
+    width: 50%;
+    padding: 18px;
+
+    h4 {
+      font-size: 14px;
+    }
   }
 `;

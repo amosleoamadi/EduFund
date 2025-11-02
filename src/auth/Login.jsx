@@ -40,7 +40,15 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await studentLogin(userLogin).unwrap();
-      dispatch(setStudent({ studentToken: res?.token }));
+      dispatch(
+        setStudent({
+          firstname: res?.data?.firstName,
+          lastname: res?.data?.lastName,
+          email: res?.data?.email,
+          studentId: res?.data?._id,
+          studentToken: res?.token,
+        })
+      );
       const userRole = res?.data?.role;
       toast.success(res?.message);
       if (userRole === "student") {

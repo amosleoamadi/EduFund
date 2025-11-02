@@ -15,8 +15,16 @@ export const Nav = styled.nav`
 `;
 
 export const Logo = styled.div`
+<<<<<<< HEAD
   width: 130px;
   height: 60px;
+=======
+  width: 150px;
+  height: 80px;
+  width: 150px;
+  height: 80px;
+
+>>>>>>> 31449c79a3000d31657ca2e2123d612fcd204a75
 
   img {
     width: 100%;
@@ -47,7 +55,17 @@ export const NavLinks = styled.div`
     font-weight: 500;
   }
 
+<<<<<<< HEAD
   @media (max-width: 900px) {
+=======
+  .actives {
+    text-decoration: underline;
+    font-weight: normal;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 768px) {
+>>>>>>> 31449c79a3000d31657ca2e2123d612fcd204a75
     display: none;
   }
 `;
@@ -101,7 +119,7 @@ export const Dropdown = styled.div`
 `;
 
 export const DropdownMenu = styled.div`
-  position: absolute;
+   position: absolute;
   top: 45px;
   left: 50%;
   transform: translateX(-50%) translateY(-10px);
@@ -137,6 +155,7 @@ export const DropdownMenu = styled.div`
     }
   }
 `;
+<<<<<<< HEAD
 
 export const MobileMenuIcon = styled.div`
   display: none;
@@ -194,3 +213,7 @@ export const MobileMenu = styled.div`
     }
   }
 `;
+=======
+ 
+
+>>>>>>> 31449c79a3000d31657ca2e2123d612fcd204a75
