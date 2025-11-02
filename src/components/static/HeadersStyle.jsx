@@ -15,10 +15,6 @@ export const Nav = styled.nav`
 `;
 
 export const Logo = styled.div`
-<<<<<<< HEAD
-  width: 130px;
-  height: 60px;
-=======
   width: 150px;
   height: 80px;
   width: 150px;
@@ -54,14 +50,6 @@ export const NavLinks = styled.div`
     font-size: 1rem;
   }
 
-  .actives {
-    text-decoration: underline;
-    font-weight: 500;
-  }
-
-<<<<<<< HEAD
-  @media (max-width: 900px) {
-=======
   .actives {
     text-decoration: underline;
     font-weight: normal;
