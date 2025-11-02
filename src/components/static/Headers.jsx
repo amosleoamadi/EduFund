@@ -81,10 +81,7 @@
 import React, { useState } from "react";
 import { FiChevronDown, FiChevronUp, FiMenu, FiX } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom";
-<<<<<<< HEAD
 import eduLogo from "../../../public/Logo.png";
-=======
-import eduLogo from "../../assets/Edulogo.png";
 
 >>>>>>> 31449c79a3000d31657ca2e2123d612fcd204a75
 import {
@@ -134,17 +131,23 @@ const Headers = () => {
           </nav>
         </NavLinks>
 
-        <NavButtons>
-          <Dropdown
-            onMouseEnter={() => setDropdownOpen(true)}
-            onMouseLeave={() => setDropdownOpen(false)}
+      {/* Sign In / Sign Up Buttons */}
+      <NavButtons>
+        <Dropdown
+          onMouseEnter={() => setDropdownOpen(true)}
+          onMouseLeave={() => setDropdownOpen(false)}
+        >
+          <button
+            className="sign-in"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
           >
-            <button
-              className="sign-in"
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-            >
-              Sign In {dropdownOpen ? <FiChevronUp /> : <FiChevronDown />}
-            </button>
+            Sign In{" "}
+            {dropdownOpen ? (
+              <FiChevronUp className="icon" />
+            ) : (
+              <FiChevronDown className="icon" />
+            )}
+          </button>
 
             <DropdownMenu className={dropdownOpen ? "show" : ""}>
               <nav onClick={() => nav("/login")}>Student Sign in</nav>
