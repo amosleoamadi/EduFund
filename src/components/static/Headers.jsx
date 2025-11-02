@@ -83,7 +83,7 @@ import { FiChevronDown, FiChevronUp, FiMenu, FiX } from "react-icons/fi";
 import { useLocation, useNavigate } from "react-router-dom";
 import eduLogo from "../../assets/Edulogo.png";
 
->>>>>>> 31449c79a3000d31657ca2e2123d612fcd204a75
+<<<<<<< HEAD=======>>>>>>> 31449c79a3000d31657ca2e2123d612fcd204a75
 import {
   Dropdown,
   DropdownMenu,
