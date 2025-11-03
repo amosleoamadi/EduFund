@@ -71,6 +71,7 @@ const DonorSideBar = () => {
 };
 
 export default DonorSideBar;
+
 const Holder = styled.div`
   width: 100%;
   height: 22%;
@@ -115,13 +116,54 @@ const Holder = styled.div`
       }
     }
   }
+
+  /* 📱 Tablet view */
+  @media (max-width: 992px) {
+    height: auto;
+    margin-top: 20px;
+    gap: 10px;
+    padding: 12px;
+
+    .add {
+      width: 100%;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .foot {
+      font-size: 13px;
+    }
+  }
+
+  /* 📱 Mobile view */
+  @media (max-width: 600px) {
+    padding: 10px;
+    margin-top: 15px;
+    gap: 8px;
+    border-radius: 12px;
+
+    .add {
+      width: 100%;
+      font-size: 12px;
+      padding: 8px;
+      justify-content: center;
+    }
+
+    .foot {
+      font-size: 12px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 3px;
+    }
+  }
 `;
+
 const Container = styled.main`
   display: flex;
   width: 85%;
   height: 85%;
   min-height: max-content;
-  padding: 18px 18px 18px 18px;
+  padding: 18px;
   flex-direction: column;
   align-items: flex-start;
   gap: 15px;
@@ -162,9 +204,6 @@ const Container = styled.main`
     }
 
     &:hover {
-      width: 100%;
-      height: 40px;
-      border-radius: 9.474px;
       background: #757575bc;
       color: white;
     }
@@ -189,6 +228,44 @@ const Container = styled.main`
 
     .bars {
       font-size: 20px;
+    }
+  }
+
+  
+  @media (max-width: 992px) {
+    width: 90%;
+    padding: 15px;
+    gap: 12px;
+    position: static;
+    box-shadow: none;
+    border-radius: 14px;
+
+    .btn,
+    .active {
+      font-size: 14px;
+      padding: 12px;
+      gap: 12px;
+    }
+  }
+
+  
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 12px;
+    gap: 10px;
+    position: static;
+    border-radius: 10px;
+
+    .btn,
+    .active {
+      font-size: 13px;
+      padding: 10px;
+      gap: 10px;
+      height: auto;
+    }
+
+    .divider {
+      height: 1px;
     }
   }
 `;
