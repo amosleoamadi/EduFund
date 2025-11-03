@@ -20,7 +20,6 @@ export const Logo = styled.div`
   width: 150px;
   height: 80px;
 
-
   img {
     width: 100%;
     height: 100%;
@@ -31,15 +30,14 @@ export const Logo = styled.div`
 export const NavLinks = styled.div`
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 40px;
 
   .btn {
     color: #f2f2f2;
     text-decoration: none;
-    font-weight: normal;
     font-size: 1rem;
     cursor: pointer;
-    transition: all 350ms ease-in-out;
+    transition: all 0.3s ease;
 
     &:hover {
       text-decoration: underline;
@@ -59,6 +57,7 @@ export const NavLinks = styled.div`
   }
 
   @media (max-width: 768px) {
+>>>>>>> 31449c79a3000d31657ca2e2123d612fcd204a75
     display: none;
   }
 `;
@@ -73,7 +72,7 @@ export const NavButtons = styled.div`
     font-size: 0.95rem;
     font-weight: 500;
     border-radius: 8px;
-    transition: all 350ms ease-in-out;
+    transition: all 0.3s ease;
   }
 
   .sign-in {
@@ -96,12 +95,14 @@ export const NavButtons = styled.div`
     border: none;
     font-size: 0.9rem;
     padding: 9px 19px;
-    font-weight: normal;
-    transition: all 350ms ease-in-out;
 
     &:hover {
       background-color: #0090db;
     }
+  }
+
+  @media (max-width: 900px) {
+    display: none;
   }
 `;
 
@@ -110,11 +111,10 @@ export const Dropdown = styled.div`
 `;
 
 export const DropdownMenu = styled.div`
-   position: absolute;
+  position: absolute;
   top: 45px;
   left: 50%;
   transform: translateX(-50%) translateY(-10px);
-
   background-color: #fff;
   color: black;
   border-radius: 8px;
@@ -127,24 +127,19 @@ export const DropdownMenu = styled.div`
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
-  /* transform: translateY(-10px); */
-  transition: all 350ms ease-in-out;
+  transition: all 0.3s ease;
   z-index: 1000;
 
   &.show {
     opacity: 1;
     visibility: visible;
-    /* transform: translateY(0); */
     transform: translateX(-50%) translateY(0);
   }
 
   nav {
     padding: 10px 15px;
-    text-decoration: none;
     color: #001145;
-    font-weight: normal;
     font-size: 0.9rem;
-    transition: all 350ms ease-in-out;
     cursor: pointer;
 
     &:hover {
@@ -152,5 +147,3 @@ export const DropdownMenu = styled.div`
     }
   }
 `;
- 
-
