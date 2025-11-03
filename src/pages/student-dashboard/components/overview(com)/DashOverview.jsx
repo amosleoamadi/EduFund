@@ -11,10 +11,17 @@ import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { SlBadge } from "react-icons/sl";
 import StudentLinkShare from "../../../modals/StudentLinkShare";
 import CampaignCreation from "../../../modals/steps/CampaignCreation";
+import {
+  studentFirstname,
+  studentLastname,
+} from "../../../../config/studentslices/studentauthslice";
+import { useSelector } from "react-redux";
 
 const DashOverview = () => {
   const [share, setShare] = useState(false);
   const [createcampaign, setCreateCampaign] = useState(false);
+  const firstname = useSelector(studentFirstname);
+  const lastname = useSelector(studentLastname);
   const donors = [
     { name: "Dr. Oluwaseun Adebayo", amount: "₦10,500", status: "Verified" },
     { name: "Mrs. Amara Okafor", amount: "₦8,200", status: "Verified" },
@@ -59,7 +66,9 @@ const DashOverview = () => {
     <DashboardContainer>
       <Header>
         <SubText>
-          <WelcomeText>Welcome back, Femi Eric! 👋</WelcomeText>
+          <WelcomeText>
+            Welcome back, {firstname} {lastname}! 👋
+          </WelcomeText>
           <Text>Here's your campaign progress today</Text>
         </SubText>
         <>
@@ -161,15 +170,15 @@ const DashOverview = () => {
         <ProgressText>₦0 more needed to reach your goal</ProgressText>
         <CampaignStatsRow>
           <CampaignStat>
-            <CampaignStatValue>47</CampaignStatValue>
+            <CampaignStatValue>0</CampaignStatValue>
             <CampaignStatLabel>Donors</CampaignStatLabel>
           </CampaignStat>
           <CampaignStat>
-            <CampaignStatValue>74%</CampaignStatValue>
+            <CampaignStatValue>0%</CampaignStatValue>
             <CampaignStatLabel>Goal Progress</CampaignStatLabel>
           </CampaignStat>
           <CampaignStat>
-            <CampaignStatValue>45</CampaignStatValue>
+            <CampaignStatValue>0</CampaignStatValue>
             <CampaignStatLabel>Days Left</CampaignStatLabel>
           </CampaignStat>
         </CampaignStatsRow>
@@ -219,6 +228,14 @@ const DashboardContainer = styled.div`
   height: 100%;
   min-height: max-content;
   width: 100%;
+
+  @media (max-width: 992px) {
+    padding: 1rem;
+  }
+
+  @media (max-width: 576px) {
+    padding: 0.5rem;
+  }
 `;
 
 const Header = styled.div`
@@ -227,6 +244,12 @@ const Header = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
 `;
 
 const WelcomeText = styled.h1`
@@ -234,6 +257,10 @@ const WelcomeText = styled.h1`
   font-weight: 600;
   color: #1a1a1a;
   margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 1.3rem;
+  }
 `;
 
 const SubText = styled.div``;
@@ -438,6 +465,11 @@ const CampaignStatsRow = styled.div`
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid #e5e7eb;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
 `;
 
 const CampaignStat = styled.div``;

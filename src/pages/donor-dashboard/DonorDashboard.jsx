@@ -3,9 +3,11 @@ import {
   DashLayout,
   EduLogo,
   Header,
+  MenuButton,
   NotiProf,
   OutletContent,
   SideBarContainer,
+  SidebarOverlay,
   StudDash,
   Wrapper,
 } from "../../components/styles/studentstyle/StundentDashStyle";
@@ -20,9 +22,11 @@ import { MdLogout } from "react-icons/md";
 import { RxPerson } from "react-icons/rx";
 import styled from "styled-components";
 import { persistor } from "../../app/store";
+import { AiOutlineMenu } from "react-icons/ai";
 
 const DonorDashboard = () => {
   const [popup, setPopup] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -33,13 +37,32 @@ const DonorDashboard = () => {
     dispatch(donorAuth.util.resetApiState());
     nav("/login");
   };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
   return (
     <StudDash>
       <Header>
         <Wrapper>
-          <EduLogo>
-            <img src={logo} alt="" />
-          </EduLogo>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <MenuButton onClick={toggleSidebar}>
+              <AiOutlineMenu />
+            </MenuButton>
+            <EduLogo>
+              <img src={logo} alt="" />
+            </EduLogo>
+          </div>
           <NotiProf>
             <div className="notify">
               <IoIosNotificationsOutline />
@@ -69,8 +92,10 @@ const DonorDashboard = () => {
         </Wrapper>
       </Header>
       <DashLayout>
-        <SideBarContainer>
-          <DonorSideBar />
+        {isSidebarOpen && <SidebarOverlay onClick={closeSidebar} />}
+
+        <SideBarContainer isOpen={isSidebarOpen}>
+          <DonorSideBar onClose={closeSidebar} />
         </SideBarContainer>
         <OutletContent>
           <Outlet />
@@ -96,7 +121,14 @@ const Dropdown = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    width: 80%;
+    right: 10px;
+    left: auto;
+  }
 `;
+
 const TopContent = styled.div`
   width: 100%;
   padding: 10px;
@@ -116,6 +148,7 @@ const TopContent = styled.div`
     font-weight: 400;
   }
 `;
+
 const ProfileSet = styled.div`
   width: 100%;
   padding: 10px;
@@ -133,6 +166,7 @@ const ProfileSet = styled.div`
     font-weight: 400;
   }
 `;
+
 const Logout = styled.div`
   width: 100%;
   padding: 10px;

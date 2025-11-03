@@ -3,9 +3,11 @@ import {
   DashLayout,
   EduLogo,
   Header,
+  MenuButton,
   NotiProf,
   OutletContent,
   SideBarContainer,
+  SidebarOverlay,
   StudDash,
   Wrapper,
 } from "../../components/styles/studentstyle/StundentDashStyle";
@@ -16,13 +18,19 @@ import { Outlet, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { RxPerson } from "react-icons/rx";
 import { MdLogout } from "react-icons/md";
-import { studentLogout } from "../../config/studentslices/studentauthslice";
+import {
+  studentFirstname,
+  studentLogout,
+} from "../../config/studentslices/studentauthslice";
 import { studentAuth } from "../../utils/stundentauth/authapi";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { persistor } from "../../app/store";
+import { AiOutlineMenu } from "react-icons/ai";
 
 const DashboardStudent = () => {
   const [showPop, setShowPop] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const firstname = useSelector(studentFirstname);
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -33,13 +41,32 @@ const DashboardStudent = () => {
     dispatch(studentAuth.util.resetApiState());
     nav("/login");
   };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setIsSidebarOpen(false);
+  };
+
   return (
     <StudDash>
       <Header>
         <Wrapper>
-          <EduLogo>
-            <img src={logo} alt="" />
-          </EduLogo>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <MenuButton onClick={toggleSidebar}>
+              <AiOutlineMenu />
+            </MenuButton>
+            <EduLogo>
+              <img src={logo} alt="" />
+            </EduLogo>
+          </div>
           <NotiProf>
             <div className="notify">
               <IoIosNotificationsOutline />
@@ -47,7 +74,7 @@ const DashboardStudent = () => {
             </div>
             <div className="profile_pic" style={{ position: "relative" }}>
               <div className="pic" onClick={() => setShowPop(!showPop)}></div>
-              <p>Femi</p>
+              <p>{firstname}</p>
             </div>
             {showPop && (
               <Dropdown>
@@ -69,8 +96,10 @@ const DashboardStudent = () => {
         </Wrapper>
       </Header>
       <DashLayout>
-        <SideBarContainer>
-          <Sidebar />
+        {isSidebarOpen && <SidebarOverlay onClick={closeSidebar} />}
+
+        <SideBarContainer isOpen={isSidebarOpen}>
+          <Sidebar onClose={closeSidebar} />
         </SideBarContainer>
         <OutletContent>
           <Outlet />
@@ -81,6 +110,7 @@ const DashboardStudent = () => {
 };
 
 export default DashboardStudent;
+
 const Dropdown = styled.div`
   width: 18%;
   height: 170px;
@@ -96,7 +126,14 @@ const Dropdown = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @media (max-width: 768px) {
+    width: 80%;
+    right: 10px;
+    left: auto;
+  }
 `;
+
 const TopContent = styled.div`
   width: 100%;
   padding: 10px;
@@ -116,6 +153,7 @@ const TopContent = styled.div`
     font-weight: 400;
   }
 `;
+
 const ProfileSet = styled.div`
   width: 100%;
   padding: 10px;
@@ -133,6 +171,7 @@ const ProfileSet = styled.div`
     font-weight: 400;
   }
 `;
+
 const Logout = styled.div`
   width: 100%;
   padding: 10px;
