@@ -23,8 +23,9 @@ export const Logo = styled.div`
   height: 80px;
   width: 150px;
   height: 80px;
+  width: 150px;
+  height: 80px;
 
->>>>>>> 31449c79a3000d31657ca2e2123d612fcd204a75
 
   img {
     width: 100%;
@@ -52,12 +53,10 @@ export const NavLinks = styled.div`
 
   .actives {
     text-decoration: underline;
-    font-weight: 500;
+    font-weight: normal;
+    font-size: 1rem;
   }
 
-<<<<<<< HEAD
-  @media (max-width: 900px) {
-=======
   .actives {
     text-decoration: underline;
     font-weight: normal;
@@ -119,7 +118,7 @@ export const Dropdown = styled.div`
 `;
 
 export const DropdownMenu = styled.div`
-   position: absolute;
+  position: absolute;
   top: 45px;
   left: 50%;
   transform: translateX(-50%) translateY(-10px);
@@ -155,65 +154,3 @@ export const DropdownMenu = styled.div`
     }
   }
 `;
-<<<<<<< HEAD
-
-export const MobileMenuIcon = styled.div`
-  display: none;
-  font-size: 1.8rem;
-  cursor: pointer;
-
-  @media (max-width: 900px) {
-    display: block;
-  }
-`;
-
-export const MobileMenu = styled.div`
-  display: none;
-
-  @media (max-width: 900px) {
-    display: ${({ open }) => (open ? "flex" : "none")};
-    flex-direction: column;
-    position: absolute;
-    top: 65px;
-    right: 0;
-    width: 100%;
-    background: #001145;
-    border-top: 1px solid #007bff;
-    padding: 15px 0;
-    z-index: 998;
-
-    .mobile-link {
-      color: #fff;
-      text-align: center;
-      padding: 12px 0;
-      cursor: pointer;
-      transition: background 0.3s ease;
-
-      &:hover {
-        background: #002080;
-      }
-    }
-
-    .mobile-btn {
-      margin: 10px auto;
-      padding: 8px 20px;
-      border-radius: 8px;
-      border: none;
-      color: #fff;
-      width: 80%;
-    }
-
-    .sign-in {
-      background: transparent;
-      border: 1.5px solid #fff;
-    }
-
-    .sign-up {
-      background: #00a8ff;
-    }
-  }
-`;
-=======
- 
-
->>>>>>> 31449c79a3000d31657ca2e2123d612fcd204a75
