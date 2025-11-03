@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Nav = styled.nav`
   width: 100%;
-  height: 4rem;
+  height: 4.5rem;
   background-color: #001145;
   color: #fff;
   display: flex;
@@ -15,11 +15,8 @@ export const Nav = styled.nav`
 `;
 
 export const Logo = styled.div`
-  width: 150px;
-  height: 80px;
-  width: 150px;
-  height: 80px;
-
+  width: 130px;
+  height: 60px;
 
   img {
     width: 100%;
@@ -31,15 +28,13 @@ export const Logo = styled.div`
 export const NavLinks = styled.div`
   display: flex;
   align-items: center;
-  gap: 50px;
+  gap: 45px;
 
   .btn {
     color: #f2f2f2;
-    text-decoration: none;
-    font-weight: normal;
     font-size: 1rem;
     cursor: pointer;
-    transition: all 350ms ease-in-out;
+    transition: color 0.3s ease;
 
     &:hover {
       text-decoration: underline;
@@ -48,17 +43,9 @@ export const NavLinks = styled.div`
 
   .actives {
     text-decoration: underline;
-    font-weight: normal;
-    font-size: 1rem;
   }
 
-  .actives {
-    text-decoration: underline;
-    font-weight: normal;
-    font-size: 1rem;
-  }
-
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     display: none;
   }
 `;
@@ -73,7 +60,7 @@ export const NavButtons = styled.div`
     font-size: 0.95rem;
     font-weight: 500;
     border-radius: 8px;
-    transition: all 350ms ease-in-out;
+    transition: all 0.3s ease;
   }
 
   .sign-in {
@@ -88,6 +75,10 @@ export const NavButtons = styled.div`
     .icon {
       font-size: 1rem;
     }
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
   }
 
   .sign-up {
@@ -96,12 +87,14 @@ export const NavButtons = styled.div`
     border: none;
     font-size: 0.9rem;
     padding: 9px 19px;
-    font-weight: normal;
-    transition: all 350ms ease-in-out;
 
     &:hover {
       background-color: #0090db;
     }
+  }
+
+  @media (max-width: 900px) {
+    display: none;
   }
 `;
 
@@ -110,47 +103,115 @@ export const Dropdown = styled.div`
 `;
 
 export const DropdownMenu = styled.div`
-   position: absolute;
+  position: absolute;
   top: 45px;
   left: 50%;
   transform: translateX(-50%) translateY(-10px);
-
   background-color: #fff;
   color: black;
   border-radius: 8px;
-  padding: 18px 35px 18px 10px;
-  border: 2px solid #0090db;
+  padding: 10px 0;
+  border: 1px solid #00a8ff;
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   min-width: 180px;
-  overflow: hidden;
   opacity: 0;
   visibility: hidden;
-  /* transform: translateY(-10px); */
-  transition: all 350ms ease-in-out;
+  transition: all 0.3s ease;
   z-index: 1000;
 
   &.show {
     opacity: 1;
     visibility: visible;
-    /* transform: translateY(0); */
     transform: translateX(-50%) translateY(0);
   }
 
   nav {
     padding: 10px 15px;
-    text-decoration: none;
     color: #001145;
-    font-weight: normal;
     font-size: 0.9rem;
-    transition: all 350ms ease-in-out;
     cursor: pointer;
 
     &:hover {
       color: #007bff;
+      background-color: rgba(0, 168, 255, 0.1);
     }
   }
 `;
- 
 
+export const MobileMenuIcon = styled.div`
+  display: none;
+  color: #fff;
+  font-size: 1.8rem;
+  cursor: pointer;
+
+  @media (max-width: 900px) {
+    display: block;
+  }
+`;
+
+export const MobileMenu = styled.div`
+  background-color: #001145;
+  color: #fff;
+  position: fixed;
+  top: 4.5rem;
+  left: 0;
+  width: 100%;
+  height: ${({ open }) => (open ? "100vh" : "0")};
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: ${({ open }) => (open ? "flex-start" : "center")};
+  gap: 25px;
+  padding-top: ${({ open }) => (open ? "40px" : "0")};
+  transition: all 0.3s ease;
+  z-index: 998;
+
+  .mobile-link {
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #00a8ff;
+    }
+  }
+
+  .mobile-btn {
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 6px;
+    width: 80%;
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+
+  .sign-in {
+    background: transparent;
+    border: 2px solid #fff;
+    color: #fff;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  .sign-up {
+    background-color: #00a8ff;
+    color: #fff;
+    border: none;
+
+    &:hover {
+      background-color: #0090db;
+    }
+  }
+
+  @media (min-width: 901px) {
+    display: none;
+  }
+`;

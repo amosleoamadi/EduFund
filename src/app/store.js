@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { studentAuth } from "../utils/stundentauth/authapi";
 import { donorAuth } from "../utils/donorauth/donorauth";
+import { campaignApi } from "../utils/stundentauth/createcampaignapi";
 import donorAuthReducer from "../config/donorslices/donorslice";
 import studentauthReducer from "../config/studentslices/studentauthslice";
 import { persistStore, persistReducer } from "redux-persist";
@@ -17,6 +18,7 @@ import {
 const rootReducer = combineReducers({
   [studentAuth.reducerPath]: studentAuth.reducer,
   [donorAuth.reducerPath]: donorAuth.reducer,
+  [campaignApi.reducerPath]: campaignApi.reducer,
   student: studentauthReducer,
   donor: donorAuthReducer,
 });

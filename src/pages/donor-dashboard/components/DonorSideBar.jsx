@@ -9,16 +9,23 @@ import { useLocation, useNavigate } from "react-router-dom";
 import safe from "../../../assets/iconamoon_shield-yes-light.svg";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
-const DonorSideBar = () => {
+const DonorSideBar = ({ onClose }) => {
   const location = useLocation();
-  const nav = useNavigate();
+  const handleNavigation = useNavigate();
+
+  const handleNavClick = (path) => {
+    handleNavigation(path);
+    if (onClose && window.innerWidth <= 768) {
+      onClose();
+    }
+  };
   return (
     <Container>
       <nav
         className={`btn ${
           location.pathname === "/donor_dashboard" ? "active" : ""
         }`}
-        onClick={() => nav("/donor_dashboard")}
+        onClick={() => handleNavClick("/donor_dashboard")}
       >
         <MdOutlineHome className="bars" /> Overview
       </nav>
@@ -26,7 +33,7 @@ const DonorSideBar = () => {
         className={`btn ${
           location.pathname === "/donor_dashboard/donation" ? "active" : ""
         }`}
-        onClick={() => nav("/donor_dashboard/donation")}
+        onClick={() => handleNavClick("/donor_dashboard/donation")}
       >
         <GrFavorite className="bar" /> My Donations
       </nav>
@@ -34,7 +41,7 @@ const DonorSideBar = () => {
         className={`btn ${
           location.pathname === "/donor_dashboard/discover" ? "active" : ""
         }`}
-        onClick={() => nav("/donor_dashboard/discover")}
+        onClick={() => handleNavClick("/donor_dashboard/discover")}
       >
         <CiSearch className="bar" /> Discover
       </nav>
@@ -42,7 +49,7 @@ const DonorSideBar = () => {
         className={`btn ${
           location.pathname === "/donor_dashboard/impact" ? "active" : ""
         }`}
-        onClick={() => nav("/donor_dashboard/impact")}
+        onClick={() => handleNavClick("/donor_dashboard/impact")}
       >
         <SlBadge className="bar" /> Impact
       </nav>
@@ -50,114 +57,15 @@ const DonorSideBar = () => {
         className={`btn ${
           location.pathname === "/donor_dashboard/donor-setting" ? "active" : ""
         }`}
-        onClick={() => nav("/donor_dashboard/donor-setting")}
+        onClick={() => handleNavClick("/donor_dashboard/donor-setting")}
       >
         <LuSettings className="bar" /> Settings
       </nav>
-      <Holder>
-        <p className="foot">
-          <span>
-            <img src={safe} alt="" />
-          </span>
-          Verification Status
-        </p>
-        <div className="add">
-          <IoIosCheckmarkCircleOutline />
-          Verified Student
-        </div>
-      </Holder>
     </Container>
   );
 };
 
 export default DonorSideBar;
-
-const Holder = styled.div`
-  width: 100%;
-  height: 22%;
-  border-radius: 16.579px;
-  border: 1.184px solid #dbeafe;
-  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin-top: 30px;
-
-  .add {
-    width: 75%;
-    padding: 6px;
-    border-radius: 9.474px;
-    border: 1.184px solid #b9f8cf;
-    background: #dcfce7;
-    color: #008236;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .foot {
-    display: flex;
-    align-items: center;
-    color: #3d3d3d;
-    font-size: 14px;
-    gap: 5px;
-
-    span {
-      width: 14px;
-      height: 14px;
-      color: #00b37a;
-
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-    }
-  }
-
-  /* 📱 Tablet view */
-  @media (max-width: 992px) {
-    height: auto;
-    margin-top: 20px;
-    gap: 10px;
-    padding: 12px;
-
-    .add {
-      width: 100%;
-      justify-content: center;
-      font-size: 12px;
-    }
-
-    .foot {
-      font-size: 13px;
-    }
-  }
-
-  /* 📱 Mobile view */
-  @media (max-width: 600px) {
-    padding: 10px;
-    margin-top: 15px;
-    gap: 8px;
-    border-radius: 12px;
-
-    .add {
-      width: 100%;
-      font-size: 12px;
-      padding: 8px;
-      justify-content: center;
-    }
-
-    .foot {
-      font-size: 12px;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 3px;
-    }
-  }
-`;
-
 const Container = styled.main`
   display: flex;
   width: 85%;
@@ -166,7 +74,7 @@ const Container = styled.main`
   padding: 18px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 15px;
+  gap: 20px;
   border-radius: 16.579px;
   position: sticky;
   top: 0;
@@ -175,15 +83,30 @@ const Container = styled.main`
   box-shadow: 0 11.842px 17.763px -3.553px rgba(0, 0, 0, 0.1),
     0 4.737px 7.105px -4.737px rgba(0, 0, 0, 0.1);
 
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    padding: 20px;
+    gap: 5px;
+  }
+
   .divider {
     width: 100%;
     height: 1.5px;
     background: rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 768px) {
+      margin: 10px 0;
+    }
   }
 
   .btn {
     width: 100%;
-    height: 40px;
+    height: 45px;
     border-radius: 9.474px;
     background: transparent;
     display: flex;
@@ -204,14 +127,28 @@ const Container = styled.main`
     }
 
     &:hover {
-      background: #757575bc;
-      color: white;
+      width: 100%;
+      height: 45px;
+      border-radius: 9.474px;
+      background: #eeebeb;
+    }
+
+    @media (max-width: 768px) {
+      border-radius: 8px;
+      height: 45px;
+      font-size: 16px;
+
+      &:hover {
+        border-radius: 8px;
+        color: #2563eb;
+        background: none;
+      }
     }
   }
 
   .active {
     width: 100%;
-    height: 40px;
+    height: 45px;
     border-radius: 9.474px;
     background: #2563eb;
     display: flex;
@@ -229,43 +166,13 @@ const Container = styled.main`
     .bars {
       font-size: 20px;
     }
-  }
 
-  
-  @media (max-width: 992px) {
-    width: 90%;
-    padding: 15px;
-    gap: 12px;
-    position: static;
-    box-shadow: none;
-    border-radius: 14px;
-
-    .btn,
-    .active {
-      font-size: 14px;
-      padding: 12px;
-      gap: 12px;
-    }
-  }
-
-  
-  @media (max-width: 600px) {
-    width: 100%;
-    padding: 12px;
-    gap: 10px;
-    position: static;
-    border-radius: 10px;
-
-    .btn,
-    .active {
-      font-size: 13px;
-      padding: 10px;
-      gap: 10px;
-      height: auto;
-    }
-
-    .divider {
-      height: 1px;
+    @media (max-width: 768px) {
+      border-radius: 8px;
+      height: 45px;
+      font-size: 16px;
+      color: #2563eb;
+      background: none;
     }
   }
 `;
