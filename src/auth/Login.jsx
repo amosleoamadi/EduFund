@@ -40,16 +40,28 @@ const Login = () => {
     e.preventDefault();
     try {
       const res = await studentLogin(userLogin).unwrap();
-      dispatch(
-        setStudent({
-          firstname: res?.data?.firstName,
-          lastname: res?.data?.lastName,
-          email: res?.data?.email,
-          studentId: res?.data?._id,
-          studentToken: res?.token,
-        })
-      );
       const userRole = res?.data?.role;
+      if (userRole === "student") {
+        dispatch(
+          setStudent({
+            firstname: res?.data?.firstName,
+            lastname: res?.data?.lastName,
+            email: res?.data?.email,
+            studentId: res?.data?._id,
+            studentToken: res?.token,
+          })
+        );
+      } else {
+        dispatch(
+          setDonor({
+            donorFirstname: res?.data?.firstName,
+            donorLastname: res?.data?.lastName,
+            donorEmail: res?.data?.email,
+            donorId: res?.data?._id,
+            donorToken: res?.token,
+          })
+        );
+      }
       toast.success(res?.message);
       if (userRole === "student") {
         nav("/student-dashbord");
