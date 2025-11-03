@@ -6,8 +6,21 @@ import CampaignInformationStep from "./CampaignInformationStep";
 import YourStoryStep from "./YourStoryStep";
 import ReviewAndSubmitStep from "./ReviewAndSubmitStep";
 import ProgressInndicator from "./ProgressInndicator";
+import Sucess from "../congratModal/Sucess";
+import {
+  useCampaigncreateMutation,
+  useAcademicStatusMutation,
+} from "../../../utils/stundentauth/createcampaignapi";
+import { selectStudentId } from "../../../config/studentslices/studentauthslice";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const CampaignCreation = ({ setCreate, create }) => {
+  const [campaignCreate, { isLoading }] = useCampaigncreateMutation();
+  const [accademic] = useAcademicStatusMutation();
+  const studentId = useSelector(selectStudentId);
+  const nav = useNavigate();
   const stepTitles = {
     1: "Academic Details",
     2: "Your Story",
@@ -25,15 +38,59 @@ const CampaignCreation = ({ setCreate, create }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     schoolName: "",
-    yearLevel: "",
+    year: "",
     matricNumber: "",
-    jambNumber: "",
+    jambRegistrationNumber: "",
     story: "",
-    campaignTitle: "",
-    fundingGoal: "",
+    title: "",
+    target: "",
     campaignDuration: "",
   });
   const [errors, setErrors] = useState({});
+
+  const handleSumbit = async (e) => {
+    e.preventDefault();
+    const { story, title, target } = formData;
+    const { schoolName, year, matricNumber, jambRegistrationNumber } = formData;
+    const campaign = {
+      story,
+      title,
+      target,
+    };
+
+    const data = {
+      schoolName,
+      year,
+      matricNumber,
+      jambRegistrationNumber,
+    };
+
+    if (validateStep(currentStep)) {
+      if (currentStep === 4) {
+        try {
+          const res = await campaignCreate({
+            campaign,
+            studentId: studentId,
+          }).unwrap();
+          console.log(res);
+        } catch (err) {
+          toast.error(err?.data?.message);
+        }
+
+        try {
+          const response = await accademic({
+            data,
+            studentId: studentId,
+          }).unwrap();
+          console.log(response);
+        } catch (err) {
+          console.log(err);
+        }
+      } else {
+        setCurrentStep(currentStep + 1);
+      }
+    }
+  };
 
   const validateStep = (step) => {
     const newErrors = {};
@@ -51,7 +108,7 @@ const CampaignCreation = ({ setCreate, create }) => {
 
     if (step === 2) {
       if (!formData.story?.trim()) newErrors.story = "Story is required";
-      if (formData.story?.length < 500)
+      if (formData.story?.length < 150)
         newErrors.story = "Story must be at least 500 characters";
       if (formData.story?.length > 1000)
         newErrors.story = "Story must not exceed 1000 characters";
@@ -68,18 +125,6 @@ const CampaignCreation = ({ setCreate, create }) => {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
-
-  const handleContinue = () => {
-    if (validateStep(currentStep)) {
-      if (currentStep === 4) {
-        // Submit campaign
-        console.log("Campaign submitted:", formData);
-        onClose();
-      } else {
-        setCurrentStep(currentStep + 1);
-      }
-    }
   };
 
   const handleBack = () => {
@@ -137,7 +182,7 @@ const CampaignCreation = ({ setCreate, create }) => {
               <BackButton onClick={handleBack} disabled={currentStep === 1}>
                 Back
               </BackButton>
-              <ContinueButton onClick={handleContinue}>
+              <ContinueButton onClick={handleSumbit}>
                 {currentStep === 4 ? "Create Campaign" : "Continue"}
               </ContinueButton>
             </FooterContainer>
@@ -166,7 +211,6 @@ const Backdrop = styled.div`
 const ModalContainer = styled.div`
   background-color: #fff;
   border-radius: 12px;
-  width: 90%;
   width: 45%;
   height: 70%;
   min-height: max-content;

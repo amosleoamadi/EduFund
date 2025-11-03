@@ -10,16 +10,24 @@ import { useLocation, useNavigate } from "react-router-dom";
 import safe from "../../../assets/iconamoon_shield-yes-light.svg";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 
-const Sidebar = () => {
+const Sidebar = ({ onClose }) => {
   const location = useLocation();
-  const nav = useNavigate();
+  const handleNavigation = useNavigate();
+
+  const handleNavClick = (path) => {
+    handleNavigation(path);
+    if (onClose && window.innerWidth <= 768) {
+      onClose();
+    }
+  };
+
   return (
     <Container>
       <nav
         className={`btn ${
           location.pathname === "/student-dashbord" ? "active" : ""
         }`}
-        onClick={() => nav("")}
+        onClick={() => handleNavClick("/student-dashbord")}
       >
         <MdOutlineHome className="bars" /> Overview
       </nav>
@@ -27,7 +35,7 @@ const Sidebar = () => {
         className={`btn ${
           location.pathname === "/student-dashbord/campaigns" ? "active" : ""
         }`}
-        onClick={() => nav("/student-dashbord/campaigns")}
+        onClick={() => handleNavClick("/student-dashbord/campaigns")}
       >
         <LuTarget className="bar" /> My Campaign
       </nav>
@@ -35,7 +43,7 @@ const Sidebar = () => {
         className={`btn ${
           location.pathname === "/student-dashbord/donors" ? "active" : ""
         }`}
-        onClick={() => nav("/student-dashbord/donors")}
+        onClick={() => handleNavClick("/student-dashbord/donors")}
       >
         <GoPeople className="bar" /> Donors
       </nav>
@@ -43,7 +51,7 @@ const Sidebar = () => {
         className={`btn ${
           location.pathname === "/student-dashbord/verification" ? "active" : ""
         }`}
-        onClick={() => nav("/student-dashbord/verification")}
+        onClick={() => handleNavClick("/student-dashbord/verification")}
       >
         <GoVerified className="bar" /> Verification
       </nav>
@@ -51,7 +59,7 @@ const Sidebar = () => {
         className={`btn ${
           location.pathname === "/student-dashbord/withdraws" ? "active" : ""
         }`}
-        onClick={() => nav("/student-dashbord/withdraws")}
+        onClick={() => handleNavClick("/student-dashbord/withdraws")}
       >
         <TbMoneybag className="bar" /> Withdrawals
       </nav>
@@ -62,14 +70,14 @@ const Sidebar = () => {
             ? "active"
             : ""
         }`}
-        onClick={() => nav("/student-dashbord/student-setting")}
+        onClick={() => handleNavClick("/student-dashbord/student-setting")}
       >
         <LuSettings className="bar" /> Settings
       </nav>
       <Holder>
         <p className="foot">
           <span>
-            <img src={safe} alt="" />
+            <img src={safe || "/placeholder.svg"} alt="" />
           </span>
           Verification Status
         </p>
@@ -83,6 +91,7 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
 const Holder = styled.div`
   width: 100%;
   height: 20%;
@@ -105,6 +114,13 @@ const Holder = styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      padding: 10px;
+      border-radius: 9.474px;
+      border: 1.184px solid #b9f8cf;
+    }
   }
 
   .foot {
@@ -127,7 +143,15 @@ const Holder = styled.div`
       }
     }
   }
+
+  @media (max-width: 768px) {
+    border-radius: 0;
+    border: none;
+    border-top: 1.184px solid #e5e7eb;
+    background: #f8fafc;
+  }
 `;
+
 const Container = styled.main`
   display: flex;
   width: 85%;
@@ -143,15 +167,30 @@ const Container = styled.main`
   box-shadow: 0 11.842px 17.763px -3.553px rgba(0, 0, 0, 0.1),
     0 4.737px 7.105px -4.737px rgba(0, 0, 0, 0.1);
 
+  @media (max-width: 768px) {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    padding: 20px;
+    gap: 5px;
+  }
+
   .divider {
     width: 100%;
     height: 1.5px;
     background: rgba(0, 0, 0, 0.1);
+
+    @media (max-width: 768px) {
+      margin: 10px 0;
+    }
   }
 
   .btn {
     width: 100%;
-    height: 40px;
+    height: 45px;
     border-radius: 9.474px;
     background: transparent;
     display: flex;
@@ -161,7 +200,7 @@ const Container = styled.main`
     font-size: 15px;
     padding: 15px;
     cursor: pointer;
-    transition: 550ms ease-in-out;
+    transition: 500ms ease-in-out;
 
     .bar {
       font-size: 18px;
@@ -173,16 +212,27 @@ const Container = styled.main`
 
     &:hover {
       width: 100%;
-      height: 40px;
+      height: 45px;
       border-radius: 9.474px;
-      background: #757575bc;
-      color: white;
+      background: #eeebeb;
+    }
+
+    @media (max-width: 768px) {
+      border-radius: 8px;
+      height: 45px;
+      font-size: 16px;
+
+      &:hover {
+        border-radius: 8px;
+        color: #2563eb;
+        background: none;
+      }
     }
   }
 
   .active {
     width: 100%;
-    height: 40px;
+    height: 45px;
     border-radius: 9.474px;
     background: #2563eb;
     display: flex;
@@ -199,6 +249,14 @@ const Container = styled.main`
 
     .bars {
       font-size: 20px;
+    }
+
+    @media (max-width: 768px) {
+      border-radius: 8px;
+      height: 45px;
+      font-size: 16px;
+      color: #2563eb;
+      background: none;
     }
   }
 `;

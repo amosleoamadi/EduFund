@@ -3,6 +3,7 @@ import styled from "styled-components";
 import Button from "../../../../components/Ui/Button";
 import safe from "../../../../assets/safeguard.svg";
 import { IoIosAdd } from "react-icons/io";
+import WithdrawalHistory from "./WidthdrawHistory";
 
 const FirstWithdraw = () => {
   return (
@@ -26,7 +27,7 @@ const FirstWithdraw = () => {
           <p>Funds will be sent directly to University of Lagos</p>
         </Down>
       </Amount>
-      <Wrapper>
+      {/* <Wrapper>
         <Card>₦</Card>
         <h4>No withdrawal history</h4>
         <p>Start fundraising to request withdrawals for your tuition fees</p>
@@ -35,7 +36,8 @@ const FirstWithdraw = () => {
           icon={<IoIosAdd style={{ fontSize: "20px" }} />}
           text="Create Campaign"
         />
-      </Wrapper>
+      </Wrapper> */}
+      <WithdrawalHistory />
     </Container>
   );
 };

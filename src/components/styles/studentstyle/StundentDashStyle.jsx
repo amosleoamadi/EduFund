@@ -20,6 +20,10 @@ export const Header = styled.header`
   justify-content: center;
   position: sticky;
   top: 0;
+
+  @media (max-width: 768px) {
+    height: 70px;
+  }
 `;
 
 export const Wrapper = styled.div`
@@ -28,6 +32,31 @@ export const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media (max-width: 768px) {
+    width: 90%;
+  }
+`;
+
+export const MenuButton = styled.button`
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #0a0a0a;
+  z-index: 30;
+  transition: transform 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
 `;
 
 export const EduLogo = styled.div`
@@ -40,14 +69,21 @@ export const EduLogo = styled.div`
     height: 100%;
     object-fit: cover;
   }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 export const NotiProf = styled.div`
-  width: 15%;
-  height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-end;
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    gap: 15px;
+  }
 
   .notify {
     width: 30px;
@@ -79,12 +115,27 @@ export const NotiProf = styled.div`
     gap: 10px;
     align-items: center;
 
+    @media (max-width: 768px) {
+      gap: 8px;
+    }
+
+    p {
+      @media (max-width: 768px) {
+        display: none;
+      }
+    }
+
     .pic {
       width: 45px;
       height: 45px;
       border-radius: 50%;
       background-color: gray;
       cursor: pointer;
+
+      @media (max-width: 480px) {
+        width: 40px;
+        height: 40px;
+      }
     }
   }
 `;
@@ -94,6 +145,10 @@ export const DashLayout = styled.div`
   flex: 1;
   display: flex;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    position: relative;
+  }
 `;
 
 export const SideBarContainer = styled.div`
@@ -105,6 +160,49 @@ export const SideBarContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 70%;
+    height: calc(100vh - 70px);
+    background: white;
+    z-index: 25;
+    transform: ${(props) =>
+      props.isOpen ? "translateX(0)" : "translateX(-100%)"};
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 480px) {
+    width: 60%;
+  }
+`;
+
+export const SidebarOverlay = styled.div`
+  display: none;
+
+  @media (max-width: 768px) {
+    display: block;
+    position: fixed;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 24;
+    animation: fadeIn 0.3s ease-in-out;
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  }
 `;
 
 export const OutletContent = styled.section`
@@ -112,4 +210,14 @@ export const OutletContent = styled.section`
   height: calc(100vh - 78px);
   overflow-y: auto;
   padding: 35px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 20px;
+    height: calc(100vh - 70px);
+  }
+
+  @media (max-width: 480px) {
+    padding: 15px;
+  }
 `;
