@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import FirstCampaign from "./campaign/FirstCampaign";
+import ActiveCampaing from "./campaign/ActiveCampaing";
 
 const MyCampaign = () => {
   return (
     <Hero>
-      <FirstCampaign />
+      {/* <FirstCampaign /> */}
+      <ActiveCampaing />
     </Hero>
   );
 };

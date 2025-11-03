@@ -96,6 +96,7 @@ export const Holder = styled.div`
 
   @media (max-width: 640px) {
     flex-direction: column;
+    align-items: center;
     gap: 16px;
   }
 `;
@@ -177,10 +178,13 @@ export const Details = styled.div`
 
   @media (max-width: 1024px) {
     width: 100%;
+    height: 70%;
   }
 
   @media (max-width: 768px) {
     padding: 20px;
+    height: 90%;
+    width: 60%;
 
     .shoclar1 {
       width: 50px;
@@ -202,6 +206,7 @@ export const Details = styled.div`
 
   @media (max-width: 640px) {
     padding: 16px;
+    width: 80%;
 
     .shoclar1 {
       width: 45px;

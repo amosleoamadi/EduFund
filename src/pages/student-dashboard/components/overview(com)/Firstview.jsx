@@ -6,11 +6,20 @@ import guard from "../../../../assets/guard.svg";
 import fav from "../../../../assets/fav.svg";
 import Button from "../../../../components/Ui/Button";
 import { IoIosAdd } from "react-icons/io";
+import { useSelector } from "react-redux";
+import {
+  studentFirstname,
+  studentLastname,
+} from "../../../../config/studentslices/studentauthslice";
 
 const Firstview = () => {
+  const firstname = useSelector(studentFirstname);
+  const lastname = useSelector(studentLastname);
   return (
     <Container>
-      <h3>Welcome Femi Eric! 👋</h3>
+      <h3>
+        Welcome {firstname} {lastname}! 👋
+      </h3>
       <p>your journey begins here!</p>
       <Wrapper>
         <Card>

@@ -26,11 +26,10 @@ import Donations from "../pages/donor-dashboard/components/Donations";
 import Impact from "../pages/donor-dashboard/components/Impact";
 import DonorSetting from "../pages/donor-dashboard/components/DonorSetting";
 import Contact from "../pages/Contact/Contact";
-import StudentLinkShare from "../pages/modals/StudentLinkShare";
-import RequestWithdraw from "../pages/modals/RequestWithdraw";
-import WithdrawalReq from "../pages/modals/WithdrawalReq";
 import ReverifyEmail from "../auth/ReverifyEmail";
 import PrivateRoute from "./PrivateRoute";
+import StudentDetailPage from "../pages/student-dashboard/student-detailsPage/StudentDetailPage";
+import Sucess from "../pages/modals/congratModal/Sucess";
 
 export const Element = createBrowserRouter([
   {
@@ -156,9 +155,5 @@ export const Element = createBrowserRouter([
         ],
       },
     ],
-  },
-  {
-    path: "/modal",
-    element: <WithdrawalReq />,
   },
 ]);

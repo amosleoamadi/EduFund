@@ -3,8 +3,22 @@ import styled from "styled-components";
 import target from "../../../../assets/target.svg";
 import Button from "../../../../components/Ui/Button";
 import { IoIosAdd } from "react-icons/io";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const FirstCampaign = () => {
+  const nav = useNavigate();
+  const handleCamp = () => {
+    Swal.fire({
+      title: "Opss...",
+      text: "Verify your accout to continue",
+      icon: "error",
+      confirmButtonText: "Verify Now",
+      preConfirm: () => {
+        nav("/student-dashbord/verification");
+      },
+    });
+  };
   return (
     <Content>
       <h3>Campaign Management</h3>
@@ -21,6 +35,7 @@ const FirstCampaign = () => {
           className="create"
           icon={<IoIosAdd style={{ fontSize: "20px" }} />}
           text="Create Campaign"
+          onClick={handleCamp}
         />
       </Wrapper>
     </Content>
