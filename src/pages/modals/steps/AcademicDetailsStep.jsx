@@ -37,11 +37,11 @@ const AcademicDetailsStep = ({ formData, setFormData, errors }) => {
           type="text"
           name="yearLevel"
           placeholder="e.g., 300 Level or Year 3"
-          value={formData.yearLevel || ""}
+          value={formData.year || ""}
           onChange={handleChange}
-          error={errors.yearLevel}
+          error={errors.year}
         />
-        {errors.yearLevel && <ErrorMessage>{errors.yearLevel}</ErrorMessage>}
+        {errors.year && <ErrorMessage>{errors.year}</ErrorMessage>}
       </FormGroup>
 
       <FormGroup>
@@ -71,11 +71,13 @@ const AcademicDetailsStep = ({ formData, setFormData, errors }) => {
           type="text"
           name="jambNumber"
           placeholder="e.g., 12345678AB"
-          value={formData.jambNumber || ""}
+          value={formData.jambRegistrationNumber || ""}
           onChange={handleChange}
-          error={errors.jambNumber}
+          error={errors.jambRegistrationNumber}
         />
-        {errors.jambNumber && <ErrorMessage>{errors.jambNumber}</ErrorMessage>}
+        {errors.jambRegistrationNumber && (
+          <ErrorMessage>{errors.jambRegistrationNumber}</ErrorMessage>
+        )}
       </FormGroup>
 
       <InfoBox>

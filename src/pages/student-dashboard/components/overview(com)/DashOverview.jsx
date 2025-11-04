@@ -14,7 +14,7 @@ import CampaignCreation from "../../../modals/steps/CampaignCreation";
 import {
   studentFirstname,
   studentLastname,
-} from "../../../../config/studentslices/studentauthslice";
+} from "../../../../config/slices/studentauthslice";
 import { useSelector } from "react-redux";
 
 const DashOverview = () => {

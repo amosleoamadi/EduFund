@@ -24,16 +24,14 @@ const CampaignInformationStep = ({ formData, setFormData, errors }) => {
           type="text"
           name="campaignTitle"
           placeholder="e.g., Help me complete my Computer Science degree"
-          value={formData.campaignTitle || ""}
+          value={formData.title || ""}
           onChange={handleChange}
-          error={errors.campaignTitle}
+          error={errors.title}
         />
         <div style={{ fontSize: "12px", color: "#6b7280" }}>
           Make it compelling and personal
         </div>
-        {errors.campaignTitle && (
-          <ErrorMessage>{errors.campaignTitle}</ErrorMessage>
-        )}
+        {errors.title && <ErrorMessage>{errors.title}</ErrorMessage>}
       </FormGroup>
 
       <FormGroup>
@@ -42,9 +40,9 @@ const CampaignInformationStep = ({ formData, setFormData, errors }) => {
           type="number"
           name="fundingGoal"
           placeholder="Enter the total tuition amount you need"
-          value={formData.fundingGoal || ""}
+          value={formData.target || ""}
           onChange={handleChange}
-          error={errors.fundingGoal}
+          error={errors.target}
         />
         <QuickSelectContainer>
           <QuickSelectButton
@@ -66,9 +64,7 @@ const CampaignInformationStep = ({ formData, setFormData, errors }) => {
             ₦300K
           </QuickSelectButton>
         </QuickSelectContainer>
-        {errors.fundingGoal && (
-          <ErrorMessage>{errors.fundingGoal}</ErrorMessage>
-        )}
+        {errors.target && <ErrorMessage>{errors.target}</ErrorMessage>}
       </FormGroup>
 
       <FormGroup>
@@ -77,13 +73,11 @@ const CampaignInformationStep = ({ formData, setFormData, errors }) => {
           type="number"
           name="campaignDuration"
           placeholder="e.g., 30"
-          value={formData.campaignDuration || ""}
+          value={formData.duration || ""}
           onChange={handleChange}
-          error={errors.campaignDuration}
+          error={errors.duration}
         />
-        {errors.campaignDuration && (
-          <ErrorMessage>{errors.campaignDuration}</ErrorMessage>
-        )}
+        {errors.duration && <ErrorMessage>{errors.duration}</ErrorMessage>}
       </FormGroup>
 
       <InfoBox>

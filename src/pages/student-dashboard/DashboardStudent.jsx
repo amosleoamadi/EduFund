@@ -20,8 +20,8 @@ import { RxPerson } from "react-icons/rx";
 import { MdLogout } from "react-icons/md";
 import {
   studentFirstname,
-  studentLogout,
-} from "../../config/studentslices/studentauthslice";
+  userLogout,
+} from "../../config/slices/studentauthslice";
 import { studentAuth } from "../../utils/stundentauth/authapi";
 import { useDispatch, useSelector } from "react-redux";
 import { persistor } from "../../app/store";
@@ -35,7 +35,7 @@ const DashboardStudent = () => {
   const nav = useNavigate();
 
   const LogoutFunction = () => {
-    dispatch(studentLogout());
+    dispatch(userLogout());
     persistor.purge();
     localStorage.removeItem("EmailDetails");
     dispatch(studentAuth.util.resetApiState());

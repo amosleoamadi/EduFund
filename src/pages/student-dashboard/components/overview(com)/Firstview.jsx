@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import {
   studentFirstname,
   studentLastname,
-} from "../../../../config/studentslices/studentauthslice";
+} from "../../../../config/slices/studentauthslice";
 
 const Firstview = () => {
   const firstname = useSelector(studentFirstname);
