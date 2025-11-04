@@ -2,8 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { studentAuth } from "../utils/stundentauth/authapi";
 import { donorAuth } from "../utils/donorauth/donorauth";
 import { campaignApi } from "../utils/stundentauth/createcampaignapi";
-import donorAuthReducer from "../config/donorslices/donorslice";
-import studentauthReducer from "../config/studentslices/studentauthslice";
+import userReducer from "../config/slices/studentauthslice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import {
@@ -19,14 +18,13 @@ const rootReducer = combineReducers({
   [studentAuth.reducerPath]: studentAuth.reducer,
   [donorAuth.reducerPath]: donorAuth.reducer,
   [campaignApi.reducerPath]: campaignApi.reducer,
-  student: studentauthReducer,
-  donor: donorAuthReducer,
+  user: userReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["student", "donor"],
+  whitelist: ["user"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { selectStundentToken } from "../../config/studentslices/studentauthslice";
+import { selectStundentToken } from "../../config/slices/studentauthslice";
 
 export const campaignApi = createApi({
   reducerPath: "campaignApi",
@@ -14,13 +14,6 @@ export const campaignApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    academicStatus: builder.mutation({
-      query: ({ campaigns, studentId }) => ({
-        url: `/academic/${studentId}`,
-        method: "POST",
-        body: campaigns,
-      }),
-    }),
     campaigncreate: builder.mutation({
       query: ({ campaignStatus, studentId }) => ({
         url: `/campaigns/${studentId}`,
@@ -31,5 +24,4 @@ export const campaignApi = createApi({
   }),
 });
 
-export const { useAcademicStatusMutation, useCampaigncreateMutation } =
-  campaignApi;
+export const { useCampaigncreateMutation } = campaignApi;

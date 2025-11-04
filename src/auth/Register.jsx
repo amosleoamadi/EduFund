@@ -16,7 +16,7 @@ import safe from "../assets/iconamoon_shield-yes-light.svg";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useStudentregisterMutation } from "../utils/stundentauth/authapi";
 import { useDispatch } from "react-redux";
-import { setStudent } from "../config/studentslices/studentauthslice";
+import { setUserState } from "../config/slices/studentauthslice";
 import toast from "react-hot-toast";
 import { Spin } from "antd";
 
@@ -72,12 +72,11 @@ const Register = () => {
       try {
         const res = await register(studentdetail).unwrap();
         dispatch(
-          setStudent({
+          setUserState({
             firstname: res?.data?.firstName,
             lastname: res?.data?.lastName,
             email: res?.data?.email,
-            studentId: res?.data?._id,
-            role: res?.data?.role,
+            userId: res?.data?._id,
           })
         );
         localStorage.setItem("EmailDetails", JSON.stringify(res?.data?.email));

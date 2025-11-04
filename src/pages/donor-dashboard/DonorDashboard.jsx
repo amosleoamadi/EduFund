@@ -16,13 +16,13 @@ import { IoIosNotificationsOutline } from "react-icons/io";
 import DonorSideBar from "./components/DonorSideBar";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { donorLogout } from "../../config/donorslices/donorslice";
 import { donorAuth } from "../../utils/donorauth/donorauth";
 import { MdLogout } from "react-icons/md";
 import { RxPerson } from "react-icons/rx";
 import styled from "styled-components";
 import { persistor } from "../../app/store";
 import { AiOutlineMenu } from "react-icons/ai";
+import { userLogout } from "../../config/slices/studentauthslice";
 
 const DonorDashboard = () => {
   const [popup, setPopup] = useState(false);
@@ -31,7 +31,7 @@ const DonorDashboard = () => {
   const nav = useNavigate();
 
   const LogoutFunction = () => {
-    dispatch(donorLogout());
+    dispatch(userLogout());
     persistor.purge();
     localStorage.removeItem("EmailDetails");
     dispatch(donorAuth.util.resetApiState());
