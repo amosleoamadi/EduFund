@@ -16,11 +16,12 @@ import { SlBadge } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
 import Donor_Chart from "./Donor_Chart";
 import axios from "axios";
+// import { useSelector } from "react-redux";
 
 const DonorOverview = () => {
   const nav = useNavigate();
   const [progress, setProgress] = useState(0);
-  
+  // const donorId = useSelector(donorId)
   const [analytics, setAnalytics] = useState({
     totalDonated: 0,
     totalStudentsHelped: 0,
@@ -28,7 +29,7 @@ const DonorOverview = () => {
   });
 
   const BaseUrl = import.meta.env.VITE_EDUFUND_BASEURL;
-  const donorId = JSON.parse(localStorage.getItem(import.meta.env.VITE_donorId));
+  
 
   const fetchProgress = async () => {
     try {
