@@ -14,7 +14,7 @@ const ReviewAndSubmitStep = ({ formData }) => {
           </ReviewItem>
           <ReviewItem>
             <ReviewLabel>Year/Level</ReviewLabel>
-            <ReviewValue>{formData.yearLevel}</ReviewValue>
+            <ReviewValue>{formData.year}</ReviewValue>
           </ReviewItem>
           <ReviewItem>
             <ReviewLabel>Matric Number</ReviewLabel>
@@ -22,7 +22,7 @@ const ReviewAndSubmitStep = ({ formData }) => {
           </ReviewItem>
           <ReviewItem>
             <ReviewLabel>JAMB Reg</ReviewLabel>
-            <ReviewValue>{formData.jambNumber}</ReviewValue>
+            <ReviewValue>{formData.jambRegistrationNumber}</ReviewValue>
           </ReviewItem>
         </ReviewGrid>
       </ReviewSection>
@@ -33,19 +33,19 @@ const ReviewAndSubmitStep = ({ formData }) => {
         <ReviewGrid>
           <ReviewItem fullWidth>
             <ReviewLabel>Title</ReviewLabel>
-            <ReviewValue>{formData.campaignTitle}</ReviewValue>
+            <ReviewValue>{formData.title}</ReviewValue>
           </ReviewItem>
 
           <ReviewItem>
             <ReviewLabel>Funding Goal</ReviewLabel>
             <ReviewValue>
-              ₦{Number(formData.fundingGoal).toLocaleString()}
+              ₦{Number(formData.target).toLocaleString()}
             </ReviewValue>
           </ReviewItem>
 
           <ReviewItem>
             <ReviewLabel>Campaign Duration</ReviewLabel>
-            <ReviewValue>{formData.campaignDuration} Days</ReviewValue>
+            <ReviewValue>{formData.duration} Days</ReviewValue>
           </ReviewItem>
         </ReviewGrid>
 
