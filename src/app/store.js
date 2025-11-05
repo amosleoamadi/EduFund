@@ -13,11 +13,15 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+import { getalldonorApi } from "../utils/stundentauth/getdonor";
+import { walletBalApi } from "../utils/stundentauth/walletbalapi";
 
 const rootReducer = combineReducers({
   [studentAuth.reducerPath]: studentAuth.reducer,
   [donorAuth.reducerPath]: donorAuth.reducer,
   [campaignApi.reducerPath]: campaignApi.reducer,
+  [getalldonorApi.reducerPath]: getalldonorApi.reducer,
+  [walletBalApi.reducerPath]: walletBalApi.reducer,
   user: userReducer,
 });
 
@@ -36,7 +40,13 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(studentAuth.middleware, donorAuth.middleware),
+    }).concat(
+      studentAuth.middleware,
+      donorAuth.middleware,
+      campaignApi.middleware,
+      getalldonorApi.middleware,
+      walletBalApi.middleware
+    ),
 });
 
 export const persistor = persistStore(store);

@@ -12,6 +12,7 @@ import { selectStudentId } from "../../../config/slices/studentauthslice";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import LoadingState from "../../modals/loadingstate/LoadingState";
 
 const CampaignCreation = ({ setCreate, create }) => {
   const [campaignCreate, { isLoading }] = useCampaigncreateMutation();
@@ -31,6 +32,7 @@ const CampaignCreation = ({ setCreate, create }) => {
   };
 
   const [currentStep, setCurrentStep] = useState(1);
+  const [campaignsucess, setCampaignsucess] = useState(false);
   const [formData, setFormData] = useState({
     schoolName: "",
     year: "",
@@ -50,12 +52,18 @@ const CampaignCreation = ({ setCreate, create }) => {
       if (currentStep === 4) {
         try {
           const res = await campaignCreate({
-            formData,
+            campaignStatus: formData,
             studentId: studentId,
           }).unwrap();
           console.log(res);
+          setCreate(false);
+
+          setTimeout(() => {
+            setCampaignsucess(true);
+          }, 300);
         } catch (err) {
           toast.error(err?.data?.message);
+          setCreate(false);
         }
       } else {
         setCurrentStep(currentStep + 1);
@@ -113,7 +121,7 @@ const CampaignCreation = ({ setCreate, create }) => {
                 <Title>{stepTitles[currentStep]}</Title>
                 <Subtitle>{stepSubtitles[currentStep]}</Subtitle>
               </HeaderContent>
-              <CloseButton onClick={() => setCreate()}>
+              <CloseButton onClick={() => setCreate(false)}>
                 <FiX />
               </CloseButton>
             </ModalHeader>
@@ -151,11 +159,23 @@ const CampaignCreation = ({ setCreate, create }) => {
               <BackButton onClick={handleBack} disabled={currentStep === 1}>
                 Back
               </BackButton>
-              <ContinueButton onClick={handleSumbit}>
-                {currentStep === 4 ? "Create Campaign" : "Continue"}
+              <ContinueButton onClick={handleSumbit} disabled={isLoading}>
+                {isLoading
+                  ? "Creating..."
+                  : currentStep === 4
+                  ? "Create Campaign"
+                  : "Continue"}
               </ContinueButton>
             </FooterContainer>
           </ModalContainer>
+        </Backdrop>
+      )}
+
+      {isLoading && <LoadingState />}
+
+      {campaignsucess && (
+        <Backdrop>
+          <Sucess setCampaignsucess={setCampaignsucess} />
         </Backdrop>
       )}
     </>
@@ -163,6 +183,7 @@ const CampaignCreation = ({ setCreate, create }) => {
 };
 
 export default CampaignCreation;
+
 const Backdrop = styled.div`
   position: fixed;
   top: 0;
@@ -234,13 +255,11 @@ const ProgressContainer = styled.div`
 
 const ContentArea = styled.div`
   flex: 1;
-  /* overflow-y: auto; */
   padding: 24px;
 `;
 
 const FooterContainer = styled.div`
   padding: 24px;
-  /* border-top: 1px solid #e5e7eb; */
   display: flex;
   gap: 12px;
   justify-content: space-between;

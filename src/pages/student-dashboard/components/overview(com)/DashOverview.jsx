@@ -465,11 +465,6 @@ const CampaignStatsRow = styled.div`
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid #e5e7eb;
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
 `;
 
 const CampaignStat = styled.div``;
