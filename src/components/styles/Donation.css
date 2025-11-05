@@ -1,35 +1,37 @@
-.donor-donation-container{
+.donor-donation-container {
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    
 }
-.donor-donation-heading > h1{
+
+.donor-donation-heading > h1 {
     font-size: 27px;
     font-weight: 400;
     color: #101828;
 }
-.donor-donation-heading > p{
+
+.donor-donation-heading > p {
     font-size: 14.5px;
     color: #4A5565;
 }
-.donor-donation-filter{
+
+.donor-donation-filter {
     display: flex;
     justify-content: flex-end;
-  
     align-items: center;
     padding-inline-end: 2rem;
 }
-.donor-donation-filter > div{
+
+.donor-donation-filter > div {
     display: flex;
     align-items: center;
     gap: 1rem;
     padding: 10px 15px;
     border-radius: 10px;
-     border: 2px solid #F3F3F5;
-    
+    border: 2px solid #F3F3F5;
 }
-.filter-icon{
+
+.filter-icon {
     height: fit-content;
     width: fit-content;
     padding: 0.4rem;
@@ -39,7 +41,8 @@
     justify-content: center;
     align-items: center;
 }
-.donor-donation-filter select{
+
+.donor-donation-filter select {
     border-radius: 5px;
     width: 150px;
     padding: 0.4rem 1rem;
@@ -50,20 +53,22 @@
     border: none;
     outline: none;
 }
+
 .donor-donation-students {
     display: flex;
     flex-direction: column;
     padding: 0.5rem 0;
     gap: 1rem;
 }
-.myHelper{
+
+.myHelper {
     display: flex;
     justify-content: space-between;
     width: 55%;
     padding-inline-end: 2rem;
 }
 
-.color-green{
+.color-green {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -74,106 +79,121 @@
     padding: 3px 10px;
     border-radius: 10px;
 }
-.color-blue{
+
+.color-blue {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 13px;
     border: 2px solid #155DFC;
     color: #155DFC;
-     width: fit-content;
+    width: fit-content;
     padding: 3px 10px;
     border-radius: 10px;
 }
-.donor-progress-percent{
+
+.donor-progress-percent {
     display: flex;
     justify-content: space-between;
 }
-.donor-student-credentials{
+
+.donor-student-credentials {
     display: flex;
-    justify-content: space-between; 
-   
-   
+    justify-content: space-between;
 }
-.fixit{
+
+.fixit {
     display: flex;
     flex-direction: column;
-     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-radius: 10px;
     padding: 10px 15px;
-
 }
-.donor-share-profile{
+
+.donor-share-profile {
     display: flex;
     justify-content: flex-end;
-    
 }
-.forbiden-code{
+
+.forbiden-code {
     display: flex;
     gap: 1rem;
     cursor: pointer;
 }
-.forbiden-code div{
+
+.forbiden-code div {
     border: 2px solid #0000001A;
     border-radius: 10px;
 }
-.forbiden-code > div:nth-of-type(1){
-    padding:5px 10px;
+
+.forbiden-code > div:nth-of-type(1) {
+    padding: 5px 10px;
     display: flex;
     align-items: center;
-    
 }
-.forbiden-code > div:nth-of-type(2){
+
+.forbiden-code > div:nth-of-type(2) {
     padding: 5px 10px;
     font-size: 15px;
 }
-.part1{
+
+.part1 {
     display: flex;
     width: 35%;
     align-items: center;
     gap: 1rem;
 }
-.donor-student-image-profile{
+
+.donor-student-image-profile {
     object-fit: contain;
     width: 50px;
     height: 50px;
 }
-.part2{
+
+.part2 {
     width: 60%;
     display: flex;
     flex-direction: column;
     gap: 0.4rem;
 }
-.donor-student-image-profile img{
+
+.donor-student-image-profile img {
     width: 100%;
     border-radius: 50%;
 }
-.donor-name-credentials{
+
+.donor-name-credentials {
     line-height: 1.5;
 }
-.donor-name-credentials h2{
+
+.donor-name-credentials h2 {
     font-size: 18px;
     font-weight: 400;
-
 }
-.donor-name-credentials p{
+
+.donor-name-credentials p {
     font-size: 15px;
 }
-.part3{
+
+.part3 {
     line-height: 2;
 }
-.part3-n1{
+
+.part3-n1 {
     color: #4A5565;
     font-size: 15px;
 }
-.part3-n2{
+
+.part3-n2 {
     font-size: 22px;
 }
-.part3-n3{
+
+.part3-n3 {
     color: #4A5565;
     font-size: 13px;
 }
-.load-more{
+
+.load-more {
     width: fit-content;
     margin: 0 auto;
     border: 2px solid #0000001A;

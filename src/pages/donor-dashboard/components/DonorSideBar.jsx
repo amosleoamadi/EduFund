@@ -71,7 +71,7 @@ const Container = styled.main`
   width: 85%;
   height: 85%;
   min-height: max-content;
-  padding: 18px 18px 18px 18px;
+  padding: 18px;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;

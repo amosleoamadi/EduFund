@@ -4,8 +4,9 @@ import { MdOutlineFilterAlt } from "react-icons/md";
 import { LuClock2 } from "react-icons/lu";
 import { BiShareAlt } from "react-icons/bi";
 import { CiCircleCheck } from "react-icons/ci";
-
 import demo from "../../../assets/Chioma.jpg"
+import ibra from "../../../assets/Ibrahhim.jpg"
+import con from "../../../assets/Container.png"
 
 const Donations = () => {
    
@@ -25,7 +26,7 @@ const Donations = () => {
     {
       id: 2,
       name: "Ibrahim Yusuf",
-      image: demo,
+      image: ibra,
       degree:"Medicine Degree - ABU",
       school: "Ahmadu Bello University",
       progress: "62",
@@ -37,7 +38,7 @@ const Donations = () => {
     {
       id: 3,
       name: "Blessing Okafor",
-      image: demo,
+      image: con,
       degree:"Law Degree - UI",
       school: "University of Ibadan",
       progress: "45",
@@ -69,7 +70,7 @@ const Donations = () => {
         <h1>My Donation</h1>
         <p>Tract all your contributions and their impact </p>
       </div>
-      <aside className='donor-donation-filter'>
+      {/* <aside className='donor-donation-filter'>
          <div className=''>
           <select name="" id="">
             <option value="">All Donations</option>
@@ -82,7 +83,7 @@ const Donations = () => {
             <MdOutlineFilterAlt size={20}/>
           </div>
          </div>
-      </aside>
+      </aside> */}
       <section className='donor-donation-students'>
         {
           dataSet.map((e)=> (
