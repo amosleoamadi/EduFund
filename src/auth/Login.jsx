@@ -8,7 +8,7 @@ import {
 } from "../components/styles/LoginStyle";
 import { LogoBar } from "../components/styles/AccountStyle";
 import img from "../assets/EduFundLogo.png";
-import { LabelInput } from "../components/styles/RegisterStyle";
+import { LabelInput, PasswordToggle } from "../components/styles/RegisterStyle";
 import Input from "../components/Ui/Input";
 import Button from "../components/Ui/Button";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -17,14 +17,15 @@ import toast from "react-hot-toast";
 import { Spin } from "antd";
 import { setUserState, userLogout } from "../config/slices/studentauthslice";
 import { useDispatch } from "react-redux";
-import { persistor } from "../app/store";
-import { donorAuth } from "../utils/donorauth/donorauth";
+import { IoIosEyeOff } from "react-icons/io";
+import { IoEye } from "react-icons/io5";
 
 const Login = () => {
   const [userLogin, setUserLogin] = useState({
     email: "",
     password: "",
   });
+  const [toogle, setToogle] = useState(false);
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -87,14 +88,35 @@ const Login = () => {
           </LabelInput>
           <LabelInput>
             <label htmlFor="password">Password</label>
-            <Input
-              className="input_place"
-              placeholder="Enter your password"
-              type="text"
-              name="password"
-              value={userLogin.password}
-              onChange={handleOnchange}
-            />
+            <PasswordToggle>
+              <Input
+                className="input_place"
+                placeholder="Enter your password"
+                type={toogle ? "text" : "password"}
+                name="password"
+                value={userLogin.password}
+                onChange={handleOnchange}
+              />
+              <div className="holder" onClick={() => setToogle(!toogle)}>
+                {toogle ? (
+                  <IoEye
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                      color: "#adaebc",
+                    }}
+                  />
+                ) : (
+                  <IoIosEyeOff
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                      color: "#adaebc",
+                    }}
+                  />
+                )}
+              </div>
+            </PasswordToggle>
           </LabelInput>
           <RemContent>
             <div className="rem">
