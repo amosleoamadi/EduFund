@@ -19,7 +19,9 @@ import styled from "styled-components";
 import { RxPerson } from "react-icons/rx";
 import { MdLogout } from "react-icons/md";
 import {
+  selectStudentEmail,
   studentFirstname,
+  studentLastname,
   userLogout,
 } from "../../config/slices/studentauthslice";
 import { studentAuth } from "../../utils/stundentauth/authapi";
@@ -31,6 +33,8 @@ const DashboardStudent = () => {
   const [showPop, setShowPop] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const firstname = useSelector(studentFirstname);
+  const lastname = useSelector(studentLastname);
+  const email = useSelector(selectStudentEmail);
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -79,8 +83,10 @@ const DashboardStudent = () => {
             {showPop && (
               <Dropdown>
                 <TopContent>
-                  <h3>Dr. Adewale Thompson</h3>
-                  <p>amadiamos146@gmail.com</p>
+                  <h3>
+                    Dr. {firstname} {lastname}
+                  </h3>
+                  <p>{email}</p>
                 </TopContent>
                 <ProfileSet>
                   <RxPerson style={{ fontSize: "20px" }} />

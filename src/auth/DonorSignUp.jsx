@@ -12,6 +12,7 @@ import {
   InpuLabel,
   LabelInput,
   PasswordInput,
+  PasswordToggle,
 } from "../components/styles/RegisterStyle";
 import Input from "../components/Ui/Input";
 import cancel from "../assets/cancel.svg";
@@ -26,11 +27,14 @@ import { Spin } from "antd";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { setUserState } from "../config/slices/studentauthslice";
+import { IoEye } from "react-icons/io5";
+import { IoIosEyeOff } from "react-icons/io";
 
 const DonorSignUp = () => {
   const [active, setActive] = useState("individual");
   const nav = useNavigate();
   const dispatch = useDispatch();
+  const [toogle, setToogle] = useState(false);
   const [individual, { isLoading: isVerifyLoading }] =
     useDonorIndividualMutation();
   const [organization, { isLoading: isOrganLoading }] =
@@ -230,14 +234,35 @@ const DonorSignUp = () => {
           </LabelInput>
           <PasswordInput>
             <label htmlFor="password">Password</label>
-            <Input
-              className="input_place"
-              placeholder="Enter Password"
-              type="text"
-              name="password"
-              value={donordetail.password}
-              onChange={handleOnchange}
-            />
+            <PasswordToggle>
+              <Input
+                className="input_place"
+                placeholder="Enter Password"
+                type={toogle ? "text" : "password"}
+                name="password"
+                value={donordetail.password}
+                onChange={handleOnchange}
+              />
+              <div className="holder" onClick={() => setToogle(!toogle)}>
+                {toogle ? (
+                  <IoEye
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                      color: "#adaebc",
+                    }}
+                  />
+                ) : (
+                  <IoIosEyeOff
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                      color: "#adaebc",
+                    }}
+                  />
+                )}
+              </div>
+            </PasswordToggle>
             <div className="text">
               <p>Password Strength</p>
               <p>{allPassed ? "Strong" : "Weak"}</p>

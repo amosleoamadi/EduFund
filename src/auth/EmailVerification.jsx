@@ -32,6 +32,10 @@ const EmailVerification = () => {
       const res = await veryOtp({ otp, email: email }).unwrap();
       dispatch(
         setUserState({
+          firstname: res?.data?.firstName,
+          lastname: res?.data?.lastName,
+          email: res?.data?.email,
+          userId: res?.data?._id,
           userToken: res?.token,
         })
       );
