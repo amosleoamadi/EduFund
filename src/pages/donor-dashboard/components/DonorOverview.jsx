@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LuSparkles, LuTrendingUp, LuUsers, LuTarget } from "react-icons/lu";
 import { FiDollarSign } from "react-icons/fi";
 import { IoIosHeartEmpty } from "react-icons/io";
@@ -15,16 +15,40 @@ import { CiSearch } from "react-icons/ci";
 import { SlBadge } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
 import Donor_Chart from "./Donor_Chart";
+import axios from "axios";
+// import { useSelector } from "react-redux";
 
 const DonorOverview = () => {
   const nav = useNavigate();
-  const [progress, setProgress] = useState(40);
+  const [progress, setProgress] = useState(0);
+  // const donorId = useSelector(donorId)
+  const [analytics, setAnalytics] = useState({
+    totalDonated: 0,
+    totalStudentsHelped: 0,
+    activeCampaigns: 0,
+  });
+
+  const BaseUrl = import.meta.env.VITE_EDUFUND_BASEURL;
+  
+
+  const fetchProgress = async () => {
+    try {
+      const res = await axios.get(`${BaseUrl}/donors/analytics/students-helped/${donorId}`);
+      setAnalytics(res?.data?.data);
+    } catch (error) {
+      console.error("Error fetching donor analytics:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProgress();
+  }, []);
 
   const stats = [
     {
       id: 1,
       title: "Total Donated",
-      value: "₦2,450,000",
+      value: `₦${analytics?.totalDonated?.toLocaleString?.() || 0}`,
       icon: <FiDollarSign size={25} color="#2563eb" />,
       change: "+14% this month",
       changeColor: "green",
@@ -33,7 +57,7 @@ const DonorOverview = () => {
     {
       id: 2,
       title: "Students Helped",
-      value: "12",
+      value: analytics?.totalStudentsHelped || 0,
       icon: <LuUsers size={25} color="#10b981" />,
       change: "Lives changed",
       changeColor: "green",
@@ -42,7 +66,7 @@ const DonorOverview = () => {
     {
       id: 3,
       title: "Active Campaigns",
-      value: "5",
+      value: analytics?.activeCampaigns || 0,
       icon: <LuTrendingUp size={25} color="#7c3aed" />,
       change: "In progress",
       changeColor: "blue",

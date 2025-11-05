@@ -2,12 +2,23 @@ import React from "react";
 import styled from "styled-components";
 import FirstCampaign from "./campaign/FirstCampaign";
 import ActiveCampaing from "./campaign/ActiveCampaing";
+import { useGetallCampaignQuery } from "../../../utils/stundentauth/createcampaignapi";
+import { useSelector } from "react-redux";
+import { selectStudentId } from "../../../config/slices/studentauthslice";
+import LoadingState from "../../modals/loadingstate/LoadingState";
 
 const MyCampaign = () => {
+  const studentId = useSelector(selectStudentId);
+  const { data, isLoading, isError } = useGetallCampaignQuery(studentId);
+  console.log("My datas", data);
+
+  if (isLoading) {
+    return <LoadingState />;
+  }
+
   return (
     <Hero>
-      {/* <FirstCampaign /> */}
-      <ActiveCampaing />
+      {data?.data?.length ? <ActiveCampaing data={data} /> : <FirstCampaign />}
     </Hero>
   );
 };

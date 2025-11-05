@@ -12,6 +12,7 @@ import {
   InpuLabel,
   LabelInput,
   PasswordInput,
+  PasswordToggle,
 } from "../components/styles/RegisterStyle";
 import Input from "../components/Ui/Input";
 import cancel from "../assets/cancel.svg";
@@ -24,13 +25,16 @@ import {
 } from "../utils/donorauth/donorauth";
 import { Spin } from "antd";
 import { useDispatch } from "react-redux";
-import { setDonor } from "../config/donorslices/donorslice";
 import toast from "react-hot-toast";
+import { setUserState } from "../config/slices/studentauthslice";
+import { IoEye } from "react-icons/io5";
+import { IoIosEyeOff } from "react-icons/io";
 
 const DonorSignUp = () => {
   const [active, setActive] = useState("individual");
   const nav = useNavigate();
   const dispatch = useDispatch();
+  const [toogle, setToogle] = useState(false);
   const [individual, { isLoading: isVerifyLoading }] =
     useDonorIndividualMutation();
   const [organization, { isLoading: isOrganLoading }] =
@@ -111,11 +115,11 @@ const DonorSignUp = () => {
       try {
         const response = await individual(data).unwrap();
         dispatch(
-          setDonor({
-            donorFirstname: response?.data?.firstName,
-            donorLastname: response?.data?.lastName,
-            donorEmail: response?.data?.email,
-            donorId: response?.data?._id,
+          setUserState({
+            firstname: res?.data?.firstName,
+            lastname: res?.data?.lastName,
+            email: res?.data?.email,
+            userId: res?.data?._id,
           })
         );
         toast.success(response?.message);
@@ -131,14 +135,12 @@ const DonorSignUp = () => {
       try {
         const res = await organization(donordetail).unwrap();
         console.log(res);
-        dispatch(
-          setDonor({
-            donorFirstname: res?.data?.firstName,
-            donorLastname: res?.data?.lastName,
-            donorEmail: res?.data?.email,
-            donorId: res?.data?._id,
-          })
-        );
+        setUserState({
+          firstname: res?.data?.firstName,
+          lastname: res?.data?.lastName,
+          email: res?.data?.email,
+          userId: res?.data?._id,
+        });
         toast.success(res?.message);
         localStorage.setItem("EmailDetails", JSON.stringify(res?.data?.email));
         nav("/verify-email");
@@ -232,14 +234,35 @@ const DonorSignUp = () => {
           </LabelInput>
           <PasswordInput>
             <label htmlFor="password">Password</label>
-            <Input
-              className="input_place"
-              placeholder="Enter Password"
-              type="text"
-              name="password"
-              value={donordetail.password}
-              onChange={handleOnchange}
-            />
+            <PasswordToggle>
+              <Input
+                className="input_place"
+                placeholder="Enter Password"
+                type={toogle ? "text" : "password"}
+                name="password"
+                value={donordetail.password}
+                onChange={handleOnchange}
+              />
+              <div className="holder" onClick={() => setToogle(!toogle)}>
+                {toogle ? (
+                  <IoEye
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                      color: "#adaebc",
+                    }}
+                  />
+                ) : (
+                  <IoIosEyeOff
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                      color: "#adaebc",
+                    }}
+                  />
+                )}
+              </div>
+            </PasswordToggle>
             <div className="text">
               <p>Password Strength</p>
               <p>{allPassed ? "Strong" : "Weak"}</p>

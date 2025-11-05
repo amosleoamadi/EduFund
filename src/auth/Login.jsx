@@ -8,21 +8,24 @@ import {
 } from "../components/styles/LoginStyle";
 import { LogoBar } from "../components/styles/AccountStyle";
 import img from "../assets/EduFundLogo.png";
-import { LabelInput } from "../components/styles/RegisterStyle";
+import { LabelInput, PasswordToggle } from "../components/styles/RegisterStyle";
 import Input from "../components/Ui/Input";
 import Button from "../components/Ui/Button";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useStudentloginMutation } from "../utils/stundentauth/authapi";
 import toast from "react-hot-toast";
 import { Spin } from "antd";
-import { setStudent } from "../config/studentslices/studentauthslice";
+import { setUserState, userLogout } from "../config/slices/studentauthslice";
 import { useDispatch } from "react-redux";
+import { IoIosEyeOff } from "react-icons/io";
+import { IoEye } from "react-icons/io5";
 
 const Login = () => {
   const [userLogin, setUserLogin] = useState({
     email: "",
     password: "",
   });
+  const [toogle, setToogle] = useState(false);
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -39,35 +42,25 @@ const Login = () => {
   const handleSumbit = async (e) => {
     e.preventDefault();
     try {
+      dispatch(userLogout());
       const res = await studentLogin(userLogin).unwrap();
-      const userRole = res?.data?.role;
-      if (userRole === "student") {
-        dispatch(
-          setStudent({
-            firstname: res?.data?.firstName,
-            lastname: res?.data?.lastName,
-            email: res?.data?.email,
-            studentId: res?.data?._id,
-            studentToken: res?.token,
-          })
-        );
-      } else {
-        dispatch(
-          setDonor({
-            donorFirstname: res?.data?.firstName,
-            donorLastname: res?.data?.lastName,
-            donorEmail: res?.data?.email,
-            donorId: res?.data?._id,
-            donorToken: res?.token,
-          })
-        );
-      }
-      toast.success(res?.message);
+      const userRole = res?.data?.role?.toLowerCase();
+      dispatch(
+        setUserState({
+          firstname: res?.data?.firstName,
+          lastname: res?.data?.lastName,
+          userId: res?.data?._id,
+          userToken: res?.token,
+          email: res?.data?.email,
+        })
+      );
       if (userRole === "student") {
         nav("/student-dashbord");
-      } else {
+      } else if (userRole === "sponsor") {
         nav("/donor_dashboard");
+        return;
       }
+      toast.success(res?.message);
     } catch (err) {
       toast.error(err?.data?.message);
     }
@@ -95,14 +88,35 @@ const Login = () => {
           </LabelInput>
           <LabelInput>
             <label htmlFor="password">Password</label>
-            <Input
-              className="input_place"
-              placeholder="Enter your password"
-              type="text"
-              name="password"
-              value={userLogin.password}
-              onChange={handleOnchange}
-            />
+            <PasswordToggle>
+              <Input
+                className="input_place"
+                placeholder="Enter your password"
+                type={toogle ? "text" : "password"}
+                name="password"
+                value={userLogin.password}
+                onChange={handleOnchange}
+              />
+              <div className="holder" onClick={() => setToogle(!toogle)}>
+                {toogle ? (
+                  <IoEye
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                      color: "#adaebc",
+                    }}
+                  />
+                ) : (
+                  <IoIosEyeOff
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                      color: "#adaebc",
+                    }}
+                  />
+                )}
+              </div>
+            </PasswordToggle>
           </LabelInput>
           <RemContent>
             <div className="rem">

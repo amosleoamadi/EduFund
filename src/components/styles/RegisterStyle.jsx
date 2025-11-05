@@ -259,6 +259,43 @@ export const LabelInput = styled.div`
   }
 `;
 
+export const PasswordToggle = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  border-radius: 8.554px;
+  border: 1.069px solid #d1d5db;
+  background: #fff;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline-end: 10px;
+
+  .input_place {
+    width: 92%;
+    height: 98%;
+    padding-left: 17.107px;
+    outline: none;
+    color: #222;
+    font-size: 15px;
+    border: none;
+  }
+
+  @media (max-width: 480px) {
+    height: 45px;
+    font-size: 14px;
+  }
+
+  &:placeholder-shown {
+    color: #adaebc;
+  }
+
+  .holder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
 export const PasswordInput = styled.div`
   width: 100%;
   height: max-content;
@@ -276,29 +313,6 @@ export const PasswordInput = styled.div`
 
     @media (max-width: 480px) {
       font-size: 13px;
-    }
-  }
-
-  .input_place {
-    width: 100%;
-    height: 50px;
-    padding-left: 17.107px;
-    border-radius: 8.554px;
-    border: 1.069px solid #d1d5db;
-    background: #fff;
-    outline: none;
-    color: #222;
-    font-size: 15px;
-    margin-bottom: 10px;
-
-    @media (max-width: 480px) {
-      height: 45px;
-      font-size: 14px;
-      margin-bottom: 8px;
-    }
-
-    &:placeholder-shown {
-      color: #adaebc;
     }
   }
 

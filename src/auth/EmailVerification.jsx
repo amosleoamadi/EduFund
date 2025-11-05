@@ -9,13 +9,9 @@ import {
 } from "../utils/stundentauth/authapi";
 import { useSelector, useDispatch } from "react-redux";
 import { Spin } from "antd";
-import {
-  selectStudentEmail,
-  setStudent,
-} from "../config/studentslices/studentauthslice";
+import { setUserState } from "../config/slices/studentauthslice";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { setDonor } from "../config/donorslices/donorslice";
 
 const EmailVerification = () => {
   const [otp, setOtp] = useState();
@@ -34,8 +30,15 @@ const EmailVerification = () => {
     e.preventDefault();
     try {
       const res = await veryOtp({ otp, email: email }).unwrap();
-      dispatch(setStudent({ studentToken: res?.token }));
-      dispatch(setDonor({ donorToken: res?.token }));
+      dispatch(
+        setUserState({
+          firstname: res?.data?.firstName,
+          lastname: res?.data?.lastName,
+          email: res?.data?.email,
+          userId: res?.data?._id,
+          userToken: res?.token,
+        })
+      );
       toast.success(res?.message);
       localStorage.removeItem("EmailDetails");
       if (res?.data?.role === "student") {

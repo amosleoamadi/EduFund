@@ -6,6 +6,7 @@ import {
   RegForm,
   ReqContainer,
   PasswordInput,
+  PasswordToggle,
 } from "../components/styles/RegisterStyle";
 import { LogoBar } from "../components/styles/AccountStyle";
 import img from "../assets/EduFundLogo.png";
@@ -16,13 +17,16 @@ import safe from "../assets/iconamoon_shield-yes-light.svg";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useStudentregisterMutation } from "../utils/stundentauth/authapi";
 import { useDispatch } from "react-redux";
-import { setStudent } from "../config/studentslices/studentauthslice";
+import { setUserState } from "../config/slices/studentauthslice";
 import toast from "react-hot-toast";
 import { Spin } from "antd";
+import { IoEye } from "react-icons/io5";
+import { IoIosEyeOff } from "react-icons/io";
 
 const Register = () => {
   const nav = useNavigate();
   const dispatch = useDispatch();
+  const [toogle, setToogle] = useState(false);
   const [studentdetail, setStudentdetail] = useState({
     firstName: "",
     lastName: "",
@@ -71,15 +75,6 @@ const Register = () => {
     } else {
       try {
         const res = await register(studentdetail).unwrap();
-        dispatch(
-          setStudent({
-            firstname: res?.data?.firstName,
-            lastname: res?.data?.lastName,
-            email: res?.data?.email,
-            studentId: res?.data?._id,
-            role: res?.data?.role,
-          })
-        );
         localStorage.setItem("EmailDetails", JSON.stringify(res?.data?.email));
         toast.success(res?.message);
         nav("/verify-email");
@@ -133,14 +128,35 @@ const Register = () => {
           </LabelInput>
           <PasswordInput>
             <label htmlFor="password">Password</label>
-            <Input
-              className="input_place"
-              placeholder="Enter Password"
-              type="text"
-              name="password"
-              value={studentdetail.password}
-              onChange={handleOnchange}
-            />
+            <PasswordToggle>
+              <Input
+                className="input_place"
+                placeholder="Enter Password"
+                type={toogle ? "text" : "password"}
+                name="password"
+                value={studentdetail.password}
+                onChange={handleOnchange}
+              />
+              <div className="holder" onClick={() => setToogle(!toogle)}>
+                {toogle ? (
+                  <IoEye
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                      color: "#adaebc",
+                    }}
+                  />
+                ) : (
+                  <IoIosEyeOff
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                      color: "#adaebc",
+                    }}
+                  />
+                )}
+              </div>
+            </PasswordToggle>
             <div className="text">
               <p>Password Strength</p>
               <p>{allPassed ? "Strong" : "Weak"}</p>

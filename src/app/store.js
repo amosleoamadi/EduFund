@@ -2,8 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { studentAuth } from "../utils/stundentauth/authapi";
 import { donorAuth } from "../utils/donorauth/donorauth";
 import { campaignApi } from "../utils/stundentauth/createcampaignapi";
-import donorAuthReducer from "../config/donorslices/donorslice";
-import studentauthReducer from "../config/studentslices/studentauthslice";
+import userReducer from "../config/slices/studentauthslice";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import {
@@ -14,19 +13,22 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
+import { getalldonorApi } from "../utils/stundentauth/getdonor";
+import { walletBalApi } from "../utils/stundentauth/walletbalapi";
 
 const rootReducer = combineReducers({
   [studentAuth.reducerPath]: studentAuth.reducer,
   [donorAuth.reducerPath]: donorAuth.reducer,
   [campaignApi.reducerPath]: campaignApi.reducer,
-  student: studentauthReducer,
-  donor: donorAuthReducer,
+  [getalldonorApi.reducerPath]: getalldonorApi.reducer,
+  [walletBalApi.reducerPath]: walletBalApi.reducer,
+  user: userReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["student", "donor"],
+  whitelist: ["user"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -38,7 +40,13 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    }).concat(studentAuth.middleware, donorAuth.middleware),
+    }).concat(
+      studentAuth.middleware,
+      donorAuth.middleware,
+      campaignApi.middleware,
+      getalldonorApi.middleware,
+      walletBalApi.middleware
+    ),
 });
 
 export const persistor = persistStore(store);

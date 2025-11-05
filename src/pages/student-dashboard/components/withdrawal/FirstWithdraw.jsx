@@ -5,7 +5,7 @@ import safe from "../../../../assets/safeguard.svg";
 import { IoIosAdd } from "react-icons/io";
 import WithdrawalHistory from "./WidthdrawHistory";
 
-const FirstWithdraw = () => {
+const FirstWithdraw = ({ data }) => {
   return (
     <Container>
       <TextHolder>
@@ -19,7 +19,7 @@ const FirstWithdraw = () => {
             Request Withdrawal
           </button>
         </Tag>
-        <MoneyBal>₦0</MoneyBal>
+        <MoneyBal>₦{data?.balance}</MoneyBal>
         <Down>
           <Safe>
             <img src={safe} alt="" />
@@ -27,7 +27,7 @@ const FirstWithdraw = () => {
           <p>Funds will be sent directly to University of Lagos</p>
         </Down>
       </Amount>
-      {/* <Wrapper>
+      <Wrapper>
         <Card>₦</Card>
         <h4>No withdrawal history</h4>
         <p>Start fundraising to request withdrawals for your tuition fees</p>
@@ -36,8 +36,8 @@ const FirstWithdraw = () => {
           icon={<IoIosAdd style={{ fontSize: "20px" }} />}
           text="Create Campaign"
         />
-      </Wrapper> */}
-      <WithdrawalHistory />
+      </Wrapper>
+      {/* <WithdrawalHistory /> */}
     </Container>
   );
 };
@@ -50,7 +50,20 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  @media (max-width: 1199px) {
+    gap: 18px;
+  }
+
+  @media (max-width: 767px) {
+    gap: 16px;
+  }
+
+  @media (max-width: 479px) {
+    gap: 14px;
+  }
 `;
+
 const TextHolder = styled.div`
   h3 {
     color: #101828;
@@ -65,7 +78,38 @@ const TextHolder = styled.div`
     font-style: normal;
     font-weight: 400;
   }
+
+  @media (max-width: 1199px) {
+    h3 {
+      font-size: 25.441px;
+    }
+
+    p {
+      font-size: 16.961px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    h3 {
+      font-size: 22.441px;
+    }
+
+    p {
+      font-size: 15.961px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    h3 {
+      font-size: 20.441px;
+    }
+
+    p {
+      font-size: 14.961px;
+    }
+  }
 `;
+
 const Amount = styled.div`
   width: 100%;
   height: 45%;
@@ -78,7 +122,25 @@ const Amount = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+
+  @media (max-width: 1199px) {
+    border-radius: 15.59px;
+    padding: 14px;
+  }
+
+  @media (max-width: 767px) {
+    border-radius: 14.59px;
+    padding: 13px;
+    height: 40%;
+  }
+
+  @media (max-width: 479px) {
+    border-radius: 12.59px;
+    padding: 12px;
+    height: 35%;
+  }
 `;
+
 const Tag = styled.div`
   width: 100%;
   display: flex;
@@ -105,13 +167,67 @@ const Tag = styled.div`
     font-style: normal;
     font-weight: 400;
   }
+
+  @media (max-width: 1199px) {
+    .btn {
+      width: 130px;
+      height: 36px;
+      font-size: 13px;
+    }
+
+    h3 {
+      font-size: 15px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .btn {
+      width: 120px;
+      height: 34px;
+      font-size: 13px;
+    }
+
+    h3 {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    flex-direction: column;
+    gap: 10px;
+
+    .btn {
+      width: 100%;
+      height: 40px;
+      font-size: 14px;
+    }
+
+    h3 {
+      font-size: 14px;
+      text-align: center;
+    }
+  }
 `;
+
 const MoneyBal = styled.div`
   color: #fff;
   font-size: 42.661px;
   font-style: normal;
   font-weight: 400;
+
+  @media (max-width: 1199px) {
+    font-size: 38.661px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 34.661px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 28.661px;
+  }
 `;
+
 const Down = styled.div`
   width: 100%;
   display: flex;
@@ -124,7 +240,31 @@ const Down = styled.div`
     font-style: normal;
     font-weight: 400;
   }
+
+  @media (max-width: 1199px) {
+    p {
+      font-size: 15.59px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    gap: 8px;
+
+    p {
+      font-size: 14.59px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    justify-content: center;
+    gap: 6px;
+
+    p {
+      font-size: 12.59px;
+    }
+  }
 `;
+
 const Safe = styled.div`
   width: 20px;
   height: 20px;
@@ -134,7 +274,18 @@ const Safe = styled.div`
     height: 100%;
     object-fit: cover;
   }
+
+  @media (max-width: 767px) {
+    width: 18px;
+    height: 18px;
+  }
+
+  @media (max-width: 479px) {
+    width: 16px;
+    height: 16px;
+  }
 `;
+
 const Wrapper = styled.div`
   width: 100%;
   height: 50%;
@@ -165,7 +316,50 @@ const Wrapper = styled.div`
     font-weight: 400;
     cursor: pointer;
   }
+
+  @media (max-width: 1199px) {
+    border-radius: 14.699px;
+    gap: 14px;
+
+    .create {
+      width: 22%;
+      height: 42px;
+      font-size: 13px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    border-radius: 13.699px;
+    gap: 13px;
+    height: 45%;
+
+    .create {
+      width: 25%;
+      height: 40px;
+      font-size: 13px;
+      gap: 14px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    border-radius: 12.699px;
+    gap: 12px;
+    height: 40%;
+    padding: 15px;
+
+    p {
+      text-align: center;
+    }
+
+    .create {
+      width: 100%;
+      height: 44px;
+      font-size: 14px;
+      gap: 12px;
+    }
+  }
 `;
+
 const Card = styled.div`
   width: 80px;
   height: 80px;
@@ -176,4 +370,22 @@ const Card = styled.div`
   justify-content: center;
   color: rgba(59, 53, 53, 0.3);
   font-size: 3rem;
+
+  @media (max-width: 1199px) {
+    width: 75px;
+    height: 75px;
+    font-size: 2.8rem;
+  }
+
+  @media (max-width: 767px) {
+    width: 70px;
+    height: 70px;
+    font-size: 2.6rem;
+  }
+
+  @media (max-width: 479px) {
+    width: 65px;
+    height: 65px;
+    font-size: 2.4rem;
+  }
 `;

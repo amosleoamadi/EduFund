@@ -21,4 +21,42 @@ export const SetContainer = styled.main`
     line-height: 32.239px;
     margin-bottom: 10px;
   }
+
+  @media (max-width: 1199px) {
+    h3 {
+      font-size: 26.299px;
+      line-height: 36.358px;
+    }
+
+    p {
+      font-size: 18.493px;
+      line-height: 28.239px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    h3 {
+      font-size: 22.299px;
+      line-height: 32.358px;
+    }
+
+    p {
+      font-size: 16.493px;
+      line-height: 26.239px;
+      margin-bottom: 8px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    h3 {
+      font-size: 20.299px;
+      line-height: 28.358px;
+    }
+
+    p {
+      font-size: 14.493px;
+      line-height: 22.239px;
+      margin-bottom: 6px;
+    }
+  }
 `;

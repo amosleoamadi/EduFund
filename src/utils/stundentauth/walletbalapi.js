@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { selectStundentToken } from "../../config/slices/studentauthslice";
 
-export const campaignApi = createApi({
-  reducerPath: "campaignApi",
+export const walletBalApi = createApi({
+  reducerPath: "walletapi",
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_EDUFUND_BASEURL,
     prepareHeaders: (headers, { getState }) => {
@@ -14,18 +14,11 @@ export const campaignApi = createApi({
     },
   }),
   endpoints: (builder) => ({
-    campaigncreate: builder.mutation({
-      query: ({ campaignStatus, studentId }) => ({
-        url: `/campaigns/${studentId}`,
-        method: "POST",
-        body: campaignStatus,
-      }),
-    }),
-    getallCampaign: builder.query({
-      query: (studentId) => `/campaigns/${studentId}`,
+    getTotalWalletBal: builder.query({
+      query: (studentId) =>
+        `/donations/received-donations/student-balance/${studentId}`,
     }),
   }),
 });
 
-export const { useCampaigncreateMutation, useGetallCampaignQuery } =
-  campaignApi;
+export const { useGetTotalWalletBalQuery } = walletBalApi;

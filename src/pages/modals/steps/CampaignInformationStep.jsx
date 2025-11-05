@@ -13,7 +13,7 @@ const CampaignInformationStep = ({ formData, setFormData, errors }) => {
   const handleQuickSelect = (amount) => {
     setFormData((prev) => ({
       ...prev,
-      fundingGoal: amount,
+      target: amount,
     }));
   };
   return (
@@ -22,68 +22,62 @@ const CampaignInformationStep = ({ formData, setFormData, errors }) => {
         <Label>Campaign Title</Label>
         <Input
           type="text"
-          name="campaignTitle"
+          name="title"
           placeholder="e.g., Help me complete my Computer Science degree"
-          value={formData.campaignTitle || ""}
+          value={formData.title || ""}
           onChange={handleChange}
-          error={errors.campaignTitle}
+          error={errors.title}
         />
         <div style={{ fontSize: "12px", color: "#6b7280" }}>
           Make it compelling and personal
         </div>
-        {errors.campaignTitle && (
-          <ErrorMessage>{errors.campaignTitle}</ErrorMessage>
-        )}
+        {errors.title && <ErrorMessage>{errors.title}</ErrorMessage>}
       </FormGroup>
 
       <FormGroup>
         <Label>Funding Goal (₦)</Label>
         <Input
           type="number"
-          name="fundingGoal"
+          name="target"
           placeholder="Enter the total tuition amount you need"
-          value={formData.fundingGoal || ""}
+          value={formData.target || ""}
           onChange={handleChange}
-          error={errors.fundingGoal}
+          error={errors.target}
         />
         <QuickSelectContainer>
           <QuickSelectButton
-            className={formData.fundingGoal === 100000 ? "active" : ""}
+            className={formData.target === 100000 ? "active" : ""}
             onClick={() => handleQuickSelect(100000)}
           >
             ₦100K
           </QuickSelectButton>
           <QuickSelectButton
-            className={formData.fundingGoal === 200000 ? "active" : ""}
+            className={formData.target === 200000 ? "active" : ""}
             onClick={() => handleQuickSelect(200000)}
           >
             ₦200K
           </QuickSelectButton>
           <QuickSelectButton
-            className={formData.fundingGoal === 300000 ? "active" : ""}
+            className={formData.target === 300000 ? "active" : ""}
             onClick={() => handleQuickSelect(300000)}
           >
             ₦300K
           </QuickSelectButton>
         </QuickSelectContainer>
-        {errors.fundingGoal && (
-          <ErrorMessage>{errors.fundingGoal}</ErrorMessage>
-        )}
+        {errors.target && <ErrorMessage>{errors.target}</ErrorMessage>}
       </FormGroup>
 
       <FormGroup>
         <Label>Campaign Duration (Days)</Label>
         <Input
           type="number"
-          name="campaignDuration"
+          name="duration"
           placeholder="e.g., 30"
-          value={formData.campaignDuration || ""}
+          value={formData.duration || ""}
           onChange={handleChange}
-          error={errors.campaignDuration}
+          error={errors.duration}
         />
-        {errors.campaignDuration && (
-          <ErrorMessage>{errors.campaignDuration}</ErrorMessage>
-        )}
+        {errors.duration && <ErrorMessage>{errors.duration}</ErrorMessage>}
       </FormGroup>
 
       <InfoBox>

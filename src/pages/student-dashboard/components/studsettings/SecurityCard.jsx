@@ -88,6 +88,25 @@ const CardContainer = styled.div`
   width: 100%;
   margin: 0 auto;
   margin-bottom: 30px;
+
+  @media (max-width: 1199px) {
+    padding: 28px;
+    margin-bottom: 28px;
+  }
+
+  @media (max-width: 767px) {
+    padding: 24px;
+    border-radius: 10px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  @media (max-width: 479px) {
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  }
 `;
 
 const Header = styled.div`
@@ -104,6 +123,38 @@ const Header = styled.div`
     width: 28px;
     height: 28px;
   }
+
+  @media (max-width: 1199px) {
+    margin-bottom: 28px;
+    font-size: 22px;
+
+    svg {
+      width: 26px;
+      height: 26px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    margin-bottom: 24px;
+    font-size: 20px;
+    gap: 10px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    margin-bottom: 20px;
+    font-size: 18px;
+    gap: 8px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
 `;
 
 const SectionTitle = styled.h3`
@@ -112,10 +163,28 @@ const SectionTitle = styled.h3`
   color: #1a1a1a;
   margin-bottom: 20px;
   margin-top: 0;
+
+  @media (max-width: 767px) {
+    font-size: 15px;
+    margin-bottom: 18px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
 `;
 
 const FormGroup = styled.div`
   margin-bottom: 20px;
+
+  @media (max-width: 767px) {
+    margin-bottom: 18px;
+  }
+
+  @media (max-width: 479px) {
+    margin-bottom: 16px;
+  }
 `;
 
 const Label = styled.label`
@@ -124,6 +193,11 @@ const Label = styled.label`
   font-weight: 500;
   color: #374151;
   margin-bottom: 8px;
+
+  @media (max-width: 479px) {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
 `;
 
 const Input = styled.input`
@@ -145,6 +219,12 @@ const Input = styled.input`
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
   }
+
+  @media (max-width: 479px) {
+    padding: 8px 10px;
+    font-size: 13px;
+    border-radius: 6px;
+  }
 `;
 
 const TwoColumnGrid = styled.div`
@@ -152,6 +232,17 @@ const TwoColumnGrid = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   margin-bottom: 24px;
+
+  @media (max-width: 767px) {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 479px) {
+    gap: 16px;
+    margin-bottom: 16px;
+  }
 `;
 
 const Button = styled.button`
@@ -180,5 +271,22 @@ const Button = styled.button`
 
   &:active {
     background: #f3f4f6;
+  }
+
+  @media (max-width: 767px) {
+    padding: 9px 14px;
+    font-size: 13px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    width: 100%;
+    padding: 10px 12px;
+    justify-content: center;
+    border-radius: 6px;
   }
 `;
