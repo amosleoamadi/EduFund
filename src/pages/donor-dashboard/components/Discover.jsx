@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { MdLocationOn, MdAccessTime } from "react-icons/md";
 import { FaCheckCircle, FaRegHeart, FaShareAlt } from "react-icons/fa";
@@ -9,8 +9,11 @@ import fatima from "../../../assets/Fatimo.img.png";
 import ikpe from "../../../assets/Ikpe.img.png";
 import grace from "../../../assets/Grace.img.png";
 import samuel from "../../../assets/Samuel.img.png";
+import DonationModal from "../../modals/steps/DonationModal";
 
 const Discover = () => {
+  const [selectedCampaign, setSelectedCampaign] = useState(null);
+
   const campaigns = [
     {
       id: 1,
@@ -113,9 +116,10 @@ const Discover = () => {
             </Stats>
 
             <Actions>
-              <DonateButton>
+              <DonateButton onClick={() => setSelectedCampaign(c)}>
                 <FaRegHeart /> Donate Now
               </DonateButton>
+
               <ShareButton>
                 <FaShareAlt />
               </ShareButton>
@@ -123,6 +127,12 @@ const Discover = () => {
           </CampaignCard>
         ))}
       </CampaignContainer>
+
+      <DonationModal
+        open={!!selectedCampaign}
+        onClose={() => setSelectedCampaign(null)}
+        campaign={selectedCampaign}
+      />
     </Holder>
   );
 };
