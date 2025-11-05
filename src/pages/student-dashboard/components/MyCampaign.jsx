@@ -16,10 +16,11 @@ const MyCampaign = () => {
     return <LoadingState />;
   }
 
-  if (isError) {
-    return <FirstCampaign />;
-  }
-  return <Hero>{data?.data?.length && <ActiveCampaing data={data} />}</Hero>;
+  return (
+    <Hero>
+      {data?.data?.length ? <ActiveCampaing data={data} /> : <FirstCampaign />}
+    </Hero>
+  );
 };
 
 export default MyCampaign;
