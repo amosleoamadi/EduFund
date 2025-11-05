@@ -38,7 +38,7 @@ const CampaignTabs = () => {
     donors: 47,
     fundedPercent: 74,
     daysLeft: 45,
-    statusOptions: ["Pending", "Active", "Rejected"],
+    statusOptions: ["Active", "Pending", "Rejected"],
     activeStatus: "Active",
   };
 
@@ -53,7 +53,7 @@ const CampaignTabs = () => {
       donors: 30,
       fundedPercent: 100,
       daysLeft: 0,
-      statusOptions: ["Pending", "Active", "Rejected"],
+      statusOptions: ["Active", "Pending", "Rejected"],
       activeStatus: "Completed",
     },
   ];
@@ -123,7 +123,10 @@ const CampaignTabs = () => {
             </BadgeContainer>
           </div>
           <ShareButton>
-            <span style={{ marginRight: "8px" }}>↗</span>Share
+            <span style={{ marginRight: "8px" }}>
+              <FiShare2 />{" "}
+            </span>
+            Share
           </ShareButton>
         </div>
 

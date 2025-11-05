@@ -35,7 +35,7 @@ const AcademicDetailsStep = ({ formData, setFormData, errors }) => {
         </Label>
         <Input
           type="text"
-          name="yearLevel"
+          name="year"
           placeholder="e.g., 300 Level or Year 3"
           value={formData.year || ""}
           onChange={handleChange}
@@ -69,7 +69,7 @@ const AcademicDetailsStep = ({ formData, setFormData, errors }) => {
         </Label>
         <Input
           type="text"
-          name="jambNumber"
+          name="jambRegistrationNumber"
           placeholder="e.g., 12345678AB"
           value={formData.jambRegistrationNumber || ""}
           onChange={handleChange}

@@ -45,6 +45,21 @@ const CardContainer = styled.div`
   border-radius: 12px;
   padding: 24px;
   width: 100%;
+
+  @media (max-width: 1199px) {
+    padding: 22px;
+    border-radius: 11px;
+  }
+
+  @media (max-width: 767px) {
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  @media (max-width: 479px) {
+    padding: 16px;
+    border-radius: 8px;
+  }
 `;
 
 const CardTitle = styled.h2`
@@ -52,6 +67,21 @@ const CardTitle = styled.h2`
   font-size: 20px;
   font-weight: 600;
   margin: 0 0 24px 0;
+
+  @media (max-width: 1199px) {
+    font-size: 19px;
+    margin-bottom: 22px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 17px;
+    margin-bottom: 18px;
+  }
 `;
 
 const ActionItem = styled.div`
@@ -63,10 +93,29 @@ const ActionItem = styled.div`
   &:not(:last-child) {
     border-bottom: 1px solid #ffcccc;
   }
+
+  @media (max-width: 1199px) {
+    padding: 18px 0;
+  }
+
+  @media (max-width: 767px) {
+    padding: 16px 0;
+  }
+
+  @media (max-width: 479px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 0;
+  }
 `;
 
 const ActionContent = styled.div`
   flex: 1;
+
+  @media (max-width: 479px) {
+    width: 100%;
+  }
 `;
 
 const ActionTitle = styled.h4`
@@ -74,6 +123,20 @@ const ActionTitle = styled.h4`
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 4px 0;
+
+  @media (max-width: 1199px) {
+    font-size: 17px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 16px;
+    margin-bottom: 3px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 15px;
+    margin-bottom: 2px;
+  }
 `;
 
 const ActionDescription = styled.h5`
@@ -81,6 +144,15 @@ const ActionDescription = styled.h5`
   font-size: 14px;
   margin: 0;
   opacity: 0.8;
+
+  @media (max-width: 767px) {
+    font-size: 13px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 12px;
+    line-height: 1.4;
+  }
 `;
 
 const ActionButton = styled.button`
@@ -103,5 +175,24 @@ const ActionButton = styled.button`
 
   &:active {
     transform: scale(0.98);
+  }
+
+  @media (max-width: 1199px) {
+    padding: 7px 18px;
+    font-size: 13px;
+  }
+
+  @media (max-width: 767px) {
+    padding: 6px 16px;
+    font-size: 13px;
+    margin-left: 12px;
+  }
+
+  @media (max-width: 479px) {
+    width: 100%;
+    margin-left: 0;
+    padding: 8px 16px;
+    font-size: 14px;
+    white-space: normal;
   }
 `;

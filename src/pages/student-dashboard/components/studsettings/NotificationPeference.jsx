@@ -65,6 +65,25 @@ const CardContainer = styled.div`
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   width: 100%;
   margin-bottom: 30px;
+
+  @media (max-width: 1199px) {
+    padding: 28px;
+    margin-bottom: 28px;
+  }
+
+  @media (max-width: 767px) {
+    padding: 24px;
+    border-radius: 10px;
+    margin-bottom: 24px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  @media (max-width: 479px) {
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  }
 `;
 
 const Header = styled.div`
@@ -81,6 +100,38 @@ const Header = styled.div`
     width: 28px;
     height: 28px;
   }
+
+  @media (max-width: 1199px) {
+    margin-bottom: 28px;
+    font-size: 22px;
+
+    svg {
+      width: 26px;
+      height: 26px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    margin-bottom: 24px;
+    font-size: 20px;
+    gap: 10px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    margin-bottom: 20px;
+    font-size: 18px;
+    gap: 8px;
+
+    svg {
+      width: 22px;
+      height: 22px;
+    }
+  }
 `;
 
 const PreferenceItem = styled.div`
@@ -93,10 +144,24 @@ const PreferenceItem = styled.div`
   &:last-child {
     border-bottom: none;
   }
+
+  @media (max-width: 767px) {
+    padding: 18px 0;
+  }
+
+  @media (max-width: 479px) {
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px 0;
+  }
 `;
 
 const PreferenceContent = styled.div`
   flex: 1;
+
+  @media (max-width: 479px) {
+    width: 100%;
+  }
 `;
 
 const PreferenceTitle = styled.h4`
@@ -104,12 +169,31 @@ const PreferenceTitle = styled.h4`
   font-weight: 600;
   color: #1a1a1a;
   margin: 0 0 8px 0;
+
+  @media (max-width: 767px) {
+    font-size: 17px;
+    margin-bottom: 6px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 15px;
+    margin-bottom: 4px;
+  }
 `;
 
 const PreferenceDescription = styled.h5`
   font-size: 15px;
   color: #6b7280;
   margin: 0;
+
+  @media (max-width: 767px) {
+    font-size: 13px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 12px;
+    line-height: 1.4;
+  }
 `;
 
 const ToggleSwitch = styled.input`
@@ -142,5 +226,21 @@ const ToggleSwitch = styled.input`
 
   &:checked::before {
     left: 22px;
+  }
+
+  @media (max-width: 479px) {
+    width: 44px;
+    height: 26px;
+
+    &::before {
+      width: 22px;
+      height: 22px;
+      top: 2px;
+      left: 2px;
+    }
+
+    &:checked::before {
+      left: 20px;
+    }
   }
 `;

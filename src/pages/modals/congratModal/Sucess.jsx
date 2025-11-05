@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import {
   ModalOverlay,
   ModalContainer,
@@ -28,11 +29,12 @@ import {
 
 import React from "react";
 
-const Sucess = () => {
+const Sucess = ({ setCampaignsucess }) => {
+  const nav = useNavigate();
   return (
     <ModalOverlay>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
-        <CloseButton>✕</CloseButton>
+        <CloseButton onClick={() => setCampaignsucess(false)}>✕</CloseButton>
 
         <ModalContent>
           <Title>Campaign Created Successfully! 🎉</Title>
@@ -99,8 +101,12 @@ const Sucess = () => {
           </SecurityMessage>
 
           <ButtonGroup>
-            <SecondaryButton>Back to Overview</SecondaryButton>
-            <PrimaryButton>View Campaign ↗</PrimaryButton>
+            <SecondaryButton onClick={() => nav("/student-dashbord")}>
+              Back to Overview
+            </SecondaryButton>
+            <PrimaryButton onClick={() => nav("/student-dashbord/campaigns")}>
+              View Campaign ↗
+            </PrimaryButton>
           </ButtonGroup>
         </ModalContent>
       </ModalContainer>

@@ -13,7 +13,7 @@ const CampaignInformationStep = ({ formData, setFormData, errors }) => {
   const handleQuickSelect = (amount) => {
     setFormData((prev) => ({
       ...prev,
-      fundingGoal: amount,
+      target: amount,
     }));
   };
   return (
@@ -22,7 +22,7 @@ const CampaignInformationStep = ({ formData, setFormData, errors }) => {
         <Label>Campaign Title</Label>
         <Input
           type="text"
-          name="campaignTitle"
+          name="title"
           placeholder="e.g., Help me complete my Computer Science degree"
           value={formData.title || ""}
           onChange={handleChange}
@@ -38,7 +38,7 @@ const CampaignInformationStep = ({ formData, setFormData, errors }) => {
         <Label>Funding Goal (₦)</Label>
         <Input
           type="number"
-          name="fundingGoal"
+          name="target"
           placeholder="Enter the total tuition amount you need"
           value={formData.target || ""}
           onChange={handleChange}
@@ -46,19 +46,19 @@ const CampaignInformationStep = ({ formData, setFormData, errors }) => {
         />
         <QuickSelectContainer>
           <QuickSelectButton
-            className={formData.fundingGoal === 100000 ? "active" : ""}
+            className={formData.target === 100000 ? "active" : ""}
             onClick={() => handleQuickSelect(100000)}
           >
             ₦100K
           </QuickSelectButton>
           <QuickSelectButton
-            className={formData.fundingGoal === 200000 ? "active" : ""}
+            className={formData.target === 200000 ? "active" : ""}
             onClick={() => handleQuickSelect(200000)}
           >
             ₦200K
           </QuickSelectButton>
           <QuickSelectButton
-            className={formData.fundingGoal === 300000 ? "active" : ""}
+            className={formData.target === 300000 ? "active" : ""}
             onClick={() => handleQuickSelect(300000)}
           >
             ₦300K
@@ -71,7 +71,7 @@ const CampaignInformationStep = ({ formData, setFormData, errors }) => {
         <Label>Campaign Duration (Days)</Label>
         <Input
           type="number"
-          name="campaignDuration"
+          name="duration"
           placeholder="e.g., 30"
           value={formData.duration || ""}
           onChange={handleChange}
