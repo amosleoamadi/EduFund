@@ -312,7 +312,6 @@ const ContributionBox = styled.div`
   background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
   border-radius: 10px;
   padding: 1rem 1.5rem;
-  text-align: right;
   box-shadow: 0 2px 6px rgba(16, 185, 129, 0.1);
 `;
 
@@ -322,9 +321,10 @@ const ContributionLabel = styled.span`
 `;
 
 const ContributionAmount = styled.h3`
-  color: #16a34a;
+  color: black;
   font-size: 1.3rem;
   margin: 0.3rem 0 0;
+  font-weight: normal;
 `;
 
 const Tags = styled.div`
