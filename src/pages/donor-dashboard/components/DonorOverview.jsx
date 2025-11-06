@@ -25,7 +25,6 @@ import {
 const DonorOverview = () => {
   const nav = useNavigate();
   const [progress, setProgress] = useState(0);
-  const donorId = useSelector(selectStundentToken);
   const username = useSelector(studentFirstname);
 
   const stats = [

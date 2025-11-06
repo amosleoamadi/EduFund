@@ -42,6 +42,7 @@ const CampaignCreation = ({ setCreate, create }) => {
     duration: "",
     title: "",
     target: "",
+    course: "",
   });
   const [errors, setErrors] = useState({});
 
@@ -82,6 +83,8 @@ const CampaignCreation = ({ setCreate, create }) => {
         newErrors.matricNumber = "Matric number is required";
       if (!formData.jambRegistrationNumber?.trim())
         newErrors.jambRegistrationNumber = "JAMB number is required";
+      if (!formData.course?.trim())
+        newErrors.course = "Course of study is required";
     }
 
     if (step === 2) {

@@ -28,20 +28,6 @@ import { FiShare2 } from "react-icons/fi";
 const CampaignTabs = ({ data }) => {
   const [activeTab, setActiveTab] = useState("current");
 
-  // const currentCampaignData = {
-  //   title: "Help Femi Product Design Degree",
-  //   status: "Active",
-  //   verified: true,
-  //   demoText: "Demo: Test States",
-  //   raised: 75000,
-  //   goal: 100000,
-  //   donors: 47,
-  //   fundedPercent: 74,
-  //   daysLeft: 45,
-  //   statusOptions: ["Active", "Pending", "Rejected"],
-  //   activeStatus: "Active",
-  // };
-
   const historyData = [
     {
       title: "Previous Campaign 1",
@@ -122,15 +108,15 @@ const CampaignTabs = ({ data }) => {
 
         <StatsContainer>
           <StatItem>
-            <StatNumber>{data.donors}</StatNumber>
+            <StatNumber>{data?.data[0]?.donors}</StatNumber>
             <StatLabel>Donors</StatLabel>
           </StatItem>
           <StatItem>
-            <StatNumber>{data.fundedPercent}%</StatNumber>
+            <StatNumber>{data?.data[0]?.fundedPercentage}%</StatNumber>
             <StatLabel>Funded</StatLabel>
           </StatItem>
           <StatItem>
-            <StatNumber>{data.daysLeft}</StatNumber>
+            <StatNumber>{data?.data[0]?.daysLeft}</StatNumber>
             <StatLabel>Days Left</StatLabel>
           </StatItem>
         </StatsContainer>

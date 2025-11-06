@@ -98,13 +98,12 @@ const DonorSignUp = () => {
       phoneNumber,
     };
     if (
-      !(
-        donordetail.password ||
-        donordetail.email ||
-        donordetail.firstName ||
-        donordetail.lastName ||
-        donordetail.organizationName
-      )
+      !donordetail.password ||
+      !donordetail.email ||
+      !donordetail.firstName ||
+      !donordetail.lastName ||
+      (active === "organization" && !donordetail.organizationName) ||
+      !donordetail.phoneNumber
     ) {
       toast.error("Input correct details");
     } else if (!emailRegex.test(donordetail.email)) {
@@ -116,18 +115,18 @@ const DonorSignUp = () => {
         const response = await individual(data).unwrap();
         dispatch(
           setUserState({
-            firstname: res?.data?.firstName,
-            lastname: res?.data?.lastName,
-            email: res?.data?.email,
-            userId: res?.data?._id,
+            firstname: response?.data?.firstName,
+            lastname: response?.data?.lastName,
+            email: response?.data?.email,
+            userId: response?.data?._id,
           })
         );
-        toast.success(response?.message);
         localStorage.setItem(
           "EmailDetails",
           JSON.stringify(response?.data?.email)
         );
         nav("/verify-email");
+        toast.success(response?.message);
       } catch (err) {
         toast.error(err?.data?.message);
       }
@@ -141,9 +140,9 @@ const DonorSignUp = () => {
           email: res?.data?.email,
           userId: res?.data?._id,
         });
-        toast.success(res?.message);
         localStorage.setItem("EmailDetails", JSON.stringify(res?.data?.email));
         nav("/verify-email");
+        toast.success(res?.message);
       } catch (err) {
         toast.error(err?.data?.message);
       }
@@ -222,7 +221,7 @@ const DonorSignUp = () => {
             />
           </LabelInput>
           <LabelInput>
-            <label htmlFor="email">Password Number</label>
+            <label htmlFor="email">Phone Number</label>
             <Input
               className="input_place"
               placeholder="+234 800 000 0000"
