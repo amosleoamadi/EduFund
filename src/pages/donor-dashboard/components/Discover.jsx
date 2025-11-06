@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { MdLocationOn, MdAccessTime } from "react-icons/md";
 import { FaCheckCircle, FaRegHeart, FaShareAlt } from "react-icons/fa";
-
 import { LuUsers } from "react-icons/lu";
 
 import fatima from "../../../assets/Fatimo.img.png";
@@ -10,9 +9,12 @@ import ikpe from "../../../assets/Ikpe.img.png";
 import grace from "../../../assets/Grace.img.png";
 import samuel from "../../../assets/Samuel.img.png";
 import DonationModal from "../../modals/steps/DonationModal";
+import CampaignDetailsModal from "../../modals/steps/CampaignDetailsModal";
 
 const Discover = () => {
   const [selectedCampaign, setSelectedCampaign] = useState(null);
+  const [showDetails, setShowDetails] = useState(false);
+  const [showDonateModal, setShowDonateModal] = useState(false);
 
   const campaigns = [
     {
@@ -27,19 +29,23 @@ const Discover = () => {
       daysLeft: 42,
       description:
         "Passionate pharmacy student seeking support to complete final year...",
+      story:
+        "Despite facing financial challenges, I've maintained excellent academic performance with a cumulative GPA of 4.5/5.0. I'm actively involved in campus activities and community service, always looking for ways to give back while pursuing my dreams. This scholarship will not only help me complete my education but will also enable me to focus on my studies without the constant worry of financial constraints. With your support, I can achieve my goal of becoming a professional in my field and making a positive impact in my community.",
     },
     {
       id: 2,
       name: "Ikpe Emmanuel",
       avatar: ikpe,
       course: "Architecture",
-      school: "Federal University of Technology. Akure",
+      school: "Federal University of Technology, Akure",
       goal: 1200000,
       raised: 850000,
       donors: 35,
       daysLeft: 18,
       description:
         "Final year architecture student with excellent academic performance...",
+      story:
+        "Despite facing financial challenges, I've maintained excellent academic performance with a cumulative GPA of 4.5/5.0. I'm actively involved in campus activities and community service, always looking for ways to give back while pursuing my dreams. This scholarship will not only help me complete my education but will also enable me to focus on my studies without the constant worry of financial constraints. With your support, I can achieve my goal of becoming a professional in my field and making a positive impact in my community.",
     },
     {
       id: 3,
@@ -53,6 +59,8 @@ const Discover = () => {
       daysLeft: 65,
       description:
         "Dedicated Accounting student maintaining first-class grades...",
+      story:
+        "Despite facing financial challenges, I've maintained excellent academic performance with a cumulative GPA of 4.5/5.0. I'm actively involved in campus activities and community service, always looking for ways to give back while pursuing my dreams. This scholarship will not only help me complete my education but will also enable me to focus on my studies without the constant worry of financial constraints. With your support, I can achieve my goal of becoming a professional in my field and making a positive impact in my community.",
     },
     {
       id: 4,
@@ -66,13 +74,17 @@ const Discover = () => {
       daysLeft: 55,
       description:
         "Award-winning student innovator seeking educational support",
+      story:
+        "Despite facing financial challenges, I've maintained excellent academic performance with a cumulative GPA of 4.5/5.0. I'm actively involved in campus activities and community service, always looking for ways to give back while pursuing my dreams. This scholarship will not only help me complete my education but will also enable me to focus on my studies without the constant worry of financial constraints. With your support, I can achieve my goal of becoming a professional in my field and making a positive impact in my community.",
     },
   ];
 
   return (
     <Holder>
-      <h3>Discover Campaigns</h3>
-      <p>Find students who need your support</p>
+      <Header>
+        <h3>Discover Campaigns</h3>
+        <p>Find students who need your support</p>
+      </Header>
 
       <CampaignContainer>
         {campaigns.map((c) => (
@@ -116,9 +128,23 @@ const Discover = () => {
             </Stats>
 
             <Actions>
-              <DonateButton onClick={() => setSelectedCampaign(c)}>
+              <DonateButton
+                onClick={() => {
+                  setSelectedCampaign(c);
+                  setShowDonateModal(true);
+                }}
+              >
                 <FaRegHeart /> Donate Now
               </DonateButton>
+
+              <ViewButton
+                onClick={() => {
+                  setSelectedCampaign(c);
+                  setShowDetails(true);
+                }}
+              >
+                View Details
+              </ViewButton>
 
               <ShareButton>
                 <FaShareAlt />
@@ -128,9 +154,21 @@ const Discover = () => {
         ))}
       </CampaignContainer>
 
+      <LoadMoreButton>Load More Campaigns</LoadMoreButton>
+
+      <CampaignDetailsModal
+        open={showDetails}
+        campaign={selectedCampaign}
+        onClose={() => setShowDetails(false)}
+        onDonate={() => {
+          setShowDetails(false);
+          setShowDonateModal(true);
+        }}
+      />
+
       <DonationModal
-        open={!!selectedCampaign}
-        onClose={() => setSelectedCampaign(null)}
+        open={showDonateModal}
+        onClose={() => setShowDonateModal(false)}
         campaign={selectedCampaign}
       />
     </Holder>
@@ -142,6 +180,10 @@ export default Discover;
 const Holder = styled.main`
   width: 100%;
   background-color: #f9fafb;
+`;
+
+const Header = styled.div`
+  margin-bottom: 1.5rem;
 
   h3 {
     color: #101828;
@@ -153,7 +195,6 @@ const Holder = styled.main`
   p {
     color: #4a5565;
     font-size: 14px;
-    margin-bottom: 1.5rem;
   }
 `;
 
@@ -286,7 +327,6 @@ const Stat = styled.span`
 
 const Actions = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 0.8rem;
 `;
@@ -312,6 +352,23 @@ const DonateButton = styled.button`
   }
 `;
 
+const ViewButton = styled.button`
+  flex: 1;
+  background: #fff;
+  color: #101828;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #f9fafb;
+  }
+`;
+
 const ShareButton = styled.button`
   background: none;
   border: 1px solid #e5e7eb;
@@ -326,5 +383,23 @@ const ShareButton = styled.button`
 
   &:hover {
     background: #f3f4f6;
+  }
+`;
+
+const LoadMoreButton = styled.button`
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.8rem 2rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #101828;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #f9fafb;
   }
 `;
