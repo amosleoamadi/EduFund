@@ -4,11 +4,6 @@ import { MdLocationOn, MdAccessTime } from "react-icons/md";
 import { FaCheckCircle, FaRegHeart, FaShareAlt } from "react-icons/fa";
 
 import { LuUsers } from "react-icons/lu";
-
-import fatima from "../../../assets/Fatimo.img.png";
-import ikpe from "../../../assets/Ikpe.img.png";
-import grace from "../../../assets/Grace.img.png";
-import samuel from "../../../assets/Samuel.img.png";
 import DonationModal from "../../modals/steps/DonationModal";
 import { useGetCampaignQuery } from "../../../utils/stundentauth/createcampaignapi";
 import LoadingState from "../../modals/loadingstate/LoadingState";
@@ -100,6 +95,7 @@ const Discover = () => {
         open={!!selectedCampaign}
         onClose={() => setSelectedCampaign(null)}
         campaign={selectedCampaign}
+        data={campaigns}
       />
     </Holder>
   );

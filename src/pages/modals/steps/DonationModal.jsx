@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { FaRegHeart } from "react-icons/fa";
 import PaymentMethodModal from "./PaymentMethodModal";
 
-const DonationModal = ({ open, onClose, campaign }) => {
+const DonationModal = ({ open, onClose, campaign, data }) => {
   const [amount, setAmount] = useState("");
   const [paymentOpen, setPaymentOpen] = useState(false);
 
@@ -32,7 +32,7 @@ const DonationModal = ({ open, onClose, campaign }) => {
             </Header>
 
             <p style={{ color: "#64748b", fontSize: "0.9rem" }}>
-              Support {campaign.name}'s education journey
+              Support {data?.studentId?.fullName}'s education journey
             </p>
 
             <Steps>
@@ -46,11 +46,11 @@ const DonationModal = ({ open, onClose, campaign }) => {
             </Steps>
 
             <StudentInfo>
-              <img src={campaign.avatar} alt={campaign.name} />
+              <img src="" alt="" />
               <div>
-                <h4>{campaign.name}</h4>
+                <h4>{data?.studentId?.fullName}</h4>
                 <p>
-                  {campaign.course} - {campaign.school}
+                  {data?.course} - {data?.schoolName}
                 </p>
               </div>
             </StudentInfo>
