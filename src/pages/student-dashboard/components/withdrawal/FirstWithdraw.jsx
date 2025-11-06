@@ -15,7 +15,7 @@ const FirstWithdraw = ({ data }) => {
       <Amount>
         <Tag>
           <h3>Available for Withdrawal</h3>
-          <button className="btn" disabled>
+          <button className="btn" disabled={!data?.balance}>
             Request Withdrawal
           </button>
         </Tag>

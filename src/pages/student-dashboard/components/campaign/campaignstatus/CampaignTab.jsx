@@ -25,22 +25,22 @@ import {
 } from "./CampaignTabStyle";
 import { FiShare2 } from "react-icons/fi";
 
-const CampaignTabs = () => {
+const CampaignTabs = ({ data }) => {
   const [activeTab, setActiveTab] = useState("current");
 
-  const currentCampaignData = {
-    title: "Help Femi Product Design Degree",
-    status: "Active",
-    verified: true,
-    demoText: "Demo: Test States",
-    raised: 75000,
-    goal: 100000,
-    donors: 47,
-    fundedPercent: 74,
-    daysLeft: 45,
-    statusOptions: ["Active", "Pending", "Rejected"],
-    activeStatus: "Active",
-  };
+  // const currentCampaignData = {
+  //   title: "Help Femi Product Design Degree",
+  //   status: "Active",
+  //   verified: true,
+  //   demoText: "Demo: Test States",
+  //   raised: 75000,
+  //   goal: 100000,
+  //   donors: 47,
+  //   fundedPercent: 74,
+  //   daysLeft: 45,
+  //   statusOptions: ["Active", "Pending", "Rejected"],
+  //   activeStatus: "Active",
+  // };
 
   const historyData = [
     {
@@ -57,8 +57,6 @@ const CampaignTabs = () => {
       activeStatus: "Completed",
     },
   ];
-
-  const data = activeTab === "current" ? currentCampaignData : historyData[0];
 
   return (
     <TabsContainer>
@@ -87,25 +85,6 @@ const CampaignTabs = () => {
         </AlertContent>
       </SuccessAlert>
 
-      <CampaignDetails>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <span>{data.demoText}</span>
-        </div>
-        <StatusButtonsContainer>
-          {data.statusOptions.map((status) => (
-            <StatusButton key={status} $isActive={status === data.activeStatus}>
-              {status}
-            </StatusButton>
-          ))}
-        </StatusButtonsContainer>
-      </CampaignDetails>
-
       <CampaignCard>
         <div
           style={{
@@ -116,10 +95,10 @@ const CampaignTabs = () => {
           }}
         >
           <div>
-            <CampaignTitle>{data.title}</CampaignTitle>
+            <CampaignTitle>{data?.data[0]?.title}</CampaignTitle>
             <BadgeContainer>
               <Badge $type="verified">✓ Verified</Badge>
-              <Badge $type="active">{data.status}</Badge>
+              <Badge $type="active">{data?.data[0]?.status}</Badge>
             </BadgeContainer>
           </div>
           <ShareButton>
@@ -133,17 +112,12 @@ const CampaignTabs = () => {
         <ProgressSection>
           <ProgressLabel>
             <span>Campaign Progress</span>
-            <span>
-              ₦{data.raised.toLocaleString()} of ₦{data.goal.toLocaleString()}
-            </span>
+            <span>₦{data?.data[0]?.target}</span>
           </ProgressLabel>
           <ProgressTrack>
             <ProgressFill $percentage={0} />
           </ProgressTrack>
-          <ProgressText>
-            ₦{(data.goal - data.raised).toLocaleString()} more needed to reach
-            your goal
-          </ProgressText>
+          <ProgressText>₦24 more needed to reach your goal</ProgressText>
         </ProgressSection>
 
         <StatsContainer>

@@ -96,12 +96,25 @@ const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  height: 100%;
+
+  @media (max-width: 768px) {
+    gap: 16px;
+  }
+
+  @media (max-width: 480px) {
+    gap: 12px;
+  }
 `;
 
 const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  @media (max-width: 480px) {
+    gap: 6px;
+  }
 `;
 
 const Label = styled.label`
@@ -111,6 +124,16 @@ const Label = styled.label`
   display: flex;
   align-items: center;
   gap: 8px;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+    gap: 6px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    gap: 4px;
+  }
 `;
 
 const Input = styled.input`
@@ -130,12 +153,29 @@ const Input = styled.input`
   &::placeholder {
     color: #9ca3af;
   }
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+    font-size: 12px;
+
+    min-height: 44px;
+  }
 `;
 
 const ErrorMessage = styled.span`
   font-size: 12px;
   color: #ef4444;
   margin-top: 4px;
+
+  @media (max-width: 480px) {
+    font-size: 11px;
+    margin-top: 2px;
+  }
 `;
 
 const InfoBox = styled.div`
@@ -147,4 +187,17 @@ const InfoBox = styled.div`
   gap: 8px;
   font-size: 13px;
   color: #1e40af;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+    font-size: 11px;
+    gap: 4px;
+    flex-direction: column;
+  }
 `;

@@ -9,16 +9,23 @@ export const ModalOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   overflow-y: auto;
   z-index: 100;
   padding: 25px 0;
 
+  @media (max-width: 1024px) {
+    padding: 20px;
+  }
+
   @media (max-width: 768px) {
     padding: 16px;
+    align-items: center;
   }
 
   @media (max-width: 480px) {
     padding: 12px;
+    align-items: flex-end;
   }
 `;
 
@@ -26,63 +33,92 @@ export const ModalContainer = styled.div`
   background-color: #fff;
   border-radius: 12px;
   width: 40%;
-  height: 70%;
   min-height: max-content;
   display: flex;
   flex-direction: column;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   position: relative;
+  max-height: 85vh;
+  overflow: hidden;
+
+  @media (max-width: 1024px) {
+    width: 60%;
+  }
 
   @media (max-width: 768px) {
-    height: auto;
-    border-radius: 10px;
+    width: 80%;
+    max-height: 80vh;
   }
 
   @media (max-width: 480px) {
-    height: auto;
-    border-radius: 8px;
+    width: 95%;
+    max-height: 85vh;
+    border-radius: 12px;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 320px) {
+    max-height: 90vh;
+    width: 92%;
   }
 `;
 
 export const CloseButton = styled.button`
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 20px;
+  right: 20px;
   background: none;
   border: none;
   font-size: 24px;
   cursor: pointer;
   color: #666;
-  padding: 0;
-  width: 32px;
-  height: 32px;
+  padding: 8px;
+  width: 40px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
+  border-radius: 6px;
   transition: background-color 0.2s;
+  z-index: 10;
 
   &:hover {
     background-color: #f0f0f0;
   }
 
+  @media (max-width: 768px) {
+    top: 18px;
+    right: 18px;
+    width: 38px;
+    height: 38px;
+  }
+
   @media (max-width: 480px) {
-    top: 12px;
-    right: 12px;
+    top: 16px;
+    right: 16px;
     font-size: 20px;
+    width: 44px;
+    height: 44px;
+    background-color: #f8f9fa;
   }
 `;
 
 export const ModalContent = styled.div`
-  padding: 40px 32px;
+  padding: 60px 32px 40px 32px;
   text-align: center;
+  overflow-y: auto;
+  flex: 1;
+
+  @media (max-width: 1024px) {
+    padding: 56px 28px 36px 28px;
+  }
 
   @media (max-width: 768px) {
-    padding: 32px 24px;
+    padding: 52px 24px 32px 24px;
   }
 
   @media (max-width: 480px) {
-    padding: 24px 16px;
+    padding: 57px 24px 38px 24px;
   }
 `;
 
@@ -91,13 +127,22 @@ export const Title = styled.h2`
   font-weight: 600;
   color: #222;
   margin: 0 0 12px 0;
+  line-height: 1.3;
+  padding-top: 8px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     font-size: 22px;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 18px;
+    margin-bottom: 8px;
+    padding-top: 4px;
   }
 `;
 
@@ -107,9 +152,15 @@ export const Subtitle = styled.p`
   margin: 0 0 24px 0;
   line-height: 1.5;
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     font-size: 13px;
     margin-bottom: 20px;
+    line-height: 1.4;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    margin-bottom: 16px;
   }
 `;
 
@@ -120,9 +171,15 @@ export const CampaignCard = styled.div`
   margin-bottom: 24px;
   text-align: left;
 
+  @media (max-width: 768px) {
+    padding: 14px;
+    margin-bottom: 20px;
+  }
+
   @media (max-width: 480px) {
     padding: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    border-radius: 6px;
   }
 `;
 
@@ -132,8 +189,13 @@ export const CampaignHeader = styled.div`
   gap: 12px;
   margin-bottom: 16px;
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  @media (max-width: 480px) {
+    gap: 8px;
     margin-bottom: 12px;
   }
 `;
@@ -150,10 +212,16 @@ export const CampaignIcon = styled.div`
   font-size: 20px;
   flex-shrink: 0;
 
+  @media (max-width: 768px) {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+
   @media (max-width: 480px) {
     width: 36px;
     height: 36px;
-    font-size: 18px;
+    font-size: 16px;
   }
 `;
 
@@ -162,6 +230,10 @@ export const CampaignTitle = styled.p`
   font-size: 14px;
   font-weight: 600;
   color: #222;
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+  }
 `;
 
 export const CampaignDetails = styled.div`
@@ -175,9 +247,16 @@ export const CampaignDetails = styled.div`
     border-bottom: none;
   }
 
+  @media (max-width: 768px) {
+    padding: 7px 0;
+  }
+
   @media (max-width: 480px) {
     padding: 6px 0;
     font-size: 13px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
   }
 `;
 
@@ -185,12 +264,20 @@ export const DetailLabel = styled.span`
   font-size: 13px;
   color: #666;
   font-weight: 500;
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
 `;
 
 export const DetailValue = styled.span`
   font-size: 13px;
   font-weight: 600;
   color: #222;
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
 `;
 
 export const StatusBadge = styled.span`
@@ -204,9 +291,14 @@ export const StatusBadge = styled.span`
   align-items: center;
   gap: 4px;
 
-  @media (max-width: 480px) {
-    padding: 3px 10px;
+  @media (max-width: 768px) {
+    padding: 4px 10px;
     font-size: 11px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 3px 8px;
+    font-size: 10px;
   }
 `;
 
@@ -219,11 +311,13 @@ export const NextStepsSection = styled.div`
 
   @media (max-width: 768px) {
     padding: 16px;
+    margin-bottom: 20px;
+    border-radius: 6px;
   }
 
   @media (max-width: 480px) {
     padding: 12px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 `;
 
@@ -236,9 +330,15 @@ export const NextStepsTitle = styled.h3`
   align-items: center;
   gap: 8px;
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     font-size: 13px;
+    margin-bottom: 14px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
     margin-bottom: 12px;
+    gap: 6px;
   }
 `;
 
@@ -251,9 +351,15 @@ export const StepItem = styled.div`
     margin-bottom: 0;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     gap: 10px;
     margin-bottom: 10px;
+  }
+
+  @media (max-width: 480px) {
+    gap: 8px;
+    margin-bottom: 8px;
+    align-items: flex-start;
   }
 `;
 
@@ -270,15 +376,23 @@ export const StepNumber = styled.div`
   font-size: 12px;
   flex-shrink: 0;
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     width: 22px;
     height: 22px;
     font-size: 11px;
+  }
+
+  @media (max-width: 480px) {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    margin-top: 1px;
   }
 `;
 
 export const StepContent = styled.div`
   text-align: left;
+  flex: 1;
 `;
 
 export const StepTitle = styled.p`
@@ -287,8 +401,13 @@ export const StepTitle = styled.p`
   font-weight: 600;
   color: #222;
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     font-size: 12px;
+    margin-bottom: 3px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 11px;
   }
 `;
 
@@ -298,8 +417,13 @@ export const StepDescription = styled.p`
   color: #666;
   line-height: 1.4;
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     font-size: 11px;
+    line-height: 1.3;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 10px;
   }
 `;
 
@@ -312,9 +436,17 @@ export const SecurityMessage = styled.p`
   justify-content: center;
   gap: 6px;
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     font-size: 11px;
     margin-bottom: 20px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 10px;
+    margin-bottom: 16px;
+    flex-direction: column;
+    gap: 4px;
+    text-align: center;
   }
 `;
 
@@ -324,9 +456,14 @@ export const ButtonGroup = styled.div`
   flex-wrap: wrap;
   justify-content: center;
 
-  @media (max-width: 480px) {
+  @media (max-width: 768px) {
     gap: 10px;
+  }
+
+  @media (max-width: 480px) {
+    gap: 8px;
     flex-direction: column;
+    width: 100%;
   }
 `;
 
@@ -341,11 +478,19 @@ export const Button = styled.button`
   flex: 1;
   min-width: 140px;
 
-  @media (max-width: 480px) {
-    padding: 10px 20px;
+  @media (max-width: 768px) {
+    padding: 11px 20px;
     font-size: 13px;
+    min-width: 120px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 14px 16px;
+    font-size: 16px;
     flex: auto;
     min-width: auto;
+    width: 100%;
+    min-height: 48px;
   }
 `;
 
@@ -373,5 +518,6 @@ export const PrimaryButton = styled(Button)`
 
   @media (max-width: 480px) {
     width: 100%;
+    order: -1;
   }
 `;

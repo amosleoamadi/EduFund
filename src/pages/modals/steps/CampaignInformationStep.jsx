@@ -99,18 +99,38 @@ const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  @media (max-width: 768px) {
+    gap: 16px;
+  }
+
+  @media (max-width: 480px) {
+    gap: 12px;
+  }
 `;
 
 const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  @media (max-width: 480px) {
+    gap: 6px;
+  }
 `;
 
 const Label = styled.label`
   font-size: 14px;
   font-weight: 500;
   color: #1f2937;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
 `;
 
 const Input = styled.input`
@@ -130,11 +150,27 @@ const Input = styled.input`
   &::placeholder {
     color: #9ca3af;
   }
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+    font-size: 12px;
+
+    min-height: 44px;
+  }
 `;
 
 const ErrorMessage = styled.span`
   font-size: 12px;
   color: #ef4444;
+
+  @media (max-width: 480px) {
+    font-size: 11px;
+  }
 `;
 
 const QuickSelectContainer = styled.div`
@@ -142,6 +178,22 @@ const QuickSelectContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
   margin-top: 8px;
+
+  @media (max-width: 768px) {
+    gap: 10px;
+    margin-top: 6px;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  @media (max-width: 320px) {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
 `;
 
 const QuickSelectButton = styled.button`
@@ -164,6 +216,27 @@ const QuickSelectButton = styled.button`
     color: #fff;
     border-color: #2563eb;
   }
+
+  @media (max-width: 768px) {
+    padding: 8px;
+    font-size: 12px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px 8px;
+    font-size: 12px;
+
+    min-height: 44px;
+
+    word-break: break-word;
+    white-space: normal;
+    line-height: 1.3;
+  }
+
+  @media (max-width: 320px) {
+    min-height: 48px;
+    font-size: 14px;
+  }
 `;
 
 const InfoBox = styled.div`
@@ -175,11 +248,29 @@ const InfoBox = styled.div`
   gap: 8px;
   font-size: 13px;
   color: #1e40af;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+    font-size: 11px;
+    gap: 4px;
+    flex-direction: column;
+  }
 `;
 
 const InfoTitle = styled.div`
   font-weight: 600;
   margin-bottom: 8px;
+
+  @media (max-width: 480px) {
+    margin-bottom: 6px;
+    font-size: 12px;
+  }
 `;
 
 const InfoList = styled.ul`
@@ -188,4 +279,9 @@ const InfoList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 4px;
+
+  @media (max-width: 480px) {
+    padding-left: 16px;
+    gap: 2px;
+  }
 `;

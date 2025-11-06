@@ -24,8 +24,14 @@ export const campaignApi = createApi({
     getallCampaign: builder.query({
       query: (studentId) => `/campaigns/${studentId}`,
     }),
+    getDasboard: builder.query({
+      query: (studentId) => `/student-dashboard/overview/${studentId}`,
+    }),
   }),
 });
 
-export const { useCampaigncreateMutation, useGetallCampaignQuery } =
-  campaignApi;
+export const {
+  useCampaigncreateMutation,
+  useGetallCampaignQuery,
+  useGetDasboardQuery,
+} = campaignApi;
