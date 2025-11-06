@@ -84,7 +84,7 @@ const DashboardStudent = () => {
               <Dropdown>
                 <TopContent>
                   <h3>
-                    Dr. {firstname} {lastname}
+                    {firstname} {lastname}
                   </h3>
                   <p>{email}</p>
                 </TopContent>

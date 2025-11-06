@@ -16,39 +16,22 @@ import { SlBadge } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
 import Donor_Chart from "./Donor_Chart";
 import axios from "axios";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import {
+  selectStundentToken,
+  studentFirstname,
+} from "../../../config/slices/studentauthslice";
 
 const DonorOverview = () => {
   const nav = useNavigate();
   const [progress, setProgress] = useState(0);
-  // const donorId = useSelector(donorId)
-  const [analytics, setAnalytics] = useState({
-    totalDonated: 0,
-    totalStudentsHelped: 0,
-    activeCampaigns: 0,
-  });
-
-  const BaseUrl = import.meta.env.VITE_EDUFUND_BASEURL;
-  
-
-  const fetchProgress = async () => {
-    try {
-      const res = await axios.get(`${BaseUrl}/donors/analytics/students-helped/${donorId}`);
-      setAnalytics(res?.data?.data);
-    } catch (error) {
-      console.error("Error fetching donor analytics:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchProgress();
-  }, []);
+  const username = useSelector(studentFirstname);
 
   const stats = [
     {
       id: 1,
       title: "Total Donated",
-      value: `₦${analytics?.totalDonated?.toLocaleString?.() || 0}`,
+      value: 0,
       icon: <FiDollarSign size={25} color="#2563eb" />,
       change: "+14% this month",
       changeColor: "green",
@@ -57,7 +40,7 @@ const DonorOverview = () => {
     {
       id: 2,
       title: "Students Helped",
-      value: analytics?.totalStudentsHelped || 0,
+      value: 0,
       icon: <LuUsers size={25} color="#10b981" />,
       change: "Lives changed",
       changeColor: "green",
@@ -66,7 +49,7 @@ const DonorOverview = () => {
     {
       id: 3,
       title: "Active Campaigns",
-      value: analytics?.activeCampaigns || 0,
+      value: 0,
       icon: <LuTrendingUp size={25} color="#7c3aed" />,
       change: "In progress",
       changeColor: "blue",
@@ -125,7 +108,7 @@ const DonorOverview = () => {
     <div className="container1">
       <div className="greeting">
         <div className="greeting-header">
-          <h1>Welcome back, Dr. Frank! 👋</h1>
+          <h1>Welcome back, Dr. {username} 👋</h1>
           <LuSparkles size={35} color="white" />
         </div>
         <p>Thank you for making a difference in students' lives.</p>
