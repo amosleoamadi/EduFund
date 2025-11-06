@@ -2,14 +2,25 @@ import React from "react";
 import Firstview from "./overview(com)/Firstview";
 import styled from "styled-components";
 import DashOverview from "./overview(com)/DashOverview";
+import { useGetDasboardQuery } from "../../../utils/stundentauth/createcampaignapi";
+import { useSelector } from "react-redux";
+import { selectStudentId } from "../../../config/slices/studentauthslice";
+import LoadingState from "../../modals/loadingstate/LoadingState";
 
 const Overview = () => {
-  return (
-    <Content>
-      {/* <Firstview /> */}
-      <DashOverview />
-    </Content>
-  );
+  const studentId = useSelector(selectStudentId);
+  const { data, isLoading, isError } = useGetDasboardQuery(studentId);
+  console.log(data);
+
+  if (isLoading) {
+    return <LoadingState />;
+  }
+
+  if (isError) {
+    return <Firstview />;
+  }
+
+  return <Content>{data && <DashOverview data={data} />}</Content>;
 };
 
 export default Overview;

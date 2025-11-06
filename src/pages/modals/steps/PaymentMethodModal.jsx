@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import KoraPayLogo from "../../../assets/kora logo.png";
+import toast from "react-hot-toast";
 
 const PaymentMethodModal = ({ open, onGoBack, onClose }) => {
   const [selected, setSelected] = useState(false);
@@ -13,7 +14,7 @@ const PaymentMethodModal = ({ open, onGoBack, onClose }) => {
 
   const handleChooseMethod = () => {
     if (selected) {
-      alert("Korapay selected! Proceeding to payment...");
+      toast.success("Korapay selected! Proceeding to payment...");
       onClose();
     }
   };
