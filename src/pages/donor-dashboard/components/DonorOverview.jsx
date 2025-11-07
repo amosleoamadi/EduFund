@@ -16,24 +16,28 @@ import { SlBadge } from "react-icons/sl";
 import { useNavigate } from "react-router-dom";
 import Donor_Chart from "./Donor_Chart";
 import axios from "axios";
-// import { useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { selectStudentId } from "../../../config/slices/studentauthslice";
+
 
 const DonorOverview = () => {
   const nav = useNavigate();
   const [progress, setProgress] = useState(0);
-  // const donorId = useSelector(donorId)
-  const [analytics, setAnalytics] = useState({
-    totalDonated: 0,
-    totalStudentsHelped: 0,
-    activeCampaigns: 0,
-  });
+  const [loading, setLoading] = useState(false)
+ const donorId = useSelector(selectStudentId);
+  const [analytics, setAnalytics] = useState({});
+
+  console.log(analytics)
+
+
 
   const BaseUrl = import.meta.env.VITE_EDUFUND_BASEURL;
   
 
   const fetchProgress = async () => {
     try {
-      const res = await axios.get(`${BaseUrl}/donors/analytics/students-helped/${donorId}`);
+      const res = await axios.get(`${BaseUrl}/donor-dashboard/overview/${donorId}`);
+      console.log(res)
       setAnalytics(res?.data?.data);
     } catch (error) {
       console.error("Error fetching donor analytics:", error);
@@ -122,7 +126,8 @@ const DonorOverview = () => {
   ];
 
   return (
-    <div className="container1">
+    <>
+      <div className="container1">
       <div className="greeting">
         <div className="greeting-header">
           <h1>Welcome back, Dr. Frank! 👋</h1>
@@ -236,6 +241,9 @@ const DonorOverview = () => {
         <Donor_Chart />
       </div>
     </div>
+
+    {loading && <LoadingState />}
+    </>
   );
 };
 
