@@ -70,20 +70,6 @@ const Donations = () => {
         <h1>My Donation</h1>
         <p>Tract all your contributions and their impact </p>
       </div>
-      {/* <aside className='donor-donation-filter'>
-         <div className=''>
-          <select name="" id="">
-            <option value="">All Donations</option>
-            <option value="">Option 2</option>
-            <option value="">Option 3</option>
-            <option value="">Option 4</option>
-            <option value="">Option 5</option>
-          </select>
-          <div className='filter-icon'>
-            <MdOutlineFilterAlt size={20}/>
-          </div>
-         </div>
-      </aside> */}
       <section className='donor-donation-students'>
         {
           dataSet.map((e)=> (
