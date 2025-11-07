@@ -189,7 +189,7 @@ const DashOverview = ({ data }) => {
           {donors.length > 0 ? (
             donors.map((donor, idx) => (
               <DonorItem key={idx}>
-                <DonorAvatar>{donor.name.charAt(0)}</DonorAvatar>
+                <DonorAvatar>{donor.name}</DonorAvatar>
                 <DonorInfo>
                   <DonorName>{donor.name}</DonorName>
                   <DonorStatus>{donor.status}</DonorStatus>

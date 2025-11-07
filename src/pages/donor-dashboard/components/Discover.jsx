@@ -3,81 +3,23 @@ import styled from "styled-components";
 import { MdLocationOn, MdAccessTime } from "react-icons/md";
 import { FaCheckCircle, FaRegHeart, FaShareAlt } from "react-icons/fa";
 import { LuUsers } from "react-icons/lu";
-
-import fatima from "../../../assets/Fatimo.img.png";
-import ikpe from "../../../assets/Ikpe.img.png";
-import grace from "../../../assets/Grace.img.png";
-import samuel from "../../../assets/Samuel.img.png";
 import DonationModal from "../../modals/steps/DonationModal";
 import CampaignDetailsModal from "../../modals/steps/CampaignDetailsModal";
+import { useGetCampaignQuery } from "../../../utils/stundentauth/createcampaignapi";
+import LoadingState from "../../modals/loadingstate/LoadingState";
+import { useNavigate } from "react-router-dom";
 
 const Discover = () => {
-  const [selectedCampaign, setSelectedCampaign] = useState(null);
-  const [showDetails, setShowDetails] = useState(false);
-  const [showDonateModal, setShowDonateModal] = useState(false);
+  const [selectedCampaign, setSelectedCampaign] = useState(false);
+  const [selectedStudent, setSelectedStundet] = useState(null);
+  const { data, isLoading } = useGetCampaignQuery();
+  const nav = useNavigate();
 
-  const campaigns = [
-    {
-      id: 1,
-      name: "Fatima Hassan",
-      avatar: fatima,
-      course: "Pharmacy",
-      school: "University of Ilorin",
-      goal: 950000,
-      raised: 580000,
-      donors: 23,
-      daysLeft: 42,
-      description:
-        "Passionate pharmacy student seeking support to complete final year...",
-      story:
-        "Despite facing financial challenges, I've maintained excellent academic performance with a cumulative GPA of 4.5/5.0. I'm actively involved in campus activities and community service, always looking for ways to give back while pursuing my dreams. This scholarship will not only help me complete my education but will also enable me to focus on my studies without the constant worry of financial constraints. With your support, I can achieve my goal of becoming a professional in my field and making a positive impact in my community.",
-    },
-    {
-      id: 2,
-      name: "Ikpe Emmanuel",
-      avatar: ikpe,
-      course: "Architecture",
-      school: "Federal University of Technology, Akure",
-      goal: 1200000,
-      raised: 850000,
-      donors: 35,
-      daysLeft: 18,
-      description:
-        "Final year architecture student with excellent academic performance...",
-      story:
-        "Despite facing financial challenges, I've maintained excellent academic performance with a cumulative GPA of 4.5/5.0. I'm actively involved in campus activities and community service, always looking for ways to give back while pursuing my dreams. This scholarship will not only help me complete my education but will also enable me to focus on my studies without the constant worry of financial constraints. With your support, I can achieve my goal of becoming a professional in my field and making a positive impact in my community.",
-    },
-    {
-      id: 3,
-      name: "Grace Ezekiel",
-      avatar: grace,
-      course: "Accounting",
-      school: "University of Benin",
-      goal: 750000,
-      raised: 320000,
-      donors: 15,
-      daysLeft: 65,
-      description:
-        "Dedicated Accounting student maintaining first-class grades...",
-      story:
-        "Despite facing financial challenges, I've maintained excellent academic performance with a cumulative GPA of 4.5/5.0. I'm actively involved in campus activities and community service, always looking for ways to give back while pursuing my dreams. This scholarship will not only help me complete my education but will also enable me to focus on my studies without the constant worry of financial constraints. With your support, I can achieve my goal of becoming a professional in my field and making a positive impact in my community.",
-    },
-    {
-      id: 4,
-      name: "Samuel Oladipupo",
-      avatar: samuel,
-      course: "Computer Engineering",
-      school: "Federal University of Technology, Owerri",
-      goal: 1050000,
-      raised: 420000,
-      donors: 18,
-      daysLeft: 55,
-      description:
-        "Award-winning student innovator seeking educational support",
-      story:
-        "Despite facing financial challenges, I've maintained excellent academic performance with a cumulative GPA of 4.5/5.0. I'm actively involved in campus activities and community service, always looking for ways to give back while pursuing my dreams. This scholarship will not only help me complete my education but will also enable me to focus on my studies without the constant worry of financial constraints. With your support, I can achieve my goal of becoming a professional in my field and making a positive impact in my community.",
-    },
-  ];
+  if (isLoading) {
+    return <LoadingState />;
+  }
+
+  const campaigns = data?.data;
 
   return (
     <Holder>
@@ -87,90 +29,80 @@ const Discover = () => {
       </Header>
 
       <CampaignContainer>
-        {campaigns.map((c) => (
-          <CampaignCard key={c.id}>
-            <CardTop>
-              <Avatar src={c.avatar} alt={c.name} />
-              <Info>
-                <NameWrapper>
-                  <Name>{c.name}</Name>
-                  <FaCheckCircle className="verified" />
-                </NameWrapper>
-                <Course>{c.course}</Course>
-                <School>
-                  <MdLocationOn /> {c.school}
-                </School>
-              </Info>
-            </CardTop>
+        {campaigns.length > 0 ? (
+          campaigns.map((c) => (
+            <CampaignCard key={c._id}>
+              <CardTop>
+                <Avatar src="ooo" alt="" />
+                <Info>
+                  <NameWrapper>
+                    <Name>{c?.studentId?.fullName}</Name>
+                    <FaCheckCircle className="verified" />
+                  </NameWrapper>
+                  <Course>{c?.course}</Course>
+                  <School>
+                    <MdLocationOn /> {c?.schoolName}
+                  </School>
+                </Info>
+              </CardTop>
 
-            <Description>{c.description}</Description>
+              <Description>{c?.description}</Description>
 
-            <Progress>
-              <ProgressAmounts>
-                <span>₦{c.raised.toLocaleString()}</span>
-                <span>of ₦{c.goal.toLocaleString()}</span>
-              </ProgressAmounts>
-              <ProgressBar>
-                <div
-                  className="filled"
-                  style={{ width: `${(c.raised / c.goal) * 100}%` }}
-                />
-              </ProgressBar>
-            </Progress>
+              <Progress>
+                <ProgressAmounts>
+                  <span>₦{c?.totalDonations?.toLocaleString()}</span>
+                  <span>of ₦{c?.target?.toLocaleString()}</span>
+                </ProgressAmounts>
+                <ProgressBar>
+                  <div
+                    className="filled"
+                    style={{
+                      width: `${(c?.totalDonations / c?.target) * 100}%`,
+                    }}
+                  />
+                </ProgressBar>
+              </Progress>
 
-            <Stats>
-              <Stat>
-                <LuUsers /> {c.donors} donors
-              </Stat>
-              <Stat>
-                <MdAccessTime /> {c.daysLeft} days left
-              </Stat>
-            </Stats>
+              <Stats>
+                <Stat>
+                  <LuUsers /> {c?.donors} donors
+                </Stat>
+                <Stat>
+                  <MdAccessTime /> {c?.daysLeft} days left
+                </Stat>
+              </Stats>
 
-            <Actions>
-              <DonateButton
-                onClick={() => {
-                  setSelectedCampaign(c);
-                  setShowDonateModal(true);
-                }}
-              >
-                <FaRegHeart /> Donate Now
-              </DonateButton>
+              <Actions>
+                <DonateButton
+                  onClick={() => {
+                    setSelectedCampaign(true);
+                    setSelectedStundet(c);
+                  }}
+                >
+                  <FaRegHeart /> Donate Now
+                </DonateButton>
 
-              <ViewButton
-                onClick={() => {
-                  setSelectedCampaign(c);
-                  setShowDetails(true);
-                }}
-              >
-                View Details
-              </ViewButton>
+                <ViewButton onClick={() => nav(`/student_detail/${c?._id}`)}>
+                  View Details
+                </ViewButton>
 
-              <ShareButton>
-                <FaShareAlt />
-              </ShareButton>
-            </Actions>
-          </CampaignCard>
-        ))}
+                <ShareButton>
+                  <FaShareAlt />
+                </ShareButton>
+              </Actions>
+            </CampaignCard>
+          ))
+        ) : (
+          <p>{data?.message}</p>
+        )}
       </CampaignContainer>
 
       <LoadMoreButton>Load More Campaigns</LoadMoreButton>
 
-      <CampaignDetailsModal
-        open={showDetails}
-        campaign={selectedCampaign}
-        onClose={() => setShowDetails(false)}
-        onDonate={() => {
-          setShowDetails(false);
-          setShowDonateModal(true);
-        }}
-      />
-
-      {/* ✅ Donation Modal */}
       <DonationModal
-        open={showDonateModal}
-        onClose={() => setShowDonateModal(false)}
+        onClose={() => setSelectedCampaign(false)}
         campaign={selectedCampaign}
+        data={selectedStudent}
       />
     </Holder>
   );
@@ -178,11 +110,8 @@ const Discover = () => {
 
 export default Discover;
 
-/* =================== STYLES =================== */
-
 const Holder = styled.main`
   width: 100%;
-  background-color: #f9fafb;
 `;
 
 const Header = styled.div`
@@ -335,7 +264,7 @@ const Actions = styled.div`
 `;
 
 const DonateButton = styled.button`
-  flex: 1;
+  width: 55%;
   background: #2563eb;
   color: #fff;
   border: none;

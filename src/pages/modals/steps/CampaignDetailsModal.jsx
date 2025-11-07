@@ -13,38 +13,32 @@ import { IoLocationOutline } from "react-icons/io5";
 import { FiDollarSign } from "react-icons/fi";
 
 import { GoBook } from "react-icons/go";
+import { useParams } from "react-router-dom";
 
-const CampaignDetailsModal = ({ open, campaign, onClose, onDonate }) => {
-  if (!open || !campaign) return null;
-
-  const remaining = campaign.goal - campaign.raised;
-  const avgDonation =
-    campaign.donors > 0 ? campaign.raised / campaign.donors : 0;
-  const progress = (campaign.raised / campaign.goal) * 100;
+const CampaignDetailsModal = () => {
+  const { campaignId } = useParams();
 
   return (
     <Overlay>
       <ModalContent>
         <TopBar>
-          <BackButton onClick={onClose}>
+          <BackButton>
             <IoMdArrowBack size={20} /> Back
           </BackButton>
         </TopBar>
 
         <MainLayout>
           <LeftSection>
-            <Image src={campaign.avatar} alt={campaign.name} />
+            {/* <Image src={campaign.avatar} alt={campaign.name} /> */}
 
             <CampaignInfo>
-              <h2>
-                {campaign.course} Degree - {campaign.school}
-              </h2>
+              <h2>Degree - {campaign.school}</h2>
 
               <SchoolMeta>
                 <IoLocationOutline />
-                <span>{campaign.school}</span>
+                <span>campaign.school</span>
                 <GoBook />
-                <span>{campaign.course}</span>
+                <span>campaign.course</span>
                 <span>
                   <LuGraduationCap /> 400 Level
                 </span>
@@ -53,11 +47,11 @@ const CampaignDetailsModal = ({ open, campaign, onClose, onDonate }) => {
               <ProgressSection>
                 <AmountRow>
                   <div>
-                    <h3>₦{campaign.raised.toLocaleString()}</h3>
-                    <p>raised of ₦{campaign.goal.toLocaleString()} goal</p>
+                    <h3>₦campaign.raised.toLocaleString</h3>
+                    <p>raised of ₦campaign.goal.toLocaleString goal</p>
                   </div>
                   <DonorText>
-                    {campaign.donors}
+                    campaign.donors
                     <p>donors</p>
                   </DonorText>
                 </AmountRow>
@@ -67,9 +61,9 @@ const CampaignDetailsModal = ({ open, campaign, onClose, onDonate }) => {
                 </ProgressBar>
 
                 <ProgressFooter>
-                  <span>{progress.toFixed(1)}% funded</span>
+                  <span>% funded</span>
                   <span>
-                    <MdAccessTime /> {campaign.daysLeft} days left
+                    <MdAccessTime /> campaign.daysLeft days left
                   </span>
                 </ProgressFooter>
 
@@ -78,21 +72,21 @@ const CampaignDetailsModal = ({ open, campaign, onClose, onDonate }) => {
                     <FiDollarSign className="icon" />
                     <div>
                       <h4>Remaining</h4>
-                      <p>₦{remaining.toLocaleString()}</p>
+                      <p>₦remaining.toLocaleString</p>
                     </div>
                   </StatCard1>
                   <StatCard2>
                     <LuUsers className="icon" />
                     <div>
                       <h4>Avg Donation</h4>
-                      <p>₦{Math.round(avgDonation).toLocaleString()}</p>
+                      <p>₦Math.round(avgDonation).toLocaleString()</p>
                     </div>
                   </StatCard2>
                   <StatCard3>
                     <MdTrendingUp className="icon" />
                     <div>
                       <h4>Progress</h4>
-                      <p>{progress.toFixed(1)}%</p>
+                      <p>progress.toFixed(1)%</p>
                     </div>
                   </StatCard3>
                 </StatCards>
@@ -104,8 +98,10 @@ const CampaignDetailsModal = ({ open, campaign, onClose, onDonate }) => {
                 <h3>Story</h3>
                 <h3 className="sectionName">{campaign.name}</h3>
                 <p>
-                  {campaign.story ||
-                    "Final year Computer Science student with innovative projects. Despite financial challenges, I’ve maintained excellent academic performance. This scholarship will help me focus on my studies without financial worries."}
+                  Final year Computer Science student with innovative projects.
+                  Despite financial challenges, I’ve maintained excellent
+                  academic performance. This scholarship will help me focus on
+                  my studies without financial worries.
                 </p>
 
                 <WhySupport>
@@ -128,16 +124,16 @@ const CampaignDetailsModal = ({ open, campaign, onClose, onDonate }) => {
 
           <RightSection>
             <ProfileCard>
-              <Avatar src={campaign.avatar} />
-              <h3>{campaign.name}</h3>
-              <p>{campaign.course}</p>
+              <Avatar src="" />
+              <h3>campaign.name</h3>
+              <p>campaign.course</p>
               <VerifiedTag>
                 <FaCheckCircle /> Verified Student
               </VerifiedTag>
 
               <ProfileMeta>
                 <p>
-                  <LuSchool /> {campaign.school}
+                  <LuSchool /> campaign.school
                 </p>
                 <p>
                   <LuGraduationCap />
@@ -145,7 +141,7 @@ const CampaignDetailsModal = ({ open, campaign, onClose, onDonate }) => {
                 </p>
 
                 <p>
-                  <CiCalendar /> Created {campaign.daysLeft + 5} days ago
+                  <CiCalendar /> Created campaign.daysLeft days ago
                 </p>
                 <p>
                   <FaRegStar /> 4.8/5.0 GPA
