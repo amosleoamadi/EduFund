@@ -39,7 +39,6 @@ export const WhyChooseUsStyle = styled.section`
     transition: all 0.3s ease;
 
     &:hover {
-      transform: translateY(-5px);
       box-shadow: rgba(3, 27, 136, 0.15) 0px 6px 18px;
     }
 

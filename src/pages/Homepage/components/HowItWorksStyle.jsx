@@ -41,7 +41,6 @@ export const HowItWorksStyle = styled.section`
     text-align: left;
 
     &:hover {
-      transform: translateY(-8px);
       box-shadow: 0px 10px 25px rgba(0, 70, 200, 0.15);
     }
   }
@@ -90,7 +89,6 @@ export const HowItWorksStyle = styled.section`
     line-height: 1.6;
   }
 
-  /* Mobile responsiveness */
   @media (max-width: 768px) {
     padding: 60px 5%;
 
