@@ -2,25 +2,22 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { MdLocationOn, MdAccessTime } from "react-icons/md";
 import { FaCheckCircle, FaRegHeart, FaShareAlt } from "react-icons/fa";
-
 import { LuUsers } from "react-icons/lu";
 import DonationModal from "../../modals/steps/DonationModal";
+import CampaignDetailsModal from "../../modals/steps/CampaignDetailsModal";
 import { useGetCampaignQuery } from "../../../utils/stundentauth/createcampaignapi";
 import LoadingState from "../../modals/loadingstate/LoadingState";
+import { useNavigate } from "react-router-dom";
 
 const Discover = () => {
-  const [selectedCampaign, setSelectedCampaign] = useState(null);
-  const { data, isLoading, isError } = useGetCampaignQuery();
+  const [selectedCampaign, setSelectedCampaign] = useState(false);
+  const [selectedStudent, setSelectedStundet] = useState(null);
+  const { data, isLoading } = useGetCampaignQuery();
+  const nav = useNavigate();
 
   if (isLoading) {
     return <LoadingState />;
   }
-
-  if (isError) {
-    return <p>Error loading this page check ur network</p>;
-  }
-
-  console.log(data);
 
   const campaigns = data?.data;
 
@@ -28,15 +25,17 @@ const Discover = () => {
 
   return (
     <Holder>
-      <h3>Discover Campaigns</h3>
-      <p>Find students who need your support</p>
+      <Header>
+        <h3>Discover Campaigns</h3>
+        <p>Find students who need your support</p>
+      </Header>
 
       <CampaignContainer>
         {campaigns.length > 0 ? (
           campaigns.map((c) => (
             <CampaignCard key={c._id}>
               <CardTop>
-                <Avatar src="" alt="" />
+                <Avatar src="ooo" alt="" />
                 <Info>
                   <NameWrapper>
                     <Name>{c?.studentId?.fullName}</Name>
@@ -53,8 +52,8 @@ const Discover = () => {
 
               <Progress>
                 <ProgressAmounts>
-                  <span>₦{c?.totalDonations}</span>
-                  <span>of ₦{c?.target}</span>
+                  <span>₦{c?.totalDonations?.toLocaleString()}</span>
+                  <span>of ₦{c?.target?.toLocaleString()}</span>
                 </ProgressAmounts>
                 <ProgressBar>
                   <div
@@ -76,9 +75,18 @@ const Discover = () => {
               </Stats>
 
               <Actions>
-                <DonateButton onClick={() => setSelectedCampaign(c)}>
+                <DonateButton
+                  onClick={() => {
+                    setSelectedCampaign(true);
+                    setSelectedStundet(c);
+                  }}
+                >
                   <FaRegHeart /> Donate Now
                 </DonateButton>
+
+                <ViewButton onClick={() => nav(`/student_detail/${c?._id}`)}>
+                  View Details
+                </ViewButton>
 
                 <ShareButton>
                   <FaShareAlt />
@@ -91,11 +99,12 @@ const Discover = () => {
         )}
       </CampaignContainer>
 
+      <LoadMoreButton>Load More Campaigns</LoadMoreButton>
+
       <DonationModal
-        open={!!selectedCampaign}
-        onClose={() => setSelectedCampaign(null)}
+        onClose={() => setSelectedCampaign(false)}
         campaign={selectedCampaign}
-        data={campaigns}
+        data={selectedStudent}
       />
     </Holder>
   );
@@ -105,7 +114,10 @@ export default Discover;
 
 const Holder = styled.main`
   width: 100%;
-  background-color: #f9fafb;
+`;
+
+const Header = styled.div`
+  margin-bottom: 1.5rem;
 
   h3 {
     color: #101828;
@@ -117,7 +129,6 @@ const Holder = styled.main`
   p {
     color: #4a5565;
     font-size: 14px;
-    margin-bottom: 1.5rem;
   }
 `;
 
@@ -250,13 +261,12 @@ const Stat = styled.span`
 
 const Actions = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 0.8rem;
 `;
 
 const DonateButton = styled.button`
-  flex: 1;
+  width: 55%;
   background: #2563eb;
   color: #fff;
   border: none;
@@ -276,6 +286,23 @@ const DonateButton = styled.button`
   }
 `;
 
+const ViewButton = styled.button`
+  flex: 1;
+  background: #fff;
+  color: #101828;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #f9fafb;
+  }
+`;
+
 const ShareButton = styled.button`
   background: none;
   border: 1px solid #e5e7eb;
@@ -290,5 +317,23 @@ const ShareButton = styled.button`
 
   &:hover {
     background: #f3f4f6;
+  }
+`;
+
+const LoadMoreButton = styled.button`
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.8rem 2rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #101828;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #f9fafb;
   }
 `;
