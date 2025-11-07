@@ -42,7 +42,6 @@ const Login = () => {
   const handleSumbit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(userLogout());
       const res = await studentLogin(userLogin).unwrap();
       const userRole = res?.data?.role?.toLowerCase();
       dispatch(

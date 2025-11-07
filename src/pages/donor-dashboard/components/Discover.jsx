@@ -3,70 +3,23 @@ import styled from "styled-components";
 import { MdLocationOn, MdAccessTime } from "react-icons/md";
 import { FaCheckCircle, FaRegHeart, FaShareAlt } from "react-icons/fa";
 import { LuUsers } from "react-icons/lu";
-
-import fatima from "../../../assets/Fatimo.img.png";
-import ikpe from "../../../assets/Ikpe.img.png";
-import grace from "../../../assets/Grace.img.png";
-import samuel from "../../../assets/Samuel.img.png";
 import DonationModal from "../../modals/steps/DonationModal";
+import CampaignDetailsModal from "../../modals/steps/CampaignDetailsModal";
+import { useGetCampaignQuery } from "../../../utils/stundentauth/createcampaignapi";
+import LoadingState from "../../modals/loadingstate/LoadingState";
+import { useNavigate } from "react-router-dom";
 
 const Discover = () => {
-  const [selectedCampaign, setSelectedCampaign] = useState(null);
+  const [selectedCampaign, setSelectedCampaign] = useState(false);
+  const [selectedStudent, setSelectedStundet] = useState(null);
+  const { data, isLoading } = useGetCampaignQuery();
+  const nav = useNavigate();
 
-  const campaigns = [
-    {
-      id: 1,
-      name: "Fatima Hassan",
-      avatar: fatima,
-      course: "Pharmacy",
-      school: "University of Ilorin",
-      goal: 950000,
-      raised: 580000,
-      donors: 23,
-      daysLeft: 42,
-      description:
-        "Passionate pharmacy student seeking support to complete final year...",
-    },
-    {
-      id: 2,
-      name: "Ikpe Emmanuel",
-      avatar: ikpe,
-      course: "Architecture",
-      school: "Federal University of Technology. Akure",
-      goal: 1200000,
-      raised: 850000,
-      donors: 35,
-      daysLeft: 18,
-      description:
-        "Final year architecture student with excellent academic performance...",
-    },
-    {
-      id: 3,
-      name: "Grace Ezekiel",
-      avatar: grace,
-      course: "Accounting",
-      school: "University of Benin",
-      goal: 750000,
-      raised: 320000,
-      donors: 15,
-      daysLeft: 65,
-      description:
-        "Dedicated Accounting student maintaining first-class grades...",
-    },
-    {
-      id: 4,
-      name: "Samuel Oladipupo",
-      avatar: samuel,
-      course: "Computer Engineering",
-      school: "Federal University of Technology, Owerri",
-      goal: 1050000,
-      raised: 420000,
-      donors: 18,
-      daysLeft: 55,
-      description:
-        "Award-winning student innovator seeking educational support",
-    },
-  ];
+  if (isLoading) {
+    return <LoadingState />;
+  }
+
+  const campaigns = data?.data;
 
   return (
     <Holder>
@@ -80,7 +33,7 @@ const Discover = () => {
           campaigns.map((c) => (
             <CampaignCard key={c._id}>
               <CardTop>
-                <Avatar src="" alt="" />
+                <Avatar src="ooo" alt="" />
                 <Info>
                   <NameWrapper>
                     <Name>{c?.studentId?.fullName}</Name>
@@ -97,8 +50,8 @@ const Discover = () => {
 
               <Progress>
                 <ProgressAmounts>
-                  <span>₦{c?.totalDonations}</span>
-                  <span>of ₦{c?.target}</span>
+                  <span>₦{c?.totalDonations?.toLocaleString()}</span>
+                  <span>of ₦{c?.target?.toLocaleString()}</span>
                 </ProgressAmounts>
                 <ProgressBar>
                   <div
@@ -120,9 +73,18 @@ const Discover = () => {
               </Stats>
 
               <Actions>
-                <DonateButton onClick={() => setSelectedCampaign(c)}>
+                <DonateButton
+                  onClick={() => {
+                    setSelectedCampaign(true);
+                    setSelectedStundet(c);
+                  }}
+                >
                   <FaRegHeart /> Donate Now
                 </DonateButton>
+
+                <ViewButton onClick={() => nav(`/student_detail/${c?._id}`)}>
+                  View Details
+                </ViewButton>
 
                 <ShareButton>
                   <FaShareAlt />
@@ -137,20 +99,10 @@ const Discover = () => {
 
       <LoadMoreButton>Load More Campaigns</LoadMoreButton>
 
-      <CampaignDetailsModal
-        open={showDetails}
-        campaign={selectedCampaign}
-        onClose={() => setShowDetails(false)}
-        onDonate={() => {
-          setShowDetails(false);
-          setShowDonateModal(true);
-        }}
-      />
-
       <DonationModal
-        open={showDonateModal}
-        onClose={() => setShowDonateModal(false)}
+        onClose={() => setSelectedCampaign(false)}
         campaign={selectedCampaign}
+        data={selectedStudent}
       />
     </Holder>
   );
@@ -160,7 +112,6 @@ export default Discover;
 
 const Holder = styled.main`
   width: 100%;
-  background-color: #f9fafb;
 `;
 
 const Header = styled.div`
@@ -313,7 +264,7 @@ const Actions = styled.div`
 `;
 
 const DonateButton = styled.button`
-  flex: 1;
+  width: 55%;
   background: #2563eb;
   color: #fff;
   border: none;

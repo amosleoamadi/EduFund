@@ -15,6 +15,7 @@ import {
 } from "redux-persist";
 import { getalldonorApi } from "../utils/stundentauth/getdonor";
 import { walletBalApi } from "../utils/stundentauth/walletbalapi";
+import { donorpaymentApi } from "../utils/donorauth/donoropayment";
 
 const rootReducer = combineReducers({
   [studentAuth.reducerPath]: studentAuth.reducer,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   [campaignApi.reducerPath]: campaignApi.reducer,
   [getalldonorApi.reducerPath]: getalldonorApi.reducer,
   [walletBalApi.reducerPath]: walletBalApi.reducer,
+  [donorpaymentApi.reducerPath]: donorpaymentApi.reducer,
   user: userReducer,
 });
 
@@ -45,7 +47,8 @@ export const store = configureStore({
       donorAuth.middleware,
       campaignApi.middleware,
       getalldonorApi.middleware,
-      walletBalApi.middleware
+      walletBalApi.middleware,
+      donorpaymentApi.middleware
     ),
 });
 
