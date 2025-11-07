@@ -12,6 +12,7 @@ import {
   InpuLabel,
   LabelInput,
   PasswordInput,
+  PasswordToggle,
 } from "../components/styles/RegisterStyle";
 import Input from "../components/Ui/Input";
 import cancel from "../assets/cancel.svg";
@@ -26,11 +27,14 @@ import { Spin } from "antd";
 import { useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { setUserState } from "../config/slices/studentauthslice";
+import { IoEye } from "react-icons/io5";
+import { IoIosEyeOff } from "react-icons/io";
 
 const DonorSignUp = () => {
   const [active, setActive] = useState("individual");
   const nav = useNavigate();
   const dispatch = useDispatch();
+  const [toogle, setToogle] = useState(false);
   const [individual, { isLoading: isVerifyLoading }] =
     useDonorIndividualMutation();
   const [organization, { isLoading: isOrganLoading }] =
@@ -94,13 +98,12 @@ const DonorSignUp = () => {
       phoneNumber,
     };
     if (
-      !(
-        donordetail.password ||
-        donordetail.email ||
-        donordetail.firstName ||
-        donordetail.lastName ||
-        donordetail.organizationName
-      )
+      !donordetail.password ||
+      !donordetail.email ||
+      !donordetail.firstName ||
+      !donordetail.lastName ||
+      (active === "organization" && !donordetail.organizationName) ||
+      !donordetail.phoneNumber
     ) {
       toast.error("Input correct details");
     } else if (!emailRegex.test(donordetail.email)) {
@@ -112,18 +115,18 @@ const DonorSignUp = () => {
         const response = await individual(data).unwrap();
         dispatch(
           setUserState({
-            firstname: res?.data?.firstName,
-            lastname: res?.data?.lastName,
-            email: res?.data?.email,
-            userId: res?.data?._id,
+            firstname: response?.data?.firstName,
+            lastname: response?.data?.lastName,
+            email: response?.data?.email,
+            userId: response?.data?._id,
           })
         );
-        toast.success(response?.message);
         localStorage.setItem(
           "EmailDetails",
           JSON.stringify(response?.data?.email)
         );
         nav("/verify-email");
+        toast.success(response?.message);
       } catch (err) {
         toast.error(err?.data?.message);
       }
@@ -137,9 +140,9 @@ const DonorSignUp = () => {
           email: res?.data?.email,
           userId: res?.data?._id,
         });
-        toast.success(res?.message);
         localStorage.setItem("EmailDetails", JSON.stringify(res?.data?.email));
         nav("/verify-email");
+        toast.success(res?.message);
       } catch (err) {
         toast.error(err?.data?.message);
       }
@@ -218,7 +221,7 @@ const DonorSignUp = () => {
             />
           </LabelInput>
           <LabelInput>
-            <label htmlFor="email">Password Number</label>
+            <label htmlFor="email">Phone Number</label>
             <Input
               className="input_place"
               placeholder="+234 800 000 0000"
@@ -230,14 +233,35 @@ const DonorSignUp = () => {
           </LabelInput>
           <PasswordInput>
             <label htmlFor="password">Password</label>
-            <Input
-              className="input_place"
-              placeholder="Enter Password"
-              type="text"
-              name="password"
-              value={donordetail.password}
-              onChange={handleOnchange}
-            />
+            <PasswordToggle>
+              <Input
+                className="input_place"
+                placeholder="Enter Password"
+                type={toogle ? "text" : "password"}
+                name="password"
+                value={donordetail.password}
+                onChange={handleOnchange}
+              />
+              <div className="holder" onClick={() => setToogle(!toogle)}>
+                {toogle ? (
+                  <IoEye
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                      color: "#adaebc",
+                    }}
+                  />
+                ) : (
+                  <IoIosEyeOff
+                    style={{
+                      fontSize: "20px",
+                      cursor: "pointer",
+                      color: "#adaebc",
+                    }}
+                  />
+                )}
+              </div>
+            </PasswordToggle>
             <div className="text">
               <p>Password Strength</p>
               <p>{allPassed ? "Strong" : "Weak"}</p>

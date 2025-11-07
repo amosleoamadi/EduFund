@@ -97,6 +97,25 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  @media (max-width: 1199px) {
+    padding: 26px;
+    max-width: 480px;
+  }
+
+  @media (max-width: 767px) {
+    padding: 22px;
+    max-width: 420px;
+    gap: 18px;
+  }
+
+  @media (max-width: 479px) {
+    padding: 18px;
+    width: 95%;
+    max-width: 350px;
+    border-radius: 10px;
+    gap: 16px;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -111,11 +130,27 @@ const CloseButton = styled.button`
   &:hover {
     color: #000;
   }
+
+  @media (max-width: 767px) {
+    top: 12px;
+    right: 12px;
+    font-size: 22px;
+  }
+
+  @media (max-width: 479px) {
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+  }
 `;
 
 const Header = styled.div`
   text-align: center;
   margin-bottom: 10px;
+
+  @media (max-width: 479px) {
+    margin-bottom: 8px;
+  }
 `;
 
 const Title = styled.h2`
@@ -123,12 +158,34 @@ const Title = styled.h2`
   font-weight: 700;
   color: #333;
   margin: 0;
+
+  @media (max-width: 1199px) {
+    font-size: 22px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 18px;
+  }
 `;
 
 const Subtitle = styled.p`
   font-size: 14px;
   color: #666;
   margin: 5px 0 0 0;
+
+  @media (max-width: 767px) {
+    font-size: 13px;
+    margin: 4px 0 0 0;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 12px;
+    margin: 3px 0 0 0;
+  }
 `;
 
 const DetailsSection = styled.div`
@@ -138,6 +195,17 @@ const DetailsSection = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+
+  @media (max-width: 767px) {
+    padding: 13px 16px;
+    gap: 13px;
+  }
+
+  @media (max-width: 479px) {
+    padding: 12px 14px;
+    gap: 12px;
+    border-radius: 6px;
+  }
 `;
 
 const DetailRow = styled.div`
@@ -151,12 +219,24 @@ const DetailRow = styled.div`
     border-bottom: none;
     padding-bottom: 0;
   }
+
+  @media (max-width: 479px) {
+    padding-bottom: 8px;
+  }
 `;
 
 const DetailLabel = styled.span`
   font-size: 15px;
   color: #555;
   font-weight: 500;
+
+  @media (max-width: 767px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 13px;
+  }
 `;
 
 const DetailValue = styled.span`
@@ -166,6 +246,14 @@ const DetailValue = styled.span`
   display: flex;
   align-items: center;
   gap: 5px;
+
+  @media (max-width: 767px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 13px;
+  }
 `;
 
 const NairaSymbol = styled.span`
@@ -182,6 +270,16 @@ const StatusPill = styled.span`
   display: flex;
   align-items: center;
   gap: 5px;
+
+  @media (max-width: 767px) {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
 `;
 
 const NextStepsBox = styled.div`
@@ -191,12 +289,32 @@ const NextStepsBox = styled.div`
   display: flex;
   flex-direction: column;
   color: #0056b3;
+
+  @media (max-width: 767px) {
+    padding: 16px 18px;
+    border-radius: 7px;
+  }
+
+  @media (max-width: 479px) {
+    padding: 14px 16px;
+    border-radius: 6px;
+  }
 `;
 
 const NextStepsTitle = styled.h4`
   font-size: 15px;
   font-weight: 700;
   margin: 0 0 10px 0;
+
+  @media (max-width: 767px) {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
 `;
 
 const NextStepsList = styled.ul`
@@ -214,6 +332,22 @@ const NextStepsList = styled.ul`
       margin-bottom: 0;
     }
   }
+
+  @media (max-width: 767px) {
+    font-size: 13px;
+
+    li {
+      margin-bottom: 6px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    font-size: 12px;
+
+    li {
+      margin-bottom: 5px;
+    }
+  }
 `;
 
 const CheckIcon = styled(FaCheckCircle)`
@@ -221,6 +355,16 @@ const CheckIcon = styled(FaCheckCircle)`
   margin-right: 8px;
   font-size: 18px;
   flex-shrink: 0;
+
+  @media (max-width: 767px) {
+    font-size: 16px;
+    margin-right: 6px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 14px;
+    margin-right: 5px;
+  }
 `;
 
 const DoneButton = styled.button`
@@ -238,5 +382,18 @@ const DoneButton = styled.button`
 
   &:hover {
     background-color: #0056b3;
+  }
+
+  @media (max-width: 767px) {
+    padding: 11px 20px;
+    font-size: 15px;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 479px) {
+    padding: 10px 18px;
+    font-size: 14px;
+    border-radius: 6px;
+    margin-top: 6px;
   }
 `;

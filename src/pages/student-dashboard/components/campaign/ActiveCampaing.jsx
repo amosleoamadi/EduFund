@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import CampaignTabs from "./campaignstatus/CampaignTab";
 
-const ActiveCampaing = () => {
+const ActiveCampaing = ({ data }) => {
   return (
     <Content>
       <h3>Campaign Management</h3>
-      <CampaignTabs />
+      <CampaignTabs data={data} />
     </Content>
   );
 };

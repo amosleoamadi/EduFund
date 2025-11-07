@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { MdLocationOn, MdAccessTime } from "react-icons/md";
 import { FaCheckCircle, FaRegHeart, FaShareAlt } from "react-icons/fa";
-
 import { LuUsers } from "react-icons/lu";
 
 import fatima from "../../../assets/Fatimo.img.png";
@@ -71,66 +70,86 @@ const Discover = () => {
 
   return (
     <Holder>
-      <h3>Discover Campaigns</h3>
-      <p>Find students who need your support</p>
+      <Header>
+        <h3>Discover Campaigns</h3>
+        <p>Find students who need your support</p>
+      </Header>
 
       <CampaignContainer>
-        {campaigns.map((c) => (
-          <CampaignCard key={c.id}>
-            <CardTop>
-              <Avatar src={c.avatar} alt={c.name} />
-              <Info>
-                <NameWrapper>
-                  <Name>{c.name}</Name>
-                  <FaCheckCircle className="verified" />
-                </NameWrapper>
-                <Course>{c.course}</Course>
-                <School>
-                  <MdLocationOn /> {c.school}
-                </School>
-              </Info>
-            </CardTop>
+        {campaigns.length > 0 ? (
+          campaigns.map((c) => (
+            <CampaignCard key={c._id}>
+              <CardTop>
+                <Avatar src="" alt="" />
+                <Info>
+                  <NameWrapper>
+                    <Name>{c?.studentId?.fullName}</Name>
+                    <FaCheckCircle className="verified" />
+                  </NameWrapper>
+                  <Course>{c?.course}</Course>
+                  <School>
+                    <MdLocationOn /> {c?.schoolName}
+                  </School>
+                </Info>
+              </CardTop>
 
-            <Description>{c.description}</Description>
+              <Description>{c?.story}</Description>
 
-            <Progress>
-              <ProgressAmounts>
-                <span>₦{c.raised.toLocaleString()}</span>
-                <span>of ₦{c.goal.toLocaleString()}</span>
-              </ProgressAmounts>
-              <ProgressBar>
-                <div
-                  className="filled"
-                  style={{ width: `${(c.raised / c.goal) * 100}%` }}
-                />
-              </ProgressBar>
-            </Progress>
+              <Progress>
+                <ProgressAmounts>
+                  <span>₦{c?.totalDonations}</span>
+                  <span>of ₦{c?.target}</span>
+                </ProgressAmounts>
+                <ProgressBar>
+                  <div
+                    className="filled"
+                    style={{
+                      width: `${(c?.totalDonations / c?.target) * 100}%`,
+                    }}
+                  />
+                </ProgressBar>
+              </Progress>
 
-            <Stats>
-              <Stat>
-                <LuUsers /> {c.donors} donors
-              </Stat>
-              <Stat>
-                <MdAccessTime /> {c.daysLeft} days left
-              </Stat>
-            </Stats>
+              <Stats>
+                <Stat>
+                  <LuUsers /> {c?.donors} donors
+                </Stat>
+                <Stat>
+                  <MdAccessTime /> {c?.daysLeft} days left
+                </Stat>
+              </Stats>
 
-            <Actions>
-              <DonateButton onClick={() => setSelectedCampaign(c)}>
-                <FaRegHeart /> Donate Now
-              </DonateButton>
+              <Actions>
+                <DonateButton onClick={() => setSelectedCampaign(c)}>
+                  <FaRegHeart /> Donate Now
+                </DonateButton>
 
-              <ShareButton>
-                <FaShareAlt />
-              </ShareButton>
-            </Actions>
-          </CampaignCard>
-        ))}
+                <ShareButton>
+                  <FaShareAlt />
+                </ShareButton>
+              </Actions>
+            </CampaignCard>
+          ))
+        ) : (
+          <p>{data?.message}</p>
+        )}
       </CampaignContainer>
 
+      <LoadMoreButton>Load More Campaigns</LoadMoreButton>
+
+      <CampaignDetailsModal
+        open={showDetails}
+        campaign={selectedCampaign}
+        onClose={() => setShowDetails(false)}
+        onDonate={() => {
+          setShowDetails(false);
+          setShowDonateModal(true);
+        }}
+      />
+
       <DonationModal
-        open={!!selectedCampaign}
-        onClose={() => setSelectedCampaign(null)}
+        open={showDonateModal}
+        onClose={() => setShowDonateModal(false)}
         campaign={selectedCampaign}
       />
     </Holder>
@@ -142,6 +161,10 @@ export default Discover;
 const Holder = styled.main`
   width: 100%;
   background-color: #f9fafb;
+`;
+
+const Header = styled.div`
+  margin-bottom: 1.5rem;
 
   h3 {
     color: #101828;
@@ -153,7 +176,6 @@ const Holder = styled.main`
   p {
     color: #4a5565;
     font-size: 14px;
-    margin-bottom: 1.5rem;
   }
 `;
 
@@ -286,7 +308,6 @@ const Stat = styled.span`
 
 const Actions = styled.div`
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 0.8rem;
 `;
@@ -312,6 +333,23 @@ const DonateButton = styled.button`
   }
 `;
 
+const ViewButton = styled.button`
+  flex: 1;
+  background: #fff;
+  color: #101828;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #f9fafb;
+  }
+`;
+
 const ShareButton = styled.button`
   background: none;
   border: 1px solid #e5e7eb;
@@ -326,5 +364,23 @@ const ShareButton = styled.button`
 
   &:hover {
     background: #f3f4f6;
+  }
+`;
+
+const LoadMoreButton = styled.button`
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.8rem 2rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #101828;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: #f9fafb;
   }
 `;

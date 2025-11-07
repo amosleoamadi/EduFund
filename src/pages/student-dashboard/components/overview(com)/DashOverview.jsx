@@ -17,16 +17,12 @@ import {
 } from "../../../../config/slices/studentauthslice";
 import { useSelector } from "react-redux";
 
-const DashOverview = () => {
+const DashOverview = ({ data }) => {
   const [share, setShare] = useState(false);
   const [createcampaign, setCreateCampaign] = useState(false);
   const firstname = useSelector(studentFirstname);
   const lastname = useSelector(studentLastname);
-  const donors = [
-    { name: "Dr. Oluwaseun Adebayo", amount: "₦10,500", status: "Verified" },
-    { name: "Mrs. Amara Okafor", amount: "₦8,200", status: "Verified" },
-    { name: "Chioma Okonkwo", amount: "₦5,000", status: "Pending" },
-  ];
+  const donors = data?.data?.recentDonors;
 
   const handleOpen = () => {
     setShare(true);
@@ -100,9 +96,9 @@ const DashOverview = () => {
             <Rate>
               <img src={amount} alt="" />
             </Rate>
-            <Percent>+0%</Percent>
+            <Percent>+{data?.data?.goalProgress || 0}%</Percent>
           </Progress>
-          <StatValue>₦0</StatValue>
+          <StatValue>₦{data?.data?.totalRaised || 0}</StatValue>
           <StatLabel>Total Raised</StatLabel>
         </StatCard>
         <StatCard>
@@ -112,7 +108,7 @@ const DashOverview = () => {
             </Rate>
             <Percent>Active</Percent>
           </Progress>
-          <StatValue>0</StatValue>
+          <StatValue>{data?.data?.totalDonors || 0}</StatValue>
           <StatLabel>Total Donors</StatLabel>
         </StatCard>
         <StatCard>
@@ -121,7 +117,7 @@ const DashOverview = () => {
               <img src={target1} alt="" />
             </Rate>
           </Progress>
-          <StatValue>0%</StatValue>
+          <StatValue>{data?.data?.goalProgress || 0}%</StatValue>
           <StatLabel>Goal Progress</StatLabel>
         </StatCard>
         <StatCard>
@@ -130,7 +126,7 @@ const DashOverview = () => {
               <img src={last} alt="" />
             </Rate>
           </Progress>
-          <StatValue>0</StatValue>
+          <StatValue>{data?.data?.daysRemaining || 0}</StatValue>
           <StatLabel>Days Remaining</StatLabel>
         </StatCard>
       </StatsGrid>
@@ -190,16 +186,20 @@ const DashOverview = () => {
             <CardTitle>Recent Donors</CardTitle>
             <ViewAllLink>View All →</ViewAllLink>
           </CardHeader>
-          {donors.map((donor, idx) => (
-            <DonorItem key={idx}>
-              <DonorAvatar>{donor.name.charAt(0)}</DonorAvatar>
-              <DonorInfo>
-                <DonorName>{donor.name}</DonorName>
-                <DonorStatus>{donor.status}</DonorStatus>
-              </DonorInfo>
-              <DonorAmount>{donor.amount}</DonorAmount>
-            </DonorItem>
-          ))}
+          {donors.length > 0 ? (
+            donors.map((donor, idx) => (
+              <DonorItem key={idx}>
+                <DonorAvatar>{donor.name.charAt(0)}</DonorAvatar>
+                <DonorInfo>
+                  <DonorName>{donor.name}</DonorName>
+                  <DonorStatus>{donor.status}</DonorStatus>
+                </DonorInfo>
+                <DonorAmount>{donor.amount}</DonorAmount>
+              </DonorItem>
+            ))
+          ) : (
+            <ErrorText>No Donors yet</ErrorText>
+          )}
         </Card>
 
         <Card>
@@ -235,6 +235,15 @@ const DashboardContainer = styled.div`
 
   @media (max-width: 576px) {
     padding: 0.5rem;
+  }
+`;
+
+const ErrorText = styled.p`
+  text-align: center;
+  font-size: 1.5rem;
+
+  @media (max-width: 576px) {
+    font-size: 1rem;
   }
 `;
 
@@ -465,11 +474,6 @@ const CampaignStatsRow = styled.div`
   margin-top: 1rem;
   padding-top: 1rem;
   border-top: 1px solid #e5e7eb;
-
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
 `;
 
 const CampaignStat = styled.div``;

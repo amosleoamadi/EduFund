@@ -1,11 +1,21 @@
 import React from "react";
 import styled from "styled-components";
 import FirstWithdraw from "./withdrawal/FirstWithdraw";
+import { useGetTotalWalletBalQuery } from "../../../utils/stundentauth/walletbalapi";
+import { useSelector } from "react-redux";
+import { selectStudentId } from "../../../config/slices/studentauthslice";
+import LoadingState from "../../modals/loadingstate/LoadingState";
 
 const Withdrawals = () => {
+  const studentId = useSelector(selectStudentId);
+  const { data, isLoading } = useGetTotalWalletBalQuery(studentId);
+
+  if (isLoading) {
+    return <LoadingState />;
+  }
   return (
     <Content>
-      <FirstWithdraw />
+      <FirstWithdraw data={data} />
     </Content>
   );
 };

@@ -1,72 +1,100 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { FaRegHeart } from "react-icons/fa";
+import PaymentMethodModal from "./PaymentMethodModal";
 
 const DonationModal = ({ open, onClose, campaign }) => {
+  const [amount, setAmount] = useState("");
+  const [paymentOpen, setPaymentOpen] = useState(false);
+
   if (!open) return null;
 
-  const [amount, setAmount] = useState("");
+  const handleDonate = () => {
+    if (!amount) {
+      alert("Please enter or select an amount");
+      return;
+    }
+    setPaymentOpen(true);
+  };
+
+  const handleBackToDonation = () => {
+    setPaymentOpen(false);
+  };
 
   return (
-    <Overlay>
-      <Modal>
-        <Header>
-          <h2>Make a Donation</h2>
-          <CloseBtn onClick={onClose}>×</CloseBtn>
-        </Header>
+    <>
+      {!paymentOpen && (
+        <Overlay>
+          <Modal>
+            <Header>
+              <h2>Make a Donation</h2>
+              <CloseBtn onClick={onClose}>×</CloseBtn>
+            </Header>
 
-        <p style={{ color: "#64748b", fontSize: "0.9rem" }}>
-          Support {campaign.name}'s education journey
-        </p>
-
-        <Steps>
-          <span className="active">1</span>
-          <div className="line" />
-          <span>2</span>
-          <div className="line" />
-          <span>3</span>
-          <div className="line" />
-          <span>4</span>
-        </Steps>
-
-        <StudentInfo>
-          <img src={campaign.avatar} alt={campaign.name} />
-          <div>
-            <h4>{campaign.name}</h4>
-            <p>
-              {/* {campaign.course} - {campaign.school.split(" ")[0].toUpperCase()} */}
-              {campaign.course} - {campaign.school}
+            <p style={{ color: "#64748b", fontSize: "0.9rem" }}>
+              Support {campaign.name}'s education journey
             </p>
-          </div>
-        </StudentInfo>
 
-        <Form>
-          <label>Donation Amount (₦)</label>
-          <input
-            type="number"
-            placeholder="100000"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
+            <Steps>
+              <span className="active">1</span>
+              <div className="line" />
+              <span>2</span>
+              <div className="line" />
+              <span>3</span>
+              <div className="line" />
+              <span>4</span>
+            </Steps>
 
-          <AmountButtons>
-            <button onClick={() => setAmount(50000)}>₦50,000</button>
-            <button onClick={() => setAmount(100000)}>₦100,000</button>
-            <button onClick={() => setAmount(200000)}>₦200,000</button>
-          </AmountButtons>
+            <StudentInfo>
+              <img src={campaign.avatar} alt={campaign.name} />
+              <div>
+                <h4>{campaign.name}</h4>
+                <p>
+                  {campaign.course} - {campaign.school}
+                </p>
+              </div>
+            </StudentInfo>
 
-          <label>Message (Optional)</label>
-          <textarea placeholder="Add an encouraging message..."></textarea>
+            <Form>
+              <label>Donation Amount (₦)</label>
+              <input
+                type="number"
+                placeholder="100000"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+              />
 
-          <Buttons>
-            <Cancel onClick={onClose}>Cancel</Cancel>
-            <Donate>
-              <FaRegHeart /> Donate
-            </Donate>
-          </Buttons>
-        </Form>
-      </Modal>
-    </Overlay>
+              <AmountButtons>
+                <button onClick={() => setAmount(50000)}>₦50,000</button>
+                <button onClick={() => setAmount(100000)}>₦100,000</button>
+                <button onClick={() => setAmount(200000)}>₦200,000</button>
+              </AmountButtons>
+
+              <label>Message (Optional)</label>
+              <textarea placeholder="Add an encouraging message..."></textarea>
+
+              <Buttons>
+                <Cancel onClick={onClose}>Cancel</Cancel>
+                <Donate onClick={handleDonate}>
+                  <FaRegHeart /> Donate
+                </Donate>
+              </Buttons>
+            </Form>
+          </Modal>
+        </Overlay>
+      )}
+
+      {paymentOpen && (
+        <PaymentMethodModal
+          open={paymentOpen}
+          onGoBack={handleBackToDonation}
+          onClose={() => {
+            setPaymentOpen(false);
+            onClose();
+          }}
+        />
+      )}
+    </>
   );
 };
 
@@ -74,10 +102,7 @@ export default DonationModal;
 
 const Overlay = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
@@ -88,9 +113,10 @@ const Overlay = styled.div`
 const Modal = styled.div`
   background: #fff;
   border-radius: 12px;
-  width: 400px;
+  width: 45%;
   padding: 1.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
 
   @media (max-width: 480px) {
     width: 90%;
@@ -121,7 +147,6 @@ const Steps = styled.div`
   gap: 0.3rem;
   margin: 0.8rem 0;
   width: 70%;
-  justify-self: center;
 
   span {
     width: 25px;
