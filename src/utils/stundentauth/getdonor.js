@@ -17,7 +17,10 @@ export const getalldonorApi = createApi({
     getAllDonor: builder.query({
       query: (studentId) => `/donors/allDonors/${studentId}`,
     }),
+    getDonorOverview: builder.query({
+      query: (donorId) => `/donor-dashboard/overview/${donorId}`,
+    }),
   }),
 });
 
-export const { useGetAllDonorQuery } = getalldonorApi;
+export const { useGetAllDonorQuery, useGetDonorOverviewQuery } = getalldonorApi;
