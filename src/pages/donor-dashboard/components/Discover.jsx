@@ -21,8 +21,6 @@ const Discover = () => {
 
   const campaigns = data?.data;
 
-  console.log(campaigns);
-
   return (
     <Holder>
       <Header>
