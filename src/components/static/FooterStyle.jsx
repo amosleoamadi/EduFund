@@ -116,13 +116,13 @@ export const FooterStyle = styled.footer`
     .footer-container {
       flex-direction: column;
       align-items: center;
-      text-align: center;
+      text-align: left;
       position: static;
     }
 
     .footer-links {
       justify-content: center;
-      gap: 30px;
+      /* gap: 30px; */
     }
 
     .socials {
