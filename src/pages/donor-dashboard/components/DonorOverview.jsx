@@ -31,8 +31,6 @@ const DonorOverview = () => {
   const donorId = useSelector(selectStudentId);
   const { data, isLoading, isError } = useGetDonorOverviewQuery(donorId);
 
-  console.log(data);
-
   if (isLoading) {
     return <LoadingState />;
   }
@@ -80,58 +78,24 @@ const DonorOverview = () => {
     },
   ];
   stats.forEach((item, index) => (item.value = data.data.stats[index]));
-  const cardDate = [
-    {
-      id: 1,
-      name: "Chioma Adebayo",
-      degree: "Computer Science Degree - UNILAG",
-      price: "150,000",
-      progress: 85,
-      date: "10/18/2025",
-      img: Chioma,
-    },
-    {
-      id: 2,
-      name: "Ibrahim Yusuf",
-      degree: "Medicine Degree - ABU",
-      price: "200,000",
-      progress: 62,
-      date: "10/15/2025",
-      img: Ibrahim,
-    },
-    {
-      id: 3,
-      name: "Blessing Okafor",
-      degree: "Law Degree - UI",
-      price: "100,000",
-      progress: 45,
-      date: "10/10/2025",
-      img: Container,
-    },
-    {
-      id: 3,
-      name: "Blessing Okafor",
-      degree: "Law Degree - UI",
-      price: "100,000",
-      progress: 45,
-      date: "10/10/2025",
-      img: Container,
-    },
-  ];
-const date = new Date(data.data.donor.createdAt);
+  const cardDate = data?.data?.recentDonations;
+  const date = new Date(data.data.donor.createdAt);
 
-const options = {
-  year: 'numeric', 
-  month: 'long'    
-};
+  const options = {
+    year: "numeric",
+    month: "long",
+  };
 
-const formattedDate = date.toLocaleString('en-US', options);
+  const formattedDate = date.toLocaleString("en-US", options);
   return (
     <>
       <div className="container1">
         <div className="greeting">
           <div className="greeting-header">
-            <h1>Welcome back {username.charAt(0).toUpperCase()}{username.slice(1)} 👋</h1>
+            <h1>
+              Welcome back {username.charAt(0).toUpperCase()}
+              {username.slice(1)} 👋
+            </h1>
             <LuSparkles size={35} color="white" />
           </div>
           <p>Thank you for making a difference in students' lives.</p>
@@ -145,7 +109,7 @@ const formattedDate = date.toLocaleString('en-US', options);
                 <p className="stats-title">{item.title}</p>
                 <span className="stats-icon">{item.icon}</span>
               </div>
-              <h2 className="stats-value">{item.value||0}</h2>
+              <h2 className="stats-value">{item.value || 0}</h2>
               <p className={`stats-change ${item.changeColor}`}>
                 {item.subIcon && (
                   <span className="sub-icon">{item.subIcon}</span>
@@ -165,40 +129,51 @@ const formattedDate = date.toLocaleString('en-US', options);
               </p>
             </div>
             <div className="donation-card-container">
-              {cardDate.map((e) => (
-                <div className="donation-card" key={e.id}>
-                  <div className="card-img">
-                    <img src={e.img} alt="" />
-                  </div>
-                  <div className="card-degree-container">
-                    <div>
-                      <h2
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "0.5rem",
-                        }}
-                      >
-                        {e.name} <FaRegCircleCheck color="#155DFC" />
-                      </h2>
-                      <p>{e.degree}</p>
-                      <div className="progress-container">
-                        <div className="progress-track">
-                          <div
-                            className="progress-bar"
-                            style={{ width: `${e.progress}%` }}
-                          ></div>
+              {cardDate.length > 0 ? (
+                cardDate.map((e) => (
+                  <div className="donation-card" key={e._id}>
+                    <div className="card-img">
+                      <img src="" alt="image" />
+                    </div>
+                    <div className="card-degree-container">
+                      <div>
+                        <h2
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.5rem",
+                          }}
+                        >
+                          {e?.receiverId?.fullName}{" "}
+                          <FaRegCircleCheck color="#155DFC" />
+                        </h2>
+                        <p>{e?.campaignId?.course}</p>
+                        <div className="progress-container">
+                          <div className="progress-track">
+                            <div
+                              className="progress-bar"
+                              style={{
+                                width: `${e?.campaignId?.fundedPercentage}%`,
+                              }}
+                            ></div>
+                          </div>
+                          <p>{e?.campaignId?.fundedPercentage}%</p>
                         </div>
-                        <p>{e.progress}%</p>
+                      </div>
+                      <div className="card-date">
+                        <h2>{e.amount.toLocaleString()}</h2>
+                        <p>
+                          {new Date(
+                            e?.campaignId.createdAt
+                          ).toLocaleDateString()}
+                        </p>
                       </div>
                     </div>
-                    <div className="card-date">
-                      <h2>{e.price}</h2>
-                      <p>{e.date}</p>
-                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p>No recent donations yet</p>
+              )}
             </div>
           </aside>
           <aside>

@@ -10,16 +10,15 @@ import LoadingState from "../../modals/loadingstate/LoadingState";
 const Donors = () => {
   const studentId = useSelector(selectStudentId);
   const { data, isLoading, isError } = useGetAllDonorQuery(studentId);
-  console.log(data);
 
   if (isLoading) {
     return <LoadingState />;
   }
-  if (isError) {
+  if (isError || data?.data?.length === 0) {
     return <DonorFirst />;
   }
   return (
-    <Content>{data &&  <DonorList data={data} />}</Content>
+    <Content>{data?.data?.length > 0 && <DonorList data={data} />}</Content>
   );
 };
 

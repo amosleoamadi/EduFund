@@ -15,13 +15,13 @@ const Overview = () => {
     return <LoadingState />;
   }
 
-  if (isError || data?.data?.activeCampaign === null) {
+  if (isError || !data?.data?.activeCampaign) {
     return <Firstview data={data} />;
   }
 
   return (
     <Content>
-      {data?.data?.activeCampaign.length > 0 && <DashOverview data={data} />}
+      {data?.data?.activeCampaign && <DashOverview data={data} />}
     </Content>
   );
 };

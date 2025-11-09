@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import styled from "styled-components";
 import { FiShare2 } from "react-icons/fi";
 import amount from "../../../../assets/amount.svg";
@@ -24,6 +24,20 @@ const DashOverview = ({ data }) => {
   const donors = data?.data?.recentDonors;
 
   const activities = data?.data?.recentActivities;
+
+  const displayActivities = useMemo(() => {
+    if (!activities?.length) return [];
+    return [...activities]
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 6);
+  }, [activities]);
+
+  const displayDonors = useMemo(() => {
+    if (!donors?.length) return [];
+    return [...donors]
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .slice(0, 6);
+  }, [donors]);
   return (
     <DashboardContainer>
       <Header>
@@ -177,7 +191,7 @@ const DashOverview = ({ data }) => {
             </ViewAllLink>
           </CardHeader>
           {donors.length > 0 ? (
-            donors.map((donor, idx) => (
+            displayDonors.map((donor, idx) => (
               <DonorItem key={idx}>
                 <DonorAvatar></DonorAvatar>
                 <DonorInfo>
@@ -197,7 +211,7 @@ const DashOverview = ({ data }) => {
             <CardTitle>Recent Activity</CardTitle>
           </CardHeader>
           {activities.length > 0 ? (
-            activities.map((activity, idx) => (
+            displayActivities.map((activity, idx) => (
               <ActivityItem key={idx}>
                 <ActivityIcon bgColor={activity.bgColor} color={activity.color}>
                   {activity.icon}

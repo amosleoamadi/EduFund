@@ -62,7 +62,7 @@ const CampaignCreation = () => {
 
           setTimeout(() => {
             setCampaignsucess(true);
-          }, 200);
+          }, 300);
         } catch (err) {
           toast.error(err?.data?.message);
           closeCampaign();

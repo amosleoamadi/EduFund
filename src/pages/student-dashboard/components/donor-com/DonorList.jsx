@@ -2,81 +2,63 @@ import React from "react";
 import styled from "styled-components";
 import { MdVerified } from "react-icons/md";
 
-const DonorList = () => {
-  const defaultDonors = [
-    {
-      id: 1,
-      name: "Dr. Olumide Johnson",
-      avatar: "/doctor-profile.jpg",
-      amount: "₦50,000",
-      timestamp: "2 hours ago",
-      verified: true,
-      hasMessage: true,
-    },
-    {
-      id: 2,
-      name: "Mrs. Adenike Okonkwo",
-      avatar: "/woman-profile.jpg",
-      amount: "₦25,000",
-      timestamp: "5 hours ago",
-      verified: true,
-      hasMessage: false,
-    },
-    {
-      id: 3,
-      name: "Ahmed Isiaka",
-      avatar: "/man-profile.jpg",
-      amount: "₦15,000",
-      timestamp: "1 day ago",
-      verified: false,
-      hasMessage: false,
-    },
-    {
-      id: 4,
-      name: "Ibrahim Yusuf",
-      avatar: "/man-profile-2.jpg",
-      amount: "₦35,000",
-      timestamp: "2 days ago",
-      verified: true,
-      hasMessage: true,
-    },
-    {
-      id: 5,
-      name: "Victor Momoh",
-      avatar: "/man-profile-3.jpg",
-      amount: "₦35,000",
-      timestamp: "2 days ago",
-      verified: true,
-      hasMessage: true,
-    },
-  ];
+const DonorList = ({ data }) => {
+  const defaultDonors = data?.data;
+
+  const formatDonorTime = (timestamp) => {
+    if (!timestamp) return "Recently";
+
+    const donorTime = new Date(timestamp);
+    const currentTime = new Date();
+    const timeDifference = currentTime - donorTime;
+
+    const hours = Math.floor(timeDifference / (1000 * 60 * 60));
+    const minutes = Math.floor(
+      (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
+    );
+
+    if (minutes < 1) {
+      return "Just now";
+    } else if (hours < 1) {
+      return `${minutes} min ago`;
+    } else if (hours < 24) {
+      return `${hours} hr ago`;
+    } else {
+      const days = Math.floor(hours / 24);
+      if (days < 7) {
+        return `${days} day${days !== 1 ? "s" : ""} ago`;
+      } else {
+        const weeks = Math.floor(days / 7);
+        return `${weeks} week${weeks !== 1 ? "s" : ""} ago`;
+      }
+    }
+  };
+
   return (
     <Holder>
       <h3>Donors</h3>
-      <Para>47 generous supporters</Para>
+      <Para>{defaultDonors.length} generous supporters</Para>
       <DonorsContainer>
-        {defaultDonors.map((donor, idx) => (
-          <DonorItemWrapper key={idx}>
-            <DonorLeftSection>
-              <DonorAvatar src={donor.avatar} alt={donor.name} />
-              <DonorDetails>
-                <DonorNameWrapper>
-                  <DonorName>{donor.name}</DonorName>
-                  {donor.verified && <VerifiedIcon />}
-                </DonorNameWrapper>
-                <DonorTimestamp>{donor.timestamp}</DonorTimestamp>
-              </DonorDetails>
-            </DonorLeftSection>
-            <DonorRightSection>
-              <DonorAmount>{donor.amount}</DonorAmount>
-              {donor.hasMessage && (
-                <ViewMessageLink onClick={() => onViewMessage?.(donor.id)}>
-                  View Message
-                </ViewMessageLink>
-              )}
-            </DonorRightSection>
-          </DonorItemWrapper>
-        ))}
+        {defaultDonors.length > 0 &&
+          defaultDonors.map((donor) => (
+            <DonorItemWrapper key={donor.senderId._id}>
+              <DonorLeftSection>
+                <DonorAvatar src={donor.avatar} alt={donor.senderId.fullName} />
+                <DonorDetails>
+                  <DonorNameWrapper>
+                    <DonorName>{donor.senderId.fullName}</DonorName>
+                    {donor.senderId.isVerified && <VerifiedIcon />}
+                  </DonorNameWrapper>
+                  <DonorTimestamp>
+                    {formatDonorTime(donor?.senderId?.updatedAt)}
+                  </DonorTimestamp>
+                </DonorDetails>
+              </DonorLeftSection>
+              <DonorRightSection>
+                <DonorAmount>{donor.amount.toLocaleString()}</DonorAmount>
+              </DonorRightSection>
+            </DonorItemWrapper>
+          ))}
       </DonorsContainer>
     </Holder>
   );
