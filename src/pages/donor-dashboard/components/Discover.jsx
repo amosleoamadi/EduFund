@@ -46,7 +46,7 @@ const Discover = () => {
                 </Info>
               </CardTop>
 
-              <Description>{c?.story}</Description>
+              <Description>{c?.description}</Description>
 
               <Progress>
                 <ProgressAmounts>

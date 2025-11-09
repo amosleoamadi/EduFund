@@ -40,7 +40,6 @@ const Hero = () => {
       </div>
       <DonationPopup>
         <div>
-          {" "}
           <IoMdHeartEmpty className="love" />
         </div>
         <div className="text">

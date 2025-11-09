@@ -9,7 +9,6 @@ import { GrFavorite } from "react-icons/gr";
 import { GoShareAndroid } from "react-icons/go";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { SlBadge } from "react-icons/sl";
-import CampaignCreation from "../../../modals/steps/CampaignCreation";
 import {
   studentFirstname,
   studentLastname,

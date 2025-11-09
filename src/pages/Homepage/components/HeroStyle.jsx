@@ -243,7 +243,6 @@ export const DonationPopup = styled.div`
   }
 
   &:hover {
-    transform: translateY(-3px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
   }
 
