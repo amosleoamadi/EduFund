@@ -10,7 +10,6 @@ import LoadingState from "../../modals/loadingstate/LoadingState";
 const MyCampaign = () => {
   const studentId = useSelector(selectStudentId);
   const { data, isLoading, isError } = useGetallCampaignQuery(studentId);
-  console.log("My datas", data);
 
   if (isLoading) {
     return <LoadingState />;

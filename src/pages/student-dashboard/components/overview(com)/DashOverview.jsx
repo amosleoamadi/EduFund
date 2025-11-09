@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { FiShare2 } from "react-icons/fi";
 import amount from "../../../../assets/amount.svg";
@@ -9,55 +9,21 @@ import { GrFavorite } from "react-icons/gr";
 import { GoShareAndroid } from "react-icons/go";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
 import { SlBadge } from "react-icons/sl";
-import StudentLinkShare from "../../../modals/StudentLinkShare";
-import CampaignCreation from "../../../modals/steps/CampaignCreation";
 import {
   studentFirstname,
   studentLastname,
 } from "../../../../config/slices/studentauthslice";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+import { AppContext } from "../../../../context/AppContext";
 
 const DashOverview = ({ data }) => {
-  const [share, setShare] = useState(false);
-  const [createcampaign, setCreateCampaign] = useState(false);
+  const { openModal, openCampaign } = useContext(AppContext);
   const firstname = useSelector(studentFirstname);
   const lastname = useSelector(studentLastname);
   const donors = data?.data?.recentDonors;
 
-  const handleOpen = () => {
-    setShare(true);
-  };
-
-  const activities = [
-    {
-      title: "Received ₦50,000 from Dr. Olumide Johnson",
-      time: "2 hours ago",
-      icon: <GrFavorite />,
-      bgColor: "#dbeafe",
-      color: "#2563eb",
-    },
-    {
-      title: "Campaign shared 5 times on social media",
-      time: "1 hour ago",
-      icon: <GoShareAndroid />,
-      bgColor: "#dcfce7",
-      color: "#10b981",
-    },
-    {
-      title: "Tuition invoice verified",
-      time: "30 minutes ago",
-      icon: <IoIosCheckmarkCircleOutline />,
-      bgColor: "#fef3c7",
-      color: "#f59e0b",
-    },
-    {
-      title: "Received ₦25,000 from Mrs. Adenike Okonkwo",
-      time: "15 minutes ago",
-      icon: <SlBadge />,
-      bgColor: "#e0e7ff",
-      color: "#6366f1",
-    },
-  ];
+  const activities = data?.data?.recentActivities;
   return (
     <DashboardContainer>
       <Header>
@@ -68,14 +34,12 @@ const DashOverview = ({ data }) => {
           <Text>Here's your campaign progress today</Text>
         </SubText>
         <>
-          <CreateButton onClick={() => setCreateCampaign(true)}>
+          <CreateButton
+            onClick={() => openCampaign({ source: "overview" })}
+            disabled={data?.data?.activeCampaign?.isActive}
+          >
             + Create Campaign
           </CreateButton>
-
-          <CampaignCreation
-            create={createcampaign}
-            setCreate={setCreateCampaign}
-          />
         </>
       </Header>
 
@@ -98,7 +62,9 @@ const DashOverview = ({ data }) => {
             </Rate>
             <Percent>+{data?.data?.goalProgress || 0}%</Percent>
           </Progress>
-          <StatValue>₦{data?.data?.totalRaised || 0}</StatValue>
+          <StatValue>
+            ₦{data?.data?.activeCampaign?.totalDonations?.toLocaleString() || 0}
+          </StatValue>
           <StatLabel>Total Raised</StatLabel>
         </StatCard>
         <StatCard>
@@ -134,7 +100,7 @@ const DashOverview = ({ data }) => {
       <CampaignSection>
         <CampaignHeader>
           <Contents>
-            <CampaignTitle>Help From Product Design Degree</CampaignTitle>
+            <CampaignTitle>{data?.data?.activeCampaign?.title}</CampaignTitle>
             <Para>
               <StatusButton>Verify</StatusButton>
               <StatusButton
@@ -149,32 +115,54 @@ const DashOverview = ({ data }) => {
             </Para>
           </Contents>
           <>
-            <ShareButton onClick={handleOpen}>
+            <ShareButton onClick={() => openModal({ source: "dashboard" })}>
               <FiShare2 /> Share
             </ShareButton>
-
-            <StudentLinkShare show={share} setShow={setShare} />
           </>
         </CampaignHeader>
         <CampaignText>
           <ProgressText>Campaign Progress</ProgressText>
-          <ProgressText>₦0 / ₦0</ProgressText>
+          <ProgressText>
+            ₦{data?.data?.activeCampaign?.totalDonations?.toLocaleString()} / ₦
+            {data?.data?.activeCampaign?.target?.toLocaleString()}
+          </ProgressText>
         </CampaignText>
         <ProgressBar>
-          <ProgressFill percentage={0} />
+          <ProgressFill
+            style={{
+              width: `${
+                (data?.data?.activeCampaign?.totalDonations /
+                  data?.data?.activeCampaign?.target) *
+                100
+              }%`,
+            }}
+          />
         </ProgressBar>
-        <ProgressText>₦0 more needed to reach your goal</ProgressText>
+        <ProgressText>
+          ₦
+          {(
+            data?.data?.activeCampaign?.target -
+            data?.data?.activeCampaign?.totalDonations
+          ).toLocaleString()}{" "}
+          more needed to reach your goal
+        </ProgressText>
         <CampaignStatsRow>
           <CampaignStat>
-            <CampaignStatValue>0</CampaignStatValue>
+            <CampaignStatValue>
+              {data?.data?.activeCampaign?.donors}
+            </CampaignStatValue>
             <CampaignStatLabel>Donors</CampaignStatLabel>
           </CampaignStat>
           <CampaignStat>
-            <CampaignStatValue>0%</CampaignStatValue>
+            <CampaignStatValue>
+              {data?.data?.activeCampaign?.fundedPercentage}%
+            </CampaignStatValue>
             <CampaignStatLabel>Goal Progress</CampaignStatLabel>
           </CampaignStat>
           <CampaignStat>
-            <CampaignStatValue>0</CampaignStatValue>
+            <CampaignStatValue>
+              {data?.data?.activeCampaign?.daysLeft}
+            </CampaignStatValue>
             <CampaignStatLabel>Days Left</CampaignStatLabel>
           </CampaignStat>
         </CampaignStatsRow>
@@ -184,17 +172,19 @@ const DashOverview = ({ data }) => {
         <Card>
           <CardHeader>
             <CardTitle>Recent Donors</CardTitle>
-            <ViewAllLink>View All →</ViewAllLink>
+            <ViewAllLink to={"/student-dashbord/donors"}>
+              View All →
+            </ViewAllLink>
           </CardHeader>
           {donors.length > 0 ? (
             donors.map((donor, idx) => (
               <DonorItem key={idx}>
-                <DonorAvatar>{donor.name}</DonorAvatar>
+                <DonorAvatar></DonorAvatar>
                 <DonorInfo>
-                  <DonorName>{donor.name}</DonorName>
+                  <DonorName>{donor?.senderId?.fullName}</DonorName>
                   <DonorStatus>{donor.status}</DonorStatus>
                 </DonorInfo>
-                <DonorAmount>{donor.amount}</DonorAmount>
+                <DonorAmount>{donor?.amount?.toLocaleString()}</DonorAmount>
               </DonorItem>
             ))
           ) : (
@@ -206,17 +196,23 @@ const DashOverview = ({ data }) => {
           <CardHeader>
             <CardTitle>Recent Activity</CardTitle>
           </CardHeader>
-          {activities.map((activity, idx) => (
-            <ActivityItem key={idx}>
-              <ActivityIcon bgColor={activity.bgColor} color={activity.color}>
-                {activity.icon}
-              </ActivityIcon>
-              <ActivityContent>
-                <ActivityTitle>{activity.title}</ActivityTitle>
-                <ActivityTime>{activity.time}</ActivityTime>
-              </ActivityContent>
-            </ActivityItem>
-          ))}
+          {activities.length > 0 ? (
+            activities.map((activity, idx) => (
+              <ActivityItem key={idx}>
+                <ActivityIcon bgColor={activity.bgColor} color={activity.color}>
+                  {activity.icon}
+                </ActivityIcon>
+                <ActivityContent>
+                  <ActivityTitle>{activity?.message}</ActivityTitle>
+                  <ActivityTime>
+                    {new Date(activity?.createdAt).toLocaleDateString()}
+                  </ActivityTime>
+                </ActivityContent>
+              </ActivityItem>
+            ))
+          ) : (
+            <ErrorText>No activities yet</ErrorText>
+          )}
         </Card>
       </ContentGrid>
     </DashboardContainer>
@@ -240,10 +236,10 @@ const DashboardContainer = styled.div`
 
 const ErrorText = styled.p`
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1rem;
 
   @media (max-width: 576px) {
-    font-size: 1rem;
+    font-size: 0.8rem;
   }
 `;
 
@@ -283,17 +279,18 @@ const Text = styled.p`
 `;
 
 const CreateButton = styled.button`
-  background-color: #2563eb;
+  background-color: ${({ disabled }) => (disabled ? "#ccc" : "#2563eb")};
   color: white;
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 0.5rem;
   font-weight: 500;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? "not-allowed" : "pointer")};
+  opacity: ${({ disabled }) => (disabled ? 0.6 : 1)};
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #1d4ed8;
+    background-color: ${({ disabled }) => (disabled ? "#ccc" : "#1d4ed8")};
   }
 `;
 
@@ -451,7 +448,6 @@ const ProgressBar = styled.div`
 const ProgressFill = styled.div`
   height: 100%;
   background-color: #2563eb;
-  width: ${(props) => props.percentage}%;
   transition: width 0.3s;
 `;
 
@@ -529,6 +525,7 @@ const Card = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+  overflow-y: auto;
 `;
 
 const CardHeader = styled.div`
@@ -545,11 +542,12 @@ const CardTitle = styled.h3`
   margin: 0;
 `;
 
-const ViewAllLink = styled.p`
+const ViewAllLink = styled(NavLink)`
   color: #222;
   text-decoration: none;
   font-size: 0.875rem;
   cursor: pointer;
+  text-decoration: none;
 `;
 
 const DonorItem = styled.div`

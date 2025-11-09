@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   TabsContainer,
   TabsHeader,
@@ -24,25 +24,11 @@ import {
   StatusButton,
 } from "./CampaignTabStyle";
 import { FiShare2 } from "react-icons/fi";
+import { AppContext } from "../../../../../context/AppContext";
 
 const CampaignTabs = ({ data }) => {
   const [activeTab, setActiveTab] = useState("current");
-
-  const historyData = [
-    {
-      title: "Previous Campaign 1",
-      status: "Completed",
-      verified: true,
-      demoText: "Demo: Completed Campaign",
-      raised: 50000,
-      goal: 50000,
-      donors: 30,
-      fundedPercent: 100,
-      daysLeft: 0,
-      statusOptions: ["Active", "Pending", "Rejected"],
-      activeStatus: "Completed",
-    },
-  ];
+  const { openModal } = useContext(AppContext);
 
   return (
     <TabsContainer>
@@ -84,26 +70,42 @@ const CampaignTabs = ({ data }) => {
             <CampaignTitle>{data?.data[0]?.title}</CampaignTitle>
             <BadgeContainer>
               <Badge $type="verified">✓ Verified</Badge>
-              <Badge $type="active">{data?.data[0]?.status}</Badge>
+              <Badge $type="active">
+                {data?.data[0]?.isActive ? "Active" : "Pending"}
+              </Badge>
             </BadgeContainer>
           </div>
-          <ShareButton>
-            <span style={{ marginRight: "8px" }}>
-              <FiShare2 />{" "}
-            </span>
-            Share
-          </ShareButton>
+          <>
+            <ShareButton onClick={() => openModal({ source: "campaign" })}>
+              <span style={{ marginRight: "8px" }}>
+                <FiShare2 />
+              </span>
+              Share
+            </ShareButton>
+          </>
         </div>
 
         <ProgressSection>
           <ProgressLabel>
             <span>Campaign Progress</span>
-            <span>₦{data?.data[0]?.target}</span>
+            <span>₦{data?.data[0]?.target.toLocaleString()}</span>
           </ProgressLabel>
           <ProgressTrack>
-            <ProgressFill $percentage={0} />
+            <ProgressFill
+              style={{
+                width: `${
+                  (data?.data[0]?.totalDonations / data?.data[0]?.target) * 100
+                }%`,
+              }}
+            />
           </ProgressTrack>
-          <ProgressText>₦24 more needed to reach your goal</ProgressText>
+          <ProgressText>
+            ₦
+            {(
+              data?.data[0]?.target - data?.data[0]?.totalDonations
+            ).toLocaleString()}
+            <span>more needed to reach your goal</span>
+          </ProgressText>
         </ProgressSection>
 
         <StatsContainer>

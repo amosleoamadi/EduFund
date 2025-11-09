@@ -240,7 +240,6 @@ export const ProgressFill = styled.div`
   height: 100%;
   background: #2563eb;
   border-radius: 6px;
-  width: ${(props) => props.$percentage}%;
   transition: width 0.3s ease;
 `;
 

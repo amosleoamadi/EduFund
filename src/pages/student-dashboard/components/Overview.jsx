@@ -10,17 +10,20 @@ import LoadingState from "../../modals/loadingstate/LoadingState";
 const Overview = () => {
   const studentId = useSelector(selectStudentId);
   const { data, isLoading, isError } = useGetDasboardQuery(studentId);
-  console.log(data);
 
   if (isLoading) {
     return <LoadingState />;
   }
 
-  if (isError) {
-    return <Firstview />;
+  if (isError || data?.data?.activeCampaign === null) {
+    return <Firstview data={data} />;
   }
 
-  return <Content>{data && <DashOverview data={data} />}</Content>;
+  return (
+    <Content>
+      {data?.data?.activeCampaign.length > 0 && <DashOverview data={data} />}
+    </Content>
+  );
 };
 
 export default Overview;

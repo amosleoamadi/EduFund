@@ -30,6 +30,7 @@ import ReverifyEmail from "../auth/ReverifyEmail";
 import PrivateRoute from "./PrivateRoute";
 import StudentDetailPage from "../pages/student-dashboard/student-detailsPage/StudentDetailPage";
 import Sucess from "../pages/modals/congratModal/Sucess";
+import { CampaignDetails } from "../pages/modals/congratModal/SucessModal";
 
 export const Element = createBrowserRouter([
   {
@@ -153,6 +154,10 @@ export const Element = createBrowserRouter([
             element: <DonorSetting />,
           },
         ],
+      },
+      {
+        path: "/student_detail/:campaignId",
+        element: <CampaignDetails />,
       },
     ],
   },

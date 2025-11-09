@@ -165,7 +165,7 @@ export const SideBarContainer = styled.div`
     position: fixed;
     top: 70px;
     left: 0;
-    width: 70%;
+    width: 40%;
     height: calc(100vh - 70px);
     background: white;
     z-index: 25;
@@ -176,7 +176,7 @@ export const SideBarContainer = styled.div`
   }
 
   @media (max-width: 480px) {
-    width: 60%;
+    width: 45%;
   }
 `;
 
