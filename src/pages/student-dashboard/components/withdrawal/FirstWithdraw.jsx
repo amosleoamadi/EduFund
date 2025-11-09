@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import Button from "../../../../components/Ui/Button";
 import safe from "../../../../assets/safeguard.svg";
 import { IoIosAdd } from "react-icons/io";
 import WithdrawalHistory from "./WidthdrawHistory";
+import { AppContext } from "../../../../context/AppContext";
 
 const FirstWithdraw = ({ data }) => {
+  const { setWithdraw } = useContext(AppContext);
   return (
     <Container>
       <TextHolder>
@@ -15,11 +17,15 @@ const FirstWithdraw = ({ data }) => {
       <Amount>
         <Tag>
           <h3>Available for Withdrawal</h3>
-          <button className="btn" disabled={!data?.balance}>
+          <button
+            className="btn"
+            disabled={!data?.balance}
+            onClick={() => setWithdraw(true)}
+          >
             Request Withdrawal
           </button>
         </Tag>
-        <MoneyBal>₦{data?.balance}</MoneyBal>
+        <MoneyBal>₦{data?.balance?.toLocaleString()}</MoneyBal>
         <Down>
           <Safe>
             <img src={safe} alt="" />

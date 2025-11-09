@@ -131,7 +131,7 @@ const Login = () => {
           />
           <p>
             Don't have an account?{" "}
-            <NavLink to={"/register"}>
+            <NavLink to={"/account-type"}>
               <span>Create an Account</span>
             </NavLink>
           </p>

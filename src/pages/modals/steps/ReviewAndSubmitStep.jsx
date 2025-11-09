@@ -24,6 +24,10 @@ const ReviewAndSubmitStep = ({ formData }) => {
             <ReviewLabel>JAMB Reg</ReviewLabel>
             <ReviewValue>{formData.jambRegistrationNumber}</ReviewValue>
           </ReviewItem>
+          <ReviewItem>
+            <ReviewLabel>Course of Study</ReviewLabel>
+            <ReviewValue>{formData.course}</ReviewValue>
+          </ReviewItem>
         </ReviewGrid>
       </ReviewSection>
 

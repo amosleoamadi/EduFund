@@ -19,7 +19,7 @@ const Donors = () => {
     return <DonorFirst />;
   }
   return (
-    <Content>{data && data.length > 0 && <DonorList data={data} />}</Content>
+    <Content>{data &&  <DonorList data={data} />}</Content>
   );
 };
 

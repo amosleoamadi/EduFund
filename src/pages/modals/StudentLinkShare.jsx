@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import {
   FaWhatsapp,
@@ -8,74 +8,71 @@ import {
   FaCopy,
   FaShareSquare,
 } from "react-icons/fa";
+import { AppContext } from "../../context/AppContext";
 
-const StudentLinkShare = ({ show, setShow }) => {
+const StudentLinkShare = () => {
+  const { closeModal } = useContext(AppContext);
   const handleCopy = () => {
-    navigator.clipboard.writeText(campaignLink);
+    navigator.clipboard.writeText();
     alert("Link copied to clipboard!");
   };
   return (
-    <>
-      {show && (
-        <ModalOverlay>
-          <ModalContent onClick={(e) => e.stopPropagation()}>
-            <CloseButton onClick={() => setShow(false)}>&times;</CloseButton>
+    <ModalOverlay>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
+        <CloseButton onClick={closeModal}>&times;</CloseButton>
 
-            <Header>
-              <Title>Share Your Campaign</Title>
-              <Subtitle>Help spread the word and reach more donors</Subtitle>
-            </Header>
+        <Header>
+          <Title>Share Your Campaign</Title>
+          <Subtitle>Help spread the word and reach more donors</Subtitle>
+        </Header>
 
-            <ButtonGrid>
-              <ShareButton>
-                <Icon platform="WhatsApp">
-                  <FaWhatsapp />
-                </Icon>
-                WhatsApp
-              </ShareButton>
-              <ShareButton>
-                <Icon platform="Twitter">
-                  <FaTwitter />
-                </Icon>
-                Twitter / X
-              </ShareButton>
-              <ShareButton>
-                <Icon platform="Facebook">
-                  <FaFacebookF />
-                </Icon>
-                Facebook
-              </ShareButton>
-              <ShareButton>
-                <Icon platform="LinkedIn">
-                  <FaLinkedinIn />
-                </Icon>
-                LinkedIn
-              </ShareButton>
-            </ButtonGrid>
+        <ButtonGrid>
+          <ShareButton>
+            <Icon platform="WhatsApp">
+              <FaWhatsapp />
+            </Icon>
+            WhatsApp
+          </ShareButton>
+          <ShareButton>
+            <Icon platform="Twitter">
+              <FaTwitter />
+            </Icon>
+            Twitter / X
+          </ShareButton>
+          <ShareButton>
+            <Icon platform="Facebook">
+              <FaFacebookF />
+            </Icon>
+            Facebook
+          </ShareButton>
+          <ShareButton>
+            <Icon platform="LinkedIn">
+              <FaLinkedinIn />
+            </Icon>
+            LinkedIn
+          </ShareButton>
+        </ButtonGrid>
 
-            <LinkLabel>Campaign Link</LinkLabel>
-            <LinkContainer>
-              <LinkDisplay type="text" readOnly />
-              <CopyButton onClick={handleCopy}>
-                <CopyIcon />
-                Copy
-              </CopyButton>
-            </LinkContainer>
+        <LinkLabel>Campaign Link</LinkLabel>
+        <LinkContainer>
+          <LinkDisplay type="text" readOnly />
+          <CopyButton onClick={handleCopy}>
+            <CopyIcon />
+            Copy
+          </CopyButton>
+        </LinkContainer>
 
-            <ImpactBox>
-              <ImpactHeader>
-                <StyledFaShareSquare />
-                Share Impact
-              </ImpactHeader>
-              <ImpactText>
-                Your campaign has been shared 156 times and viewed by 2,340
-                people!
-              </ImpactText>
-            </ImpactBox>
-          </ModalContent>
-        </ModalOverlay>
-      )}
-    </>
+        <ImpactBox>
+          <ImpactHeader>
+            <StyledFaShareSquare />
+            Share Impact
+          </ImpactHeader>
+          <ImpactText>
+            Your campaign has been shared 156 times and viewed by 2,340 people!
+          </ImpactText>
+        </ImpactBox>
+      </ModalContent>
+    </ModalOverlay>
   );
 };
 
