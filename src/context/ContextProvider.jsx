@@ -10,8 +10,8 @@ const ContextProvider = ({ children }) => {
   const [modalData, setModalData] = useState(null);
   const [campaigncreate, setCampaignCreate] = useState(false);
   const [campaignData, setCampaignData] = useState(null);
-  const [withdraw, setWithdraw] = useState(false);
   const [secondWith, setSecondWith] = useState(false);
+  const [campaignSucess, setCampaignSucess] = useState(false);
 
   const openModal = (data) => {
     setModalData(data || null);
@@ -40,15 +40,14 @@ const ContextProvider = ({ children }) => {
         closeModal,
         openCampaign,
         closeCampaign,
-        setWithdraw,
         setSecondWith,
+        campaignSucess,
+        setCampaignSucess,
       }}
     >
       {children}
       {modalOpen && <StudentLinkShare data={modalData} onClose={closeModal} />}
       {campaigncreate && <CampaignCreation datas={campaignData} />}
-      {withdraw && <RequestWithdraw />}
-      {secondWith && <WithdrawalReq />}
     </AppContext.Provider>
   );
 };

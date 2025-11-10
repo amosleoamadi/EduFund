@@ -27,14 +27,15 @@ import {
   PrimaryButton,
 } from "./SucessModal";
 
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../../../context/AppContext";
 
-const Sucess = ({ setCampaignsucess }) => {
-  const nav = useNavigate();
+const Sucess = ({ nav }) => {
+  const { setCampaignSucess } = useContext(AppContext);
   return (
     <ModalOverlay>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
-        <CloseButton onClick={() => setCampaignsucess(false)}>✕</CloseButton>
+        <CloseButton onClick={() => setCampaignSucess(false)}>✕</CloseButton>
 
         <ModalContent>
           <Title>Campaign Created Successfully! 🎉</Title>
@@ -101,10 +102,19 @@ const Sucess = ({ setCampaignsucess }) => {
           </SecurityMessage>
 
           <ButtonGroup>
-            <SecondaryButton onClick={() => nav("/student-dashbord")}>
+            <SecondaryButton
+              onClick={() => {
+                nav("/student-dashbord");
+                setCampaignSucess(false);
+              }}
+            >
               Back to Overview
             </SecondaryButton>
-            <PrimaryButton onClick={() => nav("/student-dashbord/campaigns")}>
+            <PrimaryButton
+              onClick={() => {
+                nav("/student-dashbord/campaigns"), setCampaignSucess(false);
+              }}
+            >
               View Campaign ↗
             </PrimaryButton>
           </ButtonGroup>

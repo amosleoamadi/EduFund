@@ -137,6 +137,7 @@ export const CampaignCard = styled.div`
   border-radius: 12px;
   padding: 32px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  margin-bottom: 25px;
 
   @media (max-width: 768px) {
     padding: 24px;

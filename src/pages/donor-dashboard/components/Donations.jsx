@@ -76,7 +76,11 @@ const Donations = () => {
                       }
                     >
                       {e.progressStatusIcon}
-                      <p>{e?.campaignId?.status}</p>
+                      <p>
+                        {e?.campaignId?.target === 100
+                          ? "Completed"
+                          : "Pending"}
+                      </p>
                     </div>
                   </div>
                   <div className="part3">

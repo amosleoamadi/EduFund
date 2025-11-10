@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   DashLayout,
   EduLogo,
@@ -28,6 +28,8 @@ import { studentAuth } from "../../utils/stundentauth/authapi";
 import { useDispatch, useSelector } from "react-redux";
 import { persistor } from "../../app/store";
 import { AiOutlineMenu } from "react-icons/ai";
+import { AppContext } from "../../context/AppContext";
+import Sucess from "../modals/congratModal/Sucess";
 
 const DashboardStudent = () => {
   const [showPop, setShowPop] = useState(false);
@@ -37,6 +39,7 @@ const DashboardStudent = () => {
   const email = useSelector(selectStudentEmail);
   const dispatch = useDispatch();
   const nav = useNavigate();
+  const { campaignSucess } = useContext(AppContext);
 
   const LogoutFunction = () => {
     dispatch(userLogout());
@@ -109,6 +112,7 @@ const DashboardStudent = () => {
         </SideBarContainer>
         <OutletContent>
           <Outlet />
+          {campaignSucess && <Sucess nav={nav} />}
         </OutletContent>
       </DashLayout>
     </StudDash>

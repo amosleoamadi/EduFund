@@ -1,55 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-const WithdrawalHistory = () => {
+const WithdrawalHistory = ({ information }) => {
   const [activeTab, setActiveTab] = useState("all");
 
-  const withdrawals = [
-    {
-      id: 1,
-      amount: 300000,
-      title: "Semester tuition fee payment",
-      date: "11/20/2024",
-      ref: "WD-2024-11-001",
-      processed: "Processed in 5 days",
-      note: "Second semester 2024 tuition payment",
-      status: "completed",
-      icon: "₦",
-    },
-    {
-      id: 2,
-      amount: 150000,
-      title: "Hostel accommodation fees",
-      date: "12/1/2024",
-      ref: "WD-2024-12-001",
-      processed: "Est. 12/6/2024",
-      note: "On-campus hostel fees for second semester",
-      status: "processing",
-      icon: "₦",
-    },
-    {
-      id: 3,
-      amount: 75000,
-      title: "Study materials and textbooks",
-      date: "10/15/2024",
-      ref: "WD-2024-10-001",
-      processed: "Processed in 3 days",
-      note: "Engineering textbooks for 300 level courses",
-      status: "completed",
-      icon: "₦",
-    },
-    {
-      id: 4,
-      amount: 50000,
-      title: "Personal laptop upgrade",
-      date: "9/10/2024",
-      ref: "WD-2024-09-001",
-      processed: "",
-      note: "Needed for programming courses",
-      status: "rejected",
-      icon: "₦",
-    },
-  ];
+  const withdrawals = information;
+
+  console.log(withdrawals);
 
   const filteredWithdrawals =
     activeTab === "all"
@@ -98,12 +55,12 @@ const WithdrawalHistory = () => {
 
       <CardsContainer>
         {filteredWithdrawals.map((withdrawal) => (
-          <Card key={withdrawal.id}>
+          <Card key={withdrawal._id}>
             <CardTop>
               <IconBox className={withdrawal.status}>{withdrawal.icon}</IconBox>
               <InfoSection>
                 <Amount>₦{withdrawal.amount.toLocaleString()}</Amount>
-                <Title2>{withdrawal.title}</Title2>
+                <Title2>{withdrawal.campaignId.title}</Title2>
               </InfoSection>
               <StatusBadge className={withdrawal.status}>
                 {withdrawal.status === "completed" && "✓ Completed"}
@@ -113,8 +70,10 @@ const WithdrawalHistory = () => {
             </CardTop>
 
             <CardDetails>
-              <DetailItem>Requested: {withdrawal.date}</DetailItem>
-              <DetailItem>Ref: {withdrawal.ref}</DetailItem>
+              <DetailItem>
+                Requested: {new Date(withdrawal.createdAt).toLocaleDateString()}
+              </DetailItem>
+              {/* <DetailItem>Ref: {withdrawal.ref}</DetailItem> */}
               {withdrawal.processed && (
                 <DetailItem>{withdrawal.processed}</DetailItem>
               )}

@@ -11,13 +11,12 @@ import { useCampaigncreateMutation } from "../../../utils/stundentauth/createcam
 import { selectStudentId } from "../../../config/slices/studentauthslice";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import LoadingState from "../../modals/loadingstate/LoadingState";
 import { AppContext } from "../../../context/AppContext";
 
 const CampaignCreation = () => {
   const [campaignCreate, { isLoading }] = useCampaigncreateMutation();
-  const { closeCampaign } = useContext(AppContext);
+  const { closeCampaign, setCampaignSucess } = useContext(AppContext);
   const studentId = useSelector(selectStudentId);
   const stepTitles = {
     1: "Academic Details",
@@ -34,7 +33,6 @@ const CampaignCreation = () => {
   };
 
   const [currentStep, setCurrentStep] = useState(1);
-  const [campaignsucess, setCampaignsucess] = useState(false);
   const [formData, setFormData] = useState({
     schoolName: "",
     year: "",
@@ -58,11 +56,9 @@ const CampaignCreation = () => {
             campaignStatus: formData,
             studentId: studentId,
           }).unwrap();
-          closeCampaign();
+          setCampaignSucess(true);
 
-          setTimeout(() => {
-            setCampaignsucess(true);
-          }, 300);
+          setTimeout(() => closeCampaign(), 300);
         } catch (err) {
           toast.error(err?.data?.message);
           closeCampaign();
@@ -174,12 +170,6 @@ const CampaignCreation = () => {
       </Backdrop>
 
       {isLoading && <LoadingState />}
-
-      {campaignsucess && (
-        <Backdrop>
-          <Sucess setCampaignsucess={setCampaignsucess} />
-        </Backdrop>
-      )}
     </>
   );
 };
