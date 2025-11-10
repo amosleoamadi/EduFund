@@ -10,15 +10,10 @@ import LoadingState from "../loadingstate/LoadingState";
 
 const DonationModal = ({ onClose, campaign, data }) => {
   const [amount, setAmount] = useState("");
-  // const [paymentOpen, setPaymentOpen] = useState(false);
   const donorId = useSelector(selectStudentId);
   const recieverId = data?.studentId?._id;
   const campaingId = data?._id;
   const [payment, { isLoading }] = useDonorPaymentMutation();
-
-  // const handleBackToDonation = () => {
-  //   setPaymentOpen(false);
-  // };
 
   const handlePayment = async () => {
     if (!amount) {
@@ -60,17 +55,6 @@ const DonationModal = ({ onClose, campaign, data }) => {
             <p style={{ color: "#64748b", fontSize: "0.9rem" }}>
               Support {data?.studentId?.fullName}'s education journey
             </p>
-
-            <Steps>
-              <span className="active">1</span>
-              <div className="line" />
-              <span>2</span>
-              <div className="line" />
-              <span>3</span>
-              <div className="line" />
-              <span>4</span>
-            </Steps>
-
             <StudentInfo>
               <img src="" alt="" />
               <div>
@@ -109,17 +93,6 @@ const DonationModal = ({ onClose, campaign, data }) => {
           </Modal>
         </Overlay>
       )}
-
-      {/* {paymentOpen && (
-        <PaymentMethodModal
-          open={paymentOpen}
-          onGoBack={handleBackToDonation}
-          onClose={() => {
-            setPaymentOpen(false);
-            onClose();
-          }}
-        />
-      )} */}
 
       {isLoading && <LoadingState />}
     </>
