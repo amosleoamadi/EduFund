@@ -15,18 +15,22 @@ import logo from "../../assets/EduFundLogo.png";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import DonorSideBar from "./components/DonorSideBar";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { donorAuth } from "../../utils/donorauth/donorauth";
 import { MdLogout } from "react-icons/md";
 import { RxPerson } from "react-icons/rx";
 import styled from "styled-components";
 import { persistor } from "../../app/store";
 import { AiOutlineMenu } from "react-icons/ai";
-import { userLogout } from "../../config/slices/studentauthslice";
+import {
+  studentFirstname,
+  userLogout,
+} from "../../config/slices/studentauthslice";
 
 const DonorDashboard = () => {
   const [popup, setPopup] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const firstname = useSelector(studentFirstname);
   const dispatch = useDispatch();
   const nav = useNavigate();
 
@@ -70,7 +74,7 @@ const DonorDashboard = () => {
             </div>
             <div className="profile_pic" style={{ position: "relative" }}>
               <div className="pic" onClick={() => setPopup(!popup)}></div>
-              <p>Femi</p>
+              <p>{firstname}</p>
             </div>
             {popup && (
               <Dropdown>

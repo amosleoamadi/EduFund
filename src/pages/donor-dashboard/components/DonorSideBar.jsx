@@ -167,12 +167,22 @@ const Container = styled.main`
       font-size: 20px;
     }
 
+    &:hover {
+      background: #2563eb;
+      color: white;
+    }
+
     @media (max-width: 768px) {
       border-radius: 8px;
       height: 45px;
       font-size: 16px;
       color: #2563eb;
       background: none;
+
+      &:hover {
+        background: none;
+        color: #2563eb;
+      }
     }
   }
 `;
