@@ -20,7 +20,7 @@ const FirstWithdraw = ({ data }) => {
           <>
             <button
               className="btn"
-              disabled={!data?.balance}
+              disabled={!data?.data?.walletBallance}
               onClick={() => setWithdraw(true)}
             >
               Request Withdrawal
