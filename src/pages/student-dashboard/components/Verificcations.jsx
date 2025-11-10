@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { FileIcon, Upload, AlertCircle } from "lucide-react";
+import { FileIcon, Upload, AlertCircle} from "lucide-react";
 
 const documents = [
   {
