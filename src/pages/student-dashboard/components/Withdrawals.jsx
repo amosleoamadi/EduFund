@@ -14,6 +14,8 @@ const Withdrawals = () => {
     return <LoadingState />;
   }
 
+  console.log(data);
+
   return (
     <Content>
       <FirstWithdraw data={data} />

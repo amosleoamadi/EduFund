@@ -2,109 +2,147 @@ import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { FaTimes, FaExclamationCircle } from "react-icons/fa";
 import { AppContext } from "../../context/AppContext";
+import { useRequestWithdrawalMutation } from "../../utils/stundentauth/walletbalapi";
+import toast from "react-hot-toast";
+import LoadingState from "./loadingstate/LoadingState";
 
-const RequestWithdraw = () => {
-  const [withdrawalAmount, setWithdrawalAmount] = useState("");
-  const [purpose, setPurpose] = useState("");
-  const [notes, setNotes] = useState("");
-  const { setWithdraw, setSecondWith } = useContext(AppContext);
+const RequestWithdraw = ({ datas, setWithdraw, withdraw }) => {
+  const [withdrawalAmount, setWithdrawalAmount] = useState({
+    amount: "",
+    purpose: "",
+    note: "",
+  });
+  const [requestWithdraw, { isLoading }] = useRequestWithdrawalMutation();
 
-  const handleSubmit = (e) => {
+  const { setSecondWith } = useContext(AppContext);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setWithdrawalAmount({ ...withdrawalAmount, [name]: value });
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ withdrawalAmount, purpose, notes });
-    setWithdraw(false);
-    setTimeout(() => {
+
+    const data = {
+      amount: withdrawalAmount.amount,
+      purpose: withdrawalAmount.purpose,
+      note: withdrawalAmount.note,
+    };
+
+    try {
+      const res = await requestWithdraw({
+        data: data,
+        studentId: datas?.data[0]?.receiverId,
+        campaignId: datas?.data[0]?.campaignId,
+      }).unwrap();
       setSecondWith(true);
-    }, 200);
+    } catch (err) {
+      toast.error(err?.data?.message);
+    }
   };
   return (
-    <ModalOverlay>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
-        <CloseButton onClick={() => setWithdraw(false)}>
-          <FaTimes />
-        </CloseButton>
+    <>
+      {withdraw && (
+        <ModalOverlay>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <CloseButton onClick={() => setWithdraw(false)}>
+              <FaTimes />
+            </CloseButton>
 
-        <Header>
-          <Title>Request Withdrawal</Title>
-          <Subtitle>
-            Submit a withdrawal request to receive funds directly to your school
-          </Subtitle>
-        </Header>
+            <Header>
+              <Title>Request Withdrawal</Title>
+              <Subtitle>
+                Submit a withdrawal request to receive funds directly to your
+                school
+              </Subtitle>
+            </Header>
 
-        <BalanceCard>
-          <BalanceText>
-            <BalanceLabel>Available Balance</BalanceLabel>
-            <BalanceAmount>200</BalanceAmount>
-          </BalanceText>
-          <NairaIconContainer>₦</NairaIconContainer>
-        </BalanceCard>
+            <BalanceCard>
+              <BalanceText>
+                <BalanceLabel>Available Balance</BalanceLabel>
+                <BalanceAmount>
+                  {datas?.data?.walletBallance.toLocaleString()}
+                </BalanceAmount>
+              </BalanceText>
+              <NairaIconContainer>₦</NairaIconContainer>
+            </BalanceCard>
 
-        <form onSubmit={handleSubmit}>
-          <FormGroup>
-            <Label htmlFor="withdrawalAmount">Withdrawal Amount (₦) *</Label>
-            <Input
-              id="withdrawalAmount"
-              type="number"
-              placeholder={`Maximum: ₦500`}
-              value={withdrawalAmount}
-              onChange={(e) => setWithdrawalAmount(e.target.value)}
-              required
-            />
-            <HintText>Maximum: ₦800</HintText>
-          </FormGroup>
+            <form onSubmit={handleSubmit}>
+              <FormGroup>
+                <Label htmlFor="withdrawalAmount">
+                  Withdrawal Amount (₦) *
+                </Label>
+                <Input
+                  id="withdrawalAmount"
+                  type="number"
+                  name="amount"
+                  placeholder={`Maximum: ₦500`}
+                  value={withdrawalAmount.amount}
+                  onChange={handleChange}
+                  required
+                />
+                <HintText>Maximum: ₦800</HintText>
+              </FormGroup>
 
-          <FormGroup style={{ marginTop: "20px" }}>
-            <Label htmlFor="purposeOfWithdrawal">Purpose of Withdrawal *</Label>
-            <Input
-              as="textarea"
-              id="purposeOfWithdrawal"
-              placeholder="e.g., School fees, Project funding"
-              value={purpose}
-              onChange={(e) => setPurpose(e.target.value)}
-              required
-            />
-          </FormGroup>
+              <FormGroup style={{ marginTop: "20px" }}>
+                <Label htmlFor="purposeOfWithdrawal">
+                  Purpose of Withdrawal *
+                </Label>
+                <Input
+                  as="textarea"
+                  id="purposeOfWithdrawal"
+                  name="purpose"
+                  placeholder="e.g., School fees, Project funding"
+                  value={withdrawalAmount.purpose}
+                  onChange={handleChange}
+                  required
+                />
+              </FormGroup>
 
-          <FormGroup style={{ marginTop: "20px" }}>
-            <Label htmlFor="additionalNotes">Additional Notes (Optional)</Label>
-            <TextArea
-              id="additionalNotes"
-              placeholder="Add any additional information..."
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-            />
-          </FormGroup>
+              <FormGroup style={{ marginTop: "20px" }}>
+                <Label htmlFor="additionalNotes">
+                  Additional Notes (Optional)
+                </Label>
+                <TextArea
+                  id="additionalNotes"
+                  placeholder="Add any additional information..."
+                  value={withdrawalAmount.note}
+                  name="note"
+                  onChange={handleChange}
+                />
+              </FormGroup>
 
-          <NoticeBox style={{ marginTop: "25px" }}>
-            <NoticeIcon />
-            <NoticeContent>
-              <NoticeTitle>Important Notice</NoticeTitle>
-              <NoticeList>
-                <li>
-                  Funds will be sent directly to your school's bursary
-                  department
-                </li>
-                <li>Processing typically takes 3-5 business days</li>
-                <li>You'll receive email confirmation once processed</li>
-                <li>Withdrawals cannot be cancelled once submitted</li>
-              </NoticeList>
-            </NoticeContent>
-          </NoticeBox>
+              <NoticeBox style={{ marginTop: "25px" }}>
+                <NoticeIcon />
+                <NoticeContent>
+                  <NoticeTitle>Important Notice</NoticeTitle>
+                  <NoticeList>
+                    <li>
+                      Funds will be sent directly to your school's bursary
+                      department
+                    </li>
+                    <li>Processing typically takes 3-5 business days</li>
+                    <li>You'll receive email confirmation once processed</li>
+                    <li>Withdrawals cannot be cancelled once submitted</li>
+                  </NoticeList>
+                </NoticeContent>
+              </NoticeBox>
 
-          <ButtonContainer>
-            <CancelButton type="button" onClick={() => setWithdraw(false)}>
-              Cancel
-            </CancelButton>
-            <SubmitButton
-              type="submit"
-              disabled={!withdrawalAmount || !purpose}
-            >
-              Submit Request
-            </SubmitButton>
-          </ButtonContainer>
-        </form>
-      </ModalContent>
-    </ModalOverlay>
+              <ButtonContainer>
+                <CancelButton type="button" onClick={() => setWithdraw(false)}>
+                  Cancel
+                </CancelButton>
+                <SubmitButton type="submit" disabled={!withdrawalAmount}>
+                  Submit Request
+                </SubmitButton>
+              </ButtonContainer>
+            </form>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+
+      {isLoading && <LoadingState />}
+    </>
   );
 };
 
