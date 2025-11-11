@@ -48,6 +48,7 @@ const ContextProvider = ({ children }) => {
       {children}
       {modalOpen && <StudentLinkShare data={modalData} onClose={closeModal} />}
       {campaigncreate && <CampaignCreation datas={campaignData} />}
+      {secondWith && <WithdrawalReq />}
     </AppContext.Provider>
   );
 };
