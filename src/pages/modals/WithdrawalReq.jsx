@@ -67,7 +67,14 @@ const WithdrawalReq = ({ amount, onClose }) => {
           </NextStepsList>
         </NextStepsBox>
 
-        <DoneButton onClick={() => setSecondWith(false)}>Done</DoneButton>
+        <DoneButton
+          onClick={() => {
+            setSecondWith(false);
+            window.location.reload();
+          }}
+        >
+          Done
+        </DoneButton>
       </ModalContent>
     </ModalOverlay>
   );

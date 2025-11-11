@@ -32,10 +32,14 @@ const RequestWithdraw = ({ datas, setWithdraw, withdraw }) => {
     try {
       const res = await requestWithdraw({
         data: data,
-        studentId: datas?.data[0]?.receiverId,
-        campaignId: datas?.data[0]?.campaignId,
+        studentId: datas?.data?.payments[0]?.receiverId,
+        campaignId: datas?.data?.payments[0]?.campaignId,
       }).unwrap();
-      setSecondWith(true);
+      setWithdraw(false);
+
+      setTimeout(() => {
+        setSecondWith(true);
+      }, 300);
     } catch (err) {
       toast.error(err?.data?.message);
     }
