@@ -183,9 +183,9 @@ const ReviewValue = styled.span`
 
 const StoryPreview = styled.div`
   background-color: #fff;
-  padding: 12px;
+  padding: 13px;
   border-radius: 4px;
-  font-size: 13px;
+  font-size: 12.5px;
   color: #374151;
   line-height: 1.6;
 

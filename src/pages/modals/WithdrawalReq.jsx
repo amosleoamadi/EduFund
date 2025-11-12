@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { FaTimes, FaRegClock, FaCheckCircle } from "react-icons/fa";
 import { AppContext } from "../../context/AppContext";
 
-const WithdrawalReq = ({ amount, onClose }) => {
+const WithdrawalReq = ({ amount, onClose, dispatched }) => {
   const formattedAmount = new Intl.NumberFormat("en-NG", {
     style: "currency",
     currency: "NGN",
@@ -30,7 +30,7 @@ const WithdrawalReq = ({ amount, onClose }) => {
             <DetailLabel>Amount</DetailLabel>
             <DetailValue>
               <NairaSymbol>₦</NairaSymbol>
-              {amount}
+              {dispatched}
             </DetailValue>
           </DetailRow>
 

@@ -5,10 +5,6 @@ import amount from "../../../../assets/amount.svg";
 import people from "../../../../assets/people.svg";
 import target1 from "../../../../assets/target1.svg";
 import last from "../../../../assets/last.svg";
-import { GrFavorite } from "react-icons/gr";
-import { GoShareAndroid } from "react-icons/go";
-import { IoIosCheckmarkCircleOutline } from "react-icons/io";
-import { SlBadge } from "react-icons/sl";
 import {
   studentFirstname,
   studentLastname,
@@ -28,7 +24,7 @@ const DashOverview = ({ data }) => {
   const displayActivities = useMemo(() => {
     if (!activities?.length) return [];
     return [...activities]
-      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+      .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
       .slice(0, 6);
   }, [activities]);
 
@@ -219,7 +215,7 @@ const DashOverview = ({ data }) => {
                 <ActivityContent>
                   <ActivityTitle>{activity?.message}</ActivityTitle>
                   <ActivityTime>
-                    {new Date(activity?.createdAt).toLocaleDateString()}
+                    {new Date(activity?.updatedAt).toLocaleDateString()}
                   </ActivityTime>
                 </ActivityContent>
               </ActivityItem>

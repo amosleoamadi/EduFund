@@ -16,21 +16,19 @@ const DonorList = ({ data }) => {
     const minutes = Math.floor(
       (timeDifference % (1000 * 60 * 60)) / (1000 * 60)
     );
+    const days = Math.floor(hours / 24);
+    const weeks = Math.floor(days / 7);
 
-    if (minutes < 1) {
+    if (timeDifference < 60 * 1000) {
       return "Just now";
     } else if (hours < 1) {
       return `${minutes} min ago`;
     } else if (hours < 24) {
-      return `${hours} hr ago`;
+      return minutes > 0 ? `${hours} hr ${minutes} min ago` : `${hours} hr ago`;
+    } else if (days < 7) {
+      return `${days} day${days !== 1 ? "s" : ""} ago`;
     } else {
-      const days = Math.floor(hours / 24);
-      if (days < 7) {
-        return `${days} day${days !== 1 ? "s" : ""} ago`;
-      } else {
-        const weeks = Math.floor(days / 7);
-        return `${weeks} week${weeks !== 1 ? "s" : ""} ago`;
-      }
+      return `${weeks} week${weeks !== 1 ? "s" : ""} ago`;
     }
   };
 
