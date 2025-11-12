@@ -11,13 +11,18 @@ import {
   studentFirstname,
   studentLastname,
 } from "../../../../config/slices/studentauthslice";
-import CampaignCreation from "../../../modals/steps/CampaignCreation";
 import { AppContext } from "../../../../context/AppContext";
+import VerifyErrorMessage from "../../../modals/VerifyErrorMessage";
 
 const Firstview = ({ data }) => {
   const firstname = useSelector(studentFirstname);
   const lastname = useSelector(studentLastname);
   const { openCampaign } = useContext(AppContext);
+  const [open, setOpen] = useState(false);
+
+  const onClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Container>
@@ -66,8 +71,9 @@ const Firstview = ({ data }) => {
             className="create"
             icon={<IoIosAdd style={{ fontSize: "20px" }} />}
             text="Create Your Campaign Now"
-            onClick={() => openCampaign({ source: "first" })}
+            onClick={() => setOpen(true)}
           />
+          {open && <VerifyErrorMessage onClose={onClose} />}
         </>
       </Wrapper>
     </Container>

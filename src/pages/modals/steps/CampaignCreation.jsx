@@ -86,8 +86,8 @@ const CampaignCreation = () => {
 
     if (step === 2) {
       if (!formData.story?.trim()) newErrors.story = "Story is required";
-      if (formData.story?.length < 150)
-        newErrors.story = "Story must be at least 500 characters";
+      if (formData.story?.length < 100)
+        newErrors.story = "Story must be at least 100 characters";
       if (formData.story?.length > 1000)
         newErrors.story = "Story must not exceed 1000 characters";
     }

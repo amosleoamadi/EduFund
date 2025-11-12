@@ -16,6 +16,7 @@ import {
 import { getalldonorApi } from "../utils/stundentauth/getdonor";
 import { walletBalApi } from "../utils/stundentauth/walletbalapi";
 import { donorpaymentApi } from "../utils/donorauth/donoropayment";
+import { userApi } from "../utils/usersettting";
 
 const rootReducer = combineReducers({
   [studentAuth.reducerPath]: studentAuth.reducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   [getalldonorApi.reducerPath]: getalldonorApi.reducer,
   [walletBalApi.reducerPath]: walletBalApi.reducer,
   [donorpaymentApi.reducerPath]: donorpaymentApi.reducer,
+  [userApi.reducerPath]: userApi.reducer,
   user: userReducer,
 });
 
@@ -48,7 +50,8 @@ export const store = configureStore({
       campaignApi.middleware,
       getalldonorApi.middleware,
       walletBalApi.middleware,
-      donorpaymentApi.middleware
+      donorpaymentApi.middleware,
+      userApi.middleware
     ),
 });
 

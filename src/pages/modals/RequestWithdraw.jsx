@@ -14,7 +14,7 @@ const RequestWithdraw = ({ datas, setWithdraw, withdraw }) => {
   });
   const [requestWithdraw, { isLoading }] = useRequestWithdrawalMutation();
 
-  const { setSecondWith } = useContext(AppContext);
+  const { setSecondWith, setDispatched } = useContext(AppContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,6 +40,7 @@ const RequestWithdraw = ({ datas, setWithdraw, withdraw }) => {
       setTimeout(() => {
         setSecondWith(true);
       }, 300);
+      setDispatched(datas?.data?.walletBallance.toLocaleString());
     } catch (err) {
       toast.error(err?.data?.message);
     }

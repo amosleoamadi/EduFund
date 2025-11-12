@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../../../components/styles/Donation.css";
 import { MdOutlineFilterAlt } from "react-icons/md";
 import { LuClock2 } from "react-icons/lu";
@@ -11,16 +11,18 @@ import { useGetAllDonorDonationQuery } from "../../../utils/donorauth/donoropaym
 import { useSelector } from "react-redux";
 import { selectStudentId } from "../../../config/slices/studentauthslice";
 import LoadingState from "../../modals/loadingstate/LoadingState";
+import { AppContext } from "../../../context/AppContext";
 
 const Donations = () => {
   const donorId = useSelector(selectStudentId);
   const { data, isLoading } = useGetAllDonorDonationQuery(donorId);
+  const { profileImage, userInitials, userName } = useContext(AppContext);
 
   if (isLoading) {
     return <LoadingState />;
   }
 
-  const dataSet = data?.data;
+  const dataSet = data?.data || [];
 
   const options = {
     year: "numeric",
@@ -34,7 +36,7 @@ const Donations = () => {
         <p>Tract all your contributions and their impact </p>
       </div>
       <section className="donor-donation-students">
-        {dataSet.length > 0 ? (
+        {dataSet && dataSet.length > 0 ? (
           dataSet.map((e) => (
             <div className="fixit">
               <aside
@@ -43,7 +45,15 @@ const Donations = () => {
               >
                 <div className="part1">
                   <div className="donor-student-image-profile">
-                    <img src="" alt="student image" />
+                    {profileImage ? (
+                      <img
+                        src={profileImage}
+                        alt={`${userName || "User"} profile`}
+                        className="profile-image"
+                      />
+                    ) : (
+                      <div className="profile-initials">{userInitials}</div>
+                    )}
                   </div>
                   <div className="donor-name-credentials">
                     <h2>{e?.receiverId?.fullName}</h2>
