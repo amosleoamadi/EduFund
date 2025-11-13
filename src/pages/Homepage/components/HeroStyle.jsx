@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import heroBg from "../../../assets/heroPix.jpg";
+import heroBgMobile from "../../../assets/Hero Section BG.png";
 
 export const HeroSection = styled.section`
   width: 100%;
@@ -84,6 +85,7 @@ export const HeroSection = styled.section`
     flex: 1;
     display: flex;
     justify-content: center;
+
     img {
       width: 90%;
       max-width: 400px;
@@ -100,10 +102,9 @@ export const HeroSection = styled.section`
   @media (max-width: 768px) {
     flex-direction: column;
     text-align: center;
-    height: auto;
+    height: 100vh;
     padding: 100px 5% 60px;
-    background: linear-gradient(rgba(0, 17, 69, 0.85), rgba(0, 17, 69, 0.85)),
-      url(${heroBg}) center top / cover no-repeat;
+    background: url(${heroBgMobile}) center center / cover no-repeat;
 
     .heroText {
       h1 {
@@ -116,8 +117,7 @@ export const HeroSection = styled.section`
       }
 
       .buttons {
-        flex-direction: column;
-        gap: 15px;
+        gap: 45px;
         align-items: center;
         width: 100%;
 
@@ -165,7 +165,6 @@ export const HeroSection = styled.section`
     }
 
     .stats {
-      flex-direction: column;
       align-items: center;
       gap: 15px;
     }
@@ -175,8 +174,8 @@ export const HeroSection = styled.section`
 export const StatsBox = styled.div`
   display: flex;
   flex-direction: column;
-  line-height: 2;
-  align-items: center;
+  line-height: 1.5;
+  align-items: flex-start;
 
   h3 {
     font-size: 1.1rem;
@@ -190,10 +189,10 @@ export const StatsBox = styled.div`
 
   @media (max-width: 480px) {
     h3 {
-      font-size: 1rem;
+      font-size: 1.5rem;
     }
     p {
-      font-size: 0.7rem;
+      font-size: 0.9rem;
     }
   }
 `;
@@ -247,7 +246,10 @@ export const DonationPopup = styled.div`
   }
 
   @media (max-width: 768px) {
-    position: static;
-    margin: 25px auto 0;
+    position: absolute;
+    margin-left: 5%;
+    left: 0;
+    right: 0;
+    bottom: 5%;
   }
 `;

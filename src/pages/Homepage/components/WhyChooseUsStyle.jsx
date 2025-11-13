@@ -74,8 +74,8 @@ export const WhyChooseUsStyle = styled.section`
 
     .card {
       width: 100%;
-      align-items: center;
-      text-align: center;
+      align-items: flex-start;
+      text-align: left;
     }
   }
 `;

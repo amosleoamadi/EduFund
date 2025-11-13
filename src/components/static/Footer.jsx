@@ -5,20 +5,21 @@ import {
   FaFacebookF,
   FaLinkedinIn,
 } from "react-icons/fa";
+import { Logo } from "./HeadersStyle";
+import eduLogo from "../../assets/Edulogo.png";
 
 const Footer = () => {
   return (
     <FooterStyle>
       <div className="footer-container">
         <div className="footer-left">
-          <div className="logo">
-            <h2>EduFund</h2>
-          </div>
+          <Logo>
+            <img src={eduLogo} alt="EduFund Logo" />
+          </Logo>
           <p className="description">
             Empowering education through trust and transparency. Making quality
             education accessible to every Nigerian student.
           </p>
-          <p className="copyright">© 2025 EduFund. All rights reserved.</p>
         </div>
 
         <div className="footer-links">
@@ -43,7 +44,10 @@ const Footer = () => {
             <a href="#">Security</a>
           </div>
         </div>
+      </div>
 
+      <div className="footer-bottom">
+        <p className="copyright">© 2025 EduFund. All rights reserved.</p>
         <div className="socials">
           <a href="#">
             <FaTwitter />

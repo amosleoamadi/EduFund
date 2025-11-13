@@ -11,18 +11,20 @@ const Impact = () => {
 
   return (
     <ImpactStyle>
-      <h2>Our Impact</h2>
-      <p className="subtitle">
-        Real numbers, real change, real futures transformed
-      </p>
+      <div className="overlay">
+        <h2>Our Impact</h2>
+        <p className="subtitle">
+          Real numbers, real change, real futures transformed
+        </p>
 
-      <div className="stats">
-        {stats.map((item, index) => (
-          <div className="stat" key={index}>
-            <h3>{item.value}</h3>
-            <p>{item.label}</p>
-          </div>
-        ))}
+        <div className="stats">
+          {stats.map((item, index) => (
+            <div className="stat" key={index}>
+              <h3>{item.value}</h3>
+              <p>{item.label}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </ImpactStyle>
   );
