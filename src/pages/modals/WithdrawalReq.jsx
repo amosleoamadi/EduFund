@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { FaTimes, FaRegClock, FaCheckCircle } from "react-icons/fa";
+import { AppContext } from "../../context/AppContext";
 
-const WithdrawalReq = ({ amount, onClose }) => {
+const WithdrawalReq = ({ amount, onClose, dispatched }) => {
   const formattedAmount = new Intl.NumberFormat("en-NG", {
     style: "currency",
     currency: "NGN",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
   }).format(amount);
+  const { setSecondWith } = useContext(AppContext);
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
-        <CloseButton onClick={onClose}>
+        <CloseButton onClick={() => setSecondWith(false)}>
           <FaTimes />
         </CloseButton>
 
@@ -28,7 +30,7 @@ const WithdrawalReq = ({ amount, onClose }) => {
             <DetailLabel>Amount</DetailLabel>
             <DetailValue>
               <NairaSymbol>₦</NairaSymbol>
-              {amount}
+              {dispatched}
             </DetailValue>
           </DetailRow>
 
@@ -65,7 +67,14 @@ const WithdrawalReq = ({ amount, onClose }) => {
           </NextStepsList>
         </NextStepsBox>
 
-        <DoneButton onClick={onClose}>Done</DoneButton>
+        <DoneButton
+          onClick={() => {
+            setSecondWith(false);
+            window.location.reload();
+          }}
+        >
+          Done
+        </DoneButton>
       </ModalContent>
     </ModalOverlay>
   );

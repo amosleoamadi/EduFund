@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   TabsContainer,
   TabsHeader,
@@ -24,25 +24,12 @@ import {
   StatusButton,
 } from "./CampaignTabStyle";
 import { FiShare2 } from "react-icons/fi";
+import { AppContext } from "../../../../../context/AppContext";
 
 const CampaignTabs = ({ data }) => {
   const [activeTab, setActiveTab] = useState("current");
-
-  const historyData = [
-    {
-      title: "Previous Campaign 1",
-      status: "Completed",
-      verified: true,
-      demoText: "Demo: Completed Campaign",
-      raised: 50000,
-      goal: 50000,
-      donors: 30,
-      fundedPercent: 100,
-      daysLeft: 0,
-      statusOptions: ["Active", "Pending", "Rejected"],
-      activeStatus: "Completed",
-    },
-  ];
+  const { openModal } = useContext(AppContext);
+  const campaignData = data?.data;
 
   return (
     <TabsContainer>
@@ -71,56 +58,69 @@ const CampaignTabs = ({ data }) => {
         </AlertContent>
       </SuccessAlert>
 
-      <CampaignCard>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            marginBottom: "24px",
-          }}
-        >
-          <div>
-            <CampaignTitle>{data?.data[0]?.title}</CampaignTitle>
-            <BadgeContainer>
-              <Badge $type="verified">✓ Verified</Badge>
-              <Badge $type="active">{data?.data[0]?.status}</Badge>
-            </BadgeContainer>
+      {campaignData.map((data) => (
+        <CampaignCard key={data?._id}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              marginBottom: "24px",
+            }}
+          >
+            <div>
+              <CampaignTitle>{data?.title}</CampaignTitle>
+              <BadgeContainer>
+                <Badge $type="verified">✓ Verified</Badge>
+                <Badge $type="active">
+                  {data?.isActive ? "Active" : "Pending"}
+                </Badge>
+              </BadgeContainer>
+            </div>
+            <>
+              <ShareButton onClick={() => openModal({ source: "campaign" })}>
+                <span style={{ marginRight: "8px" }}>
+                  <FiShare2 />
+                </span>
+                Share
+              </ShareButton>
+            </>
           </div>
-          <ShareButton>
-            <span style={{ marginRight: "8px" }}>
-              <FiShare2 />{" "}
-            </span>
-            Share
-          </ShareButton>
-        </div>
 
-        <ProgressSection>
-          <ProgressLabel>
-            <span>Campaign Progress</span>
-            <span>₦{data?.data[0]?.target}</span>
-          </ProgressLabel>
-          <ProgressTrack>
-            <ProgressFill $percentage={0} />
-          </ProgressTrack>
-          <ProgressText>₦24 more needed to reach your goal</ProgressText>
-        </ProgressSection>
+          <ProgressSection>
+            <ProgressLabel>
+              <span>Campaign Progress</span>
+              <span>₦{data?.target?.toLocaleString()}</span>
+            </ProgressLabel>
+            <ProgressTrack>
+              <ProgressFill
+                style={{
+                  width: `${(data?.totalDonations / data?.target) * 100}%`,
+                }}
+              />
+            </ProgressTrack>
+            <ProgressText>
+              ₦{(data?.target - data?.totalDonations).toLocaleString()}
+              <span>more needed to reach your goal</span>
+            </ProgressText>
+          </ProgressSection>
 
-        <StatsContainer>
-          <StatItem>
-            <StatNumber>{data?.data[0]?.donors}</StatNumber>
-            <StatLabel>Donors</StatLabel>
-          </StatItem>
-          <StatItem>
-            <StatNumber>{data?.data[0]?.fundedPercentage}%</StatNumber>
-            <StatLabel>Funded</StatLabel>
-          </StatItem>
-          <StatItem>
-            <StatNumber>{data?.data[0]?.daysLeft}</StatNumber>
-            <StatLabel>Days Left</StatLabel>
-          </StatItem>
-        </StatsContainer>
-      </CampaignCard>
+          <StatsContainer>
+            <StatItem>
+              <StatNumber>{data?.donors}</StatNumber>
+              <StatLabel>Donors</StatLabel>
+            </StatItem>
+            <StatItem>
+              <StatNumber>{data?.fundedPercentage}%</StatNumber>
+              <StatLabel>Funded</StatLabel>
+            </StatItem>
+            <StatItem>
+              <StatNumber>{data?.daysLeft}</StatNumber>
+              <StatLabel>Days Left</StatLabel>
+            </StatItem>
+          </StatsContainer>
+        </CampaignCard>
+      ))}
     </TabsContainer>
   );
 };

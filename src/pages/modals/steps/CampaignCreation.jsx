@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { FiX } from "react-icons/fi";
 import AcademicDetailsStep from "./AcademicDetailsStep";
@@ -11,11 +11,12 @@ import { useCampaigncreateMutation } from "../../../utils/stundentauth/createcam
 import { selectStudentId } from "../../../config/slices/studentauthslice";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import LoadingState from "../../modals/loadingstate/LoadingState";
+import { AppContext } from "../../../context/AppContext";
 
-const CampaignCreation = ({ setCreate, create }) => {
+const CampaignCreation = () => {
   const [campaignCreate, { isLoading }] = useCampaigncreateMutation();
+  const { closeCampaign, setCampaignSucess } = useContext(AppContext);
   const studentId = useSelector(selectStudentId);
   const stepTitles = {
     1: "Academic Details",
@@ -32,7 +33,6 @@ const CampaignCreation = ({ setCreate, create }) => {
   };
 
   const [currentStep, setCurrentStep] = useState(1);
-  const [campaignsucess, setCampaignsucess] = useState(false);
   const [formData, setFormData] = useState({
     schoolName: "",
     year: "",
@@ -56,15 +56,12 @@ const CampaignCreation = ({ setCreate, create }) => {
             campaignStatus: formData,
             studentId: studentId,
           }).unwrap();
-          console.log(res);
-          setCreate(false);
+          setCampaignSucess(true);
 
-          setTimeout(() => {
-            setCampaignsucess(true);
-          }, 300);
+          setTimeout(() => closeCampaign(), 300);
         } catch (err) {
           toast.error(err?.data?.message);
-          setCreate(false);
+          closeCampaign();
         }
       } else {
         setCurrentStep(currentStep + 1);
@@ -89,8 +86,8 @@ const CampaignCreation = ({ setCreate, create }) => {
 
     if (step === 2) {
       if (!formData.story?.trim()) newErrors.story = "Story is required";
-      if (formData.story?.length < 150)
-        newErrors.story = "Story must be at least 500 characters";
+      if (formData.story?.length < 100)
+        newErrors.story = "Story must be at least 100 characters";
       if (formData.story?.length > 1000)
         newErrors.story = "Story must not exceed 1000 characters";
     }
@@ -116,71 +113,63 @@ const CampaignCreation = ({ setCreate, create }) => {
 
   return (
     <>
-      {create && (
-        <Backdrop>
-          <ModalContainer onClick={(e) => e.stopPropagation()}>
-            <ModalHeader>
-              <HeaderContent>
-                <Title>{stepTitles[currentStep]}</Title>
-                <Subtitle>{stepSubtitles[currentStep]}</Subtitle>
-              </HeaderContent>
-              <CloseButton onClick={() => setCreate(false)}>
-                <FiX />
-              </CloseButton>
-            </ModalHeader>
+      <Backdrop>
+        <ModalContainer onClick={(e) => e.stopPropagation()}>
+          <ModalHeader>
+            <HeaderContent>
+              <Title>{stepTitles[currentStep]}</Title>
+              <Subtitle>{stepSubtitles[currentStep]}</Subtitle>
+            </HeaderContent>
+            <CloseButton onClick={closeCampaign}>
+              <FiX />
+            </CloseButton>
+          </ModalHeader>
 
-            <ProgressContainer>
-              <ProgressInndicator currentStep={currentStep} />
-            </ProgressContainer>
+          <ProgressContainer>
+            <ProgressInndicator currentStep={currentStep} />
+          </ProgressContainer>
 
-            <ContentArea>
-              {currentStep === 1 && (
-                <AcademicDetailsStep
-                  formData={formData}
-                  setFormData={setFormData}
-                  errors={errors}
-                />
-              )}
-              {currentStep === 2 && (
-                <YourStoryStep
-                  formData={formData}
-                  setFormData={setFormData}
-                  errors={errors}
-                />
-              )}
-              {currentStep === 3 && (
-                <CampaignInformationStep
-                  formData={formData}
-                  setFormData={setFormData}
-                  errors={errors}
-                />
-              )}
-              {currentStep === 4 && <ReviewAndSubmitStep formData={formData} />}
-            </ContentArea>
+          <ContentArea>
+            {currentStep === 1 && (
+              <AcademicDetailsStep
+                formData={formData}
+                setFormData={setFormData}
+                errors={errors}
+              />
+            )}
+            {currentStep === 2 && (
+              <YourStoryStep
+                formData={formData}
+                setFormData={setFormData}
+                errors={errors}
+              />
+            )}
+            {currentStep === 3 && (
+              <CampaignInformationStep
+                formData={formData}
+                setFormData={setFormData}
+                errors={errors}
+              />
+            )}
+            {currentStep === 4 && <ReviewAndSubmitStep formData={formData} />}
+          </ContentArea>
 
-            <FooterContainer>
-              <BackButton onClick={handleBack} disabled={currentStep === 1}>
-                Back
-              </BackButton>
-              <ContinueButton onClick={handleSumbit} disabled={isLoading}>
-                {isLoading
-                  ? "Creating..."
-                  : currentStep === 4
-                  ? "Create Campaign"
-                  : "Continue"}
-              </ContinueButton>
-            </FooterContainer>
-          </ModalContainer>
-        </Backdrop>
-      )}
+          <FooterContainer>
+            <BackButton onClick={handleBack} disabled={currentStep === 1}>
+              Back
+            </BackButton>
+            <ContinueButton onClick={handleSumbit} disabled={isLoading}>
+              {isLoading
+                ? "Creating..."
+                : currentStep === 4
+                ? "Create Campaign"
+                : "Continue"}
+            </ContinueButton>
+          </FooterContainer>
+        </ModalContainer>
+      </Backdrop>
 
       {isLoading && <LoadingState />}
-
-      {campaignsucess && (
-        <Backdrop>
-          <Sucess setCampaignsucess={setCampaignsucess} />
-        </Backdrop>
-      )}
     </>
   );
 };

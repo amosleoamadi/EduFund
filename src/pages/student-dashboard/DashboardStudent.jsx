@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   DashLayout,
   EduLogo,
@@ -28,6 +28,8 @@ import { studentAuth } from "../../utils/stundentauth/authapi";
 import { useDispatch, useSelector } from "react-redux";
 import { persistor } from "../../app/store";
 import { AiOutlineMenu } from "react-icons/ai";
+import { AppContext } from "../../context/AppContext";
+import Sucess from "../modals/congratModal/Sucess";
 
 const DashboardStudent = () => {
   const [showPop, setShowPop] = useState(false);
@@ -37,6 +39,8 @@ const DashboardStudent = () => {
   const email = useSelector(selectStudentEmail);
   const dispatch = useDispatch();
   const nav = useNavigate();
+  const { campaignSucess, profileImage, userInitials, userName } =
+    useContext(AppContext);
 
   const LogoutFunction = () => {
     dispatch(userLogout());
@@ -77,15 +81,19 @@ const DashboardStudent = () => {
               <nav>5</nav>
             </div>
             <div className="profile_pic" style={{ position: "relative" }}>
-              <div className="pic" onClick={() => setShowPop(!showPop)}></div>
+              <ProfileImageContainer onClick={() => setShowPop(!showPop)}>
+                {profileImage ? (
+                  <ProfileImage src={profileImage} alt="Profile" />
+                ) : (
+                  <AvatarInitials>{userInitials}</AvatarInitials>
+                )}
+              </ProfileImageContainer>
               <p>{firstname}</p>
             </div>
             {showPop && (
               <Dropdown>
                 <TopContent>
-                  <h3>
-                    {firstname} {lastname}
-                  </h3>
+                  <h3>{userName || `${firstname} ${lastname}`}</h3>
                   <p>{email}</p>
                 </TopContent>
                 <ProfileSet>
@@ -109,6 +117,7 @@ const DashboardStudent = () => {
         </SideBarContainer>
         <OutletContent>
           <Outlet />
+          {campaignSucess && <Sucess nav={nav} />}
         </OutletContent>
       </DashLayout>
     </StudDash>
@@ -116,6 +125,37 @@ const DashboardStudent = () => {
 };
 
 export default DashboardStudent;
+
+const ProfileImageContainer = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: ${(props) =>
+    props.hasImage
+      ? "transparent"
+      : "linear-gradient(135deg, #667eea 0%, #764ba2 100%)"};
+  border: 2px solid #e5e7eb;
+`;
+
+const ProfileImage = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const AvatarInitials = styled.div`
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const Dropdown = styled.div`
   width: 18%;

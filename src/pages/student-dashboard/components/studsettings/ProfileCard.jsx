@@ -1,20 +1,86 @@
-import React from "react";
+import React, { useState, useRef, useContext } from "react";
 import styled from "styled-components";
 import { FiUpload, FiTrash2 } from "react-icons/fi";
-import profilePhoto from "../../../../assets/Amos.jpg";
+import { useUpdateProfileMutation } from "../../../../utils/usersettting";
+import { useSelector } from "react-redux";
+import { selectStudentId } from "../../../../config/slices/studentauthslice";
+import { AppContext } from "../../../../context/AppContext";
 
-const ProfileCard = () => {
+const ProfileCard = ({ data }) => {
+  const {
+    profileImage,
+    userInitials,
+    setProfileImageGlobal,
+    removeProfileImageGlobal,
+    setUserDataGlobal,
+  } = useContext(AppContext);
+
+  const [selectedFile, setSelectedFile] = useState(null);
+  const fileInputRef = useRef(null);
+  const [updateProfile, { isLoading }] = useUpdateProfileMutation();
+  const userId = useSelector(selectStudentId);
+
+  if (data?.data) {
+    setUserDataGlobal({
+      firstName: data.data.firstName,
+      lastName: data.data.lastName,
+      email: data.data.email,
+    });
+  }
+
   const handleUpload = () => {
-    console.log("Upload photo");
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        alert("Please select an image file");
+        return;
+      }
+
+      if (file.size > 6 * 1024 * 1024) {
+        alert("File size should be less than 5MB");
+        return;
+      }
+
+      setSelectedFile(file);
+
+      const imageUrl = URL.createObjectURL(file);
+      setProfileImageGlobal(imageUrl);
+
+      console.log("File selected:", file.name);
+    }
   };
 
   const handleRemove = () => {
-    console.log("Remove photo");
+    removeProfileImageGlobal();
+    setSelectedFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
-  const handleSave = () => {
-    console.log("Save changes");
+  const handleSave = async () => {
+    if (selectedFile) {
+      try {
+        const formData = new FormData();
+        formData.append("profilePicture", selectedFile);
+
+        const res = await updateProfile({
+          userId: userId,
+          profilePicture: formData,
+        }).unwrap();
+        console.log(res);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      console.log("No changes to save");
+    }
   };
+
   return (
     <CardContainer>
       <Header>
@@ -46,11 +112,17 @@ const ProfileCard = () => {
 
       <PhotoSection>
         <PhotoContainer>
-          <ProfilePhoto src={profilePhoto} alt="Profile" />
+          {profileImage ? (
+            <ProfilePhoto src={profileImage} alt="Profile" />
+          ) : (
+            <AvatarContainer>
+              <AvatarIcon>{userInitials}</AvatarIcon>
+            </AvatarContainer>
+          )}
+          <PhotoLabel>Profile Photo</PhotoLabel>
         </PhotoContainer>
 
         <ButtonGroup>
-          <PhotoLabel>Profile Photo</PhotoLabel>
           <Group>
             <IconButton onClick={handleUpload} title="Upload New">
               <FiUpload /> Update New
@@ -59,47 +131,49 @@ const ProfileCard = () => {
               className="remove"
               onClick={handleRemove}
               title="Remove"
+              disabled={!profileImage}
             >
               <span style={{ color: "#E7000B" }}>Remove</span>
             </IconButton>
           </Group>
+
+          <HiddenFileInput
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept="image/*"
+          />
+
+          {selectedFile && <FileInfo>Selected: {selectedFile.name}</FileInfo>}
         </ButtonGroup>
       </PhotoSection>
 
       <FieldsGrid>
         <FieldGroup>
           <FieldLabel>Full Name</FieldLabel>
-          <FieldValue>Amadi Amos</FieldValue>
-        </FieldGroup>
-
-        <FieldGroup>
-          <FieldLabel>Student ID</FieldLabel>
-          <FieldValue>studentId</FieldValue>
+          <FieldValue>
+            {data?.data?.firstName} {data?.data?.lastName}
+          </FieldValue>
         </FieldGroup>
 
         <FieldGroup>
           <FieldLabel>Email Address</FieldLabel>
-          <FieldValue>email</FieldValue>
-        </FieldGroup>
-
-        <FieldGroup>
-          <FieldLabel>Phone Number</FieldLabel>
-          <FieldValue>phone</FieldValue>
+          <FieldValue>{data?.data?.email}</FieldValue>
         </FieldGroup>
 
         <FieldGroup>
           <FieldLabel>University</FieldLabel>
-          <FieldValue>university</FieldValue>
+          <FieldValue>{data?.data?.educationInfo?.schoolName}</FieldValue>
         </FieldGroup>
 
         <FieldGroup>
           <FieldLabel>Department</FieldLabel>
-          <FieldValue>department</FieldValue>
+          <FieldValue>{data?.data?.educationInfo?.course}</FieldValue>
         </FieldGroup>
       </FieldsGrid>
 
       <Footer>
-        <SaveButton onClick={handleSave}>
+        <SaveButton onClick={handleSave} disabled={isLoading}>
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -110,7 +184,7 @@ const ProfileCard = () => {
             <polyline points="17 21 17 13 7 13 7 21" />
             <polyline points="7 3 7 8 15 8" />
           </svg>
-          Save Changes
+          {isLoading ? "Updating..." : "Save Changes"}
         </SaveButton>
       </Footer>
     </CardContainer>
@@ -118,6 +192,7 @@ const ProfileCard = () => {
 };
 
 export default ProfileCard;
+
 const CardContainer = styled.div`
   background: white;
   border-radius: 12px;
@@ -290,6 +365,54 @@ const ProfilePhoto = styled.img`
   }
 `;
 
+const AvatarContainer = styled.div`
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid #e5e7eb;
+
+  @media (max-width: 1199px) {
+    width: 110px;
+    height: 110px;
+  }
+
+  @media (max-width: 767px) {
+    width: 100px;
+    height: 100px;
+  }
+
+  @media (max-width: 479px) {
+    width: 90px;
+    height: 90px;
+    border: 2px solid #e5e7eb;
+  }
+`;
+
+const AvatarIcon = styled.div`
+  color: white;
+  font-size: 36px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 1199px) {
+    font-size: 34px;
+  }
+
+  @media (max-width: 767px) {
+    font-size: 32px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 28px;
+  }
+`;
+
 const PhotoLabel = styled.p`
   font-size: 14px;
   color: #6b7280;
@@ -358,6 +481,16 @@ const IconButton = styled.button`
     &:hover {
       background: #fef2f2;
     }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+
+      &:hover {
+        background: white;
+        border-color: #e5e7eb;
+      }
+    }
   }
 
   @media (max-width: 767px) {
@@ -379,6 +512,25 @@ const IconButton = styled.button`
       width: 18px;
       height: 18px;
     }
+  }
+`;
+
+const HiddenFileInput = styled.input`
+  display: none;
+`;
+
+const FileInfo = styled.div`
+  font-size: 12px;
+  color: #6b7280;
+  padding: 4px 8px;
+  background: #f3f4f6;
+  border-radius: 4px;
+  margin-top: 4px;
+
+  @media (max-width: 479px) {
+    font-size: 11px;
+    text-align: center;
+    width: 100%;
   }
 `;
 
@@ -463,6 +615,11 @@ const SaveButton = styled.button`
 
   &:hover {
     background: #1d4ed8;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
   @media (max-width: 767px) {

@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import Button from "../../../../components/Ui/Button";
 import safe from "../../../../assets/safeguard.svg";
 import { IoIosAdd } from "react-icons/io";
 import WithdrawalHistory from "./WidthdrawHistory";
+import RequestWithdraw from "../../../modals/RequestWithdraw";
 
 const FirstWithdraw = ({ data }) => {
+  const [withdraw, setWithdraw] = useState(false);
   return (
     <Container>
       <TextHolder>
@@ -15,11 +17,24 @@ const FirstWithdraw = ({ data }) => {
       <Amount>
         <Tag>
           <h3>Available for Withdrawal</h3>
-          <button className="btn" disabled={!data?.balance}>
-            Request Withdrawal
-          </button>
+          <>
+            <button
+              className="btn"
+              disabled={!data?.data?.walletBallance}
+              onClick={() => setWithdraw(true)}
+            >
+              Request Withdrawal
+            </button>
+            {withdraw && (
+              <RequestWithdraw
+                datas={data}
+                setWithdraw={setWithdraw}
+                withdraw={withdraw}
+              />
+            )}
+          </>
         </Tag>
-        <MoneyBal>₦{data?.balance}</MoneyBal>
+        <MoneyBal>₦{data?.data?.walletBallance?.toLocaleString()}</MoneyBal>
         <Down>
           <Safe>
             <img src={safe} alt="" />
@@ -27,17 +42,20 @@ const FirstWithdraw = ({ data }) => {
           <p>Funds will be sent directly to University of Lagos</p>
         </Down>
       </Amount>
-      <Wrapper>
-        <Card>₦</Card>
-        <h4>No withdrawal history</h4>
-        <p>Start fundraising to request withdrawals for your tuition fees</p>
-        <Button
-          className="create"
-          icon={<IoIosAdd style={{ fontSize: "20px" }} />}
-          text="Create Campaign"
-        />
-      </Wrapper>
-      {/* <WithdrawalHistory /> */}
+      {data?.data?.withdrawals.length > 0 ? (
+        <WithdrawalHistory information={data?.data?.withdrawals} />
+      ) : (
+        <Wrapper>
+          <Card>₦</Card>
+          <h4>No withdrawal history</h4>
+          <p>Start fundraising to request withdrawals for your tuition fees</p>
+          <Button
+            className="create"
+            icon={<IoIosAdd style={{ fontSize: "20px" }} />}
+            text="Create Campaign"
+          />
+        </Wrapper>
+      )}
     </Container>
   );
 };

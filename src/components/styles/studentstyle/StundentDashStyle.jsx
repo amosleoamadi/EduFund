@@ -124,19 +124,6 @@ export const NotiProf = styled.div`
         display: none;
       }
     }
-
-    .pic {
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      background-color: gray;
-      cursor: pointer;
-
-      @media (max-width: 480px) {
-        width: 40px;
-        height: 40px;
-      }
-    }
   }
 `;
 
@@ -165,7 +152,7 @@ export const SideBarContainer = styled.div`
     position: fixed;
     top: 70px;
     left: 0;
-    width: 70%;
+    width: 60%;
     height: calc(100vh - 70px);
     background: white;
     z-index: 25;
@@ -176,7 +163,7 @@ export const SideBarContainer = styled.div`
   }
 
   @media (max-width: 480px) {
-    width: 60%;
+    width: 75%;
   }
 `;
 

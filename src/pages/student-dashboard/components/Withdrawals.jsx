@@ -13,6 +13,8 @@ const Withdrawals = () => {
   if (isLoading) {
     return <LoadingState />;
   }
+
+  console.log(data);
   return (
     <Content>
       <FirstWithdraw data={data} />

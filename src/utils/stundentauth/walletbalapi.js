@@ -15,10 +15,17 @@ export const walletBalApi = createApi({
   }),
   endpoints: (builder) => ({
     getTotalWalletBal: builder.query({
-      query: (studentId) =>
-        `/donations/received-donations/student-balance/${studentId}`,
+      query: (studentId) => `/student-dashboard/withdrawal/${studentId}`,
+    }),
+    requestWithdrawal: builder.mutation({
+      query: ({ data, studentId, campaignId }) => ({
+        url: `/payment/withdraw-wallet-balance/${studentId}/${campaignId}`,
+        method: "POST",
+        body: data,
+      }),
     }),
   }),
 });
 
-export const { useGetTotalWalletBalQuery } = walletBalApi;
+export const { useGetTotalWalletBalQuery, useRequestWithdrawalMutation } =
+  walletBalApi;

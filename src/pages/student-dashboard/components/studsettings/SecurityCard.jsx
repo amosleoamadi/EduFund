@@ -2,13 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import { FiLock } from "react-icons/fi";
 import { useState } from "react";
+import { useChangePasswordMutation } from "../../../../utils/stundentauth/authapi";
+import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
+import { selectStudentId } from "../../../../config/slices/studentauthslice";
 
 const SecurityCard = () => {
   const [formData, setFormData] = useState({
-    currentPassword: "",
     newPassword: "",
+    password: "",
     confirmPassword: "",
   });
+  const [changePassword, { isLoading }] = useChangePasswordMutation();
+  const userId = useSelector(selectStudentId);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,9 +24,27 @@ const SecurityCard = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Password update submitted:", formData);
+
+    if (formData.newPassword !== formData.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    try {
+      const res = await changePassword({
+        password: formData.password,
+        newPassword: formData.newPassword,
+        userId: userId,
+      }).unwrap();
+      formData.confirmPassword = "";
+      formData.newPassword = "";
+      formData.password = "";
+      toast.success(res?.message);
+    } catch (err) {
+      toast.error(err?.data?.message);
+    }
   };
   return (
     <CardContainer>
@@ -33,13 +57,13 @@ const SecurityCard = () => {
 
       <form onSubmit={handleSubmit}>
         <FormGroup>
-          <Label htmlFor="currentPassword">Current Password</Label>
+          <Label htmlFor="password">Current Password</Label>
           <Input
-            id="currentPassword"
-            name="currentPassword"
+            id="password"
+            name="password"
             type="password"
             placeholder="Enter current password"
-            value={formData.currentPassword}
+            value={formData.password}
             onChange={handleChange}
           />
         </FormGroup>
@@ -72,7 +96,7 @@ const SecurityCard = () => {
 
         <Button type="submit">
           <FiLock />
-          Update Password
+          {isLoading ? "Updating..." : "Update Password"}
         </Button>
       </form>
     </CardContainer>

@@ -21,11 +21,11 @@ export const donorpaymentApi = createApi({
         body: { amount },
       }),
     }),
-    getAllDonorDonation: builder.mutation({
-      guery: (donorId) => `/donors/myDonations/${donorId}`,
+    getAllDonorDonation: builder.query({
+      query: (donorId) => `/donors/myDonations/${donorId}`,
     }),
   }),
 });
 
-export const { useDonorPaymentMutation, useGetAllDonorDonationMutation } =
+export const { useDonorPaymentMutation, useGetAllDonorDonationQuery } =
   donorpaymentApi;

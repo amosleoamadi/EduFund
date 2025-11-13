@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import icon from "../../../../assets/Icon.svg";
 import book from "../../../../assets/book.svg";
@@ -11,10 +11,19 @@ import {
   studentFirstname,
   studentLastname,
 } from "../../../../config/slices/studentauthslice";
+import { AppContext } from "../../../../context/AppContext";
+import VerifyErrorMessage from "../../../modals/VerifyErrorMessage";
 
-const Firstview = () => {
+const Firstview = ({ data }) => {
   const firstname = useSelector(studentFirstname);
   const lastname = useSelector(studentLastname);
+  const { openCampaign } = useContext(AppContext);
+  const [open, setOpen] = useState(false);
+
+  const onClose = () => {
+    setOpen(false);
+  };
+
   return (
     <Container>
       <h3>
@@ -57,11 +66,15 @@ const Firstview = () => {
             <p>Get donations from verified donors</p>
           </Cards>
         </Subcard>
-        <Button
-          className="create"
-          icon={<IoIosAdd style={{ fontSize: "20px" }} />}
-          text="Create Your Campaign Now"
-        />
+        <>
+          <Button
+            className="create"
+            icon={<IoIosAdd style={{ fontSize: "20px" }} />}
+            text="Create Your Campaign Now"
+            onClick={() => setOpen(true)}
+          />
+          {open && <VerifyErrorMessage onClose={onClose} />}
+        </>
       </Wrapper>
     </Container>
   );

@@ -1,105 +1,153 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { FaTimes, FaExclamationCircle } from "react-icons/fa";
+import { AppContext } from "../../context/AppContext";
+import { useRequestWithdrawalMutation } from "../../utils/stundentauth/walletbalapi";
+import toast from "react-hot-toast";
+import LoadingState from "./loadingstate/LoadingState";
 
-const RequestWithdraw = ({ availableBalance, onClose }) => {
-  const [withdrawalAmount, setWithdrawalAmount] = useState("");
-  const [purpose, setPurpose] = useState("");
-  const [notes, setNotes] = useState("");
+const RequestWithdraw = ({ datas, setWithdraw, withdraw }) => {
+  const [withdrawalAmount, setWithdrawalAmount] = useState({
+    amount: "",
+    purpose: "",
+    note: "",
+  });
+  const [requestWithdraw, { isLoading }] = useRequestWithdrawalMutation();
 
-  const handleSubmit = (e) => {
+  const { setSecondWith, setDispatched } = useContext(AppContext);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setWithdrawalAmount({ ...withdrawalAmount, [name]: value });
+  };
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ withdrawalAmount, purpose, notes });
+
+    const data = {
+      amount: withdrawalAmount.amount,
+      purpose: withdrawalAmount.purpose,
+      note: withdrawalAmount.note,
+    };
+
+    try {
+      const res = await requestWithdraw({
+        data: data,
+        studentId: datas?.data?.payments[0]?.receiverId,
+        campaignId: datas?.data?.payments[0]?.campaignId,
+      }).unwrap();
+      setWithdraw(false);
+
+      setTimeout(() => {
+        setSecondWith(true);
+      }, 300);
+      setDispatched(datas?.data?.walletBallance.toLocaleString());
+    } catch (err) {
+      toast.error(err?.data?.message);
+    }
   };
   return (
-    <ModalOverlay onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
-        <CloseButton onClick={onClose}>
-          <FaTimes />
-        </CloseButton>
+    <>
+      {withdraw && (
+        <ModalOverlay>
+          <ModalContent onClick={(e) => e.stopPropagation()}>
+            <CloseButton onClick={() => setWithdraw(false)}>
+              <FaTimes />
+            </CloseButton>
 
-        <Header>
-          <Title>Request Withdrawal</Title>
-          <Subtitle>
-            Submit a withdrawal request to receive funds directly to your school
-          </Subtitle>
-        </Header>
+            <Header>
+              <Title>Request Withdrawal</Title>
+              <Subtitle>
+                Submit a withdrawal request to receive funds directly to your
+                school
+              </Subtitle>
+            </Header>
 
-        <BalanceCard>
-          <BalanceText>
-            <BalanceLabel>Available Balance</BalanceLabel>
-            <BalanceAmount>200</BalanceAmount>
-          </BalanceText>
-          <NairaIconContainer>₦</NairaIconContainer>
-        </BalanceCard>
+            <BalanceCard>
+              <BalanceText>
+                <BalanceLabel>Available Balance</BalanceLabel>
+                <BalanceAmount>
+                  {datas?.data?.walletBallance.toLocaleString()}
+                </BalanceAmount>
+              </BalanceText>
+              <NairaIconContainer>₦</NairaIconContainer>
+            </BalanceCard>
 
-        <form onSubmit={handleSubmit}>
-          <FormGroup>
-            <Label htmlFor="withdrawalAmount">Withdrawal Amount (₦) *</Label>
-            <Input
-              id="withdrawalAmount"
-              type="number"
-              placeholder={`Maximum: ₦500`}
-              value={withdrawalAmount}
-              onChange={(e) => setWithdrawalAmount(e.target.value)}
-              max={availableBalance}
-              required
-            />
-            <HintText>Maximum: ₦800</HintText>
-          </FormGroup>
+            <form onSubmit={handleSubmit}>
+              <FormGroup>
+                <Label htmlFor="withdrawalAmount">
+                  Withdrawal Amount (₦) *
+                </Label>
+                <Input
+                  id="withdrawalAmount"
+                  type="number"
+                  name="amount"
+                  placeholder={`Maximum: ₦500`}
+                  value={withdrawalAmount.amount}
+                  onChange={handleChange}
+                  required
+                />
+                <HintText>Maximum: ₦800</HintText>
+              </FormGroup>
 
-          <FormGroup style={{ marginTop: "20px" }}>
-            <Label htmlFor="purposeOfWithdrawal">Purpose of Withdrawal *</Label>
-            <Input
-              as="textarea"
-              id="purposeOfWithdrawal"
-              placeholder="e.g., School fees, Project funding"
-              value={purpose}
-              onChange={(e) => setPurpose(e.target.value)}
-              required
-            />
-          </FormGroup>
+              <FormGroup style={{ marginTop: "20px" }}>
+                <Label htmlFor="purposeOfWithdrawal">
+                  Purpose of Withdrawal *
+                </Label>
+                <Input
+                  as="textarea"
+                  id="purposeOfWithdrawal"
+                  name="purpose"
+                  placeholder="e.g., School fees, Project funding"
+                  value={withdrawalAmount.purpose}
+                  onChange={handleChange}
+                  required
+                />
+              </FormGroup>
 
-          <FormGroup style={{ marginTop: "20px" }}>
-            <Label htmlFor="additionalNotes">Additional Notes (Optional)</Label>
-            <TextArea
-              id="additionalNotes"
-              placeholder="Add any additional information..."
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-            />
-          </FormGroup>
+              <FormGroup style={{ marginTop: "20px" }}>
+                <Label htmlFor="additionalNotes">
+                  Additional Notes (Optional)
+                </Label>
+                <TextArea
+                  id="additionalNotes"
+                  placeholder="Add any additional information..."
+                  value={withdrawalAmount.note}
+                  name="note"
+                  onChange={handleChange}
+                />
+              </FormGroup>
 
-          <NoticeBox style={{ marginTop: "25px" }}>
-            <NoticeIcon />
-            <NoticeContent>
-              <NoticeTitle>Important Notice</NoticeTitle>
-              <NoticeList>
-                <li>
-                  Funds will be sent directly to your school's bursary
-                  department
-                </li>
-                <li>Processing typically takes 3-5 business days</li>
-                <li>You'll receive email confirmation once processed</li>
-                <li>Withdrawals cannot be cancelled once submitted</li>
-              </NoticeList>
-            </NoticeContent>
-          </NoticeBox>
+              <NoticeBox style={{ marginTop: "25px" }}>
+                <NoticeIcon />
+                <NoticeContent>
+                  <NoticeTitle>Important Notice</NoticeTitle>
+                  <NoticeList>
+                    <li>
+                      Funds will be sent directly to your school's bursary
+                      department
+                    </li>
+                    <li>Processing typically takes 3-5 business days</li>
+                    <li>You'll receive email confirmation once processed</li>
+                    <li>Withdrawals cannot be cancelled once submitted</li>
+                  </NoticeList>
+                </NoticeContent>
+              </NoticeBox>
 
-          <ButtonContainer>
-            <CancelButton type="button" onClick={onClose}>
-              Cancel
-            </CancelButton>
-            <SubmitButton
-              type="submit"
-              disabled={!withdrawalAmount || !purpose}
-            >
-              Submit Request
-            </SubmitButton>
-          </ButtonContainer>
-        </form>
-      </ModalContent>
-    </ModalOverlay>
+              <ButtonContainer>
+                <CancelButton type="button" onClick={() => setWithdraw(false)}>
+                  Cancel
+                </CancelButton>
+                <SubmitButton type="submit" disabled={!withdrawalAmount}>
+                  Submit Request
+                </SubmitButton>
+              </ButtonContainer>
+            </form>
+          </ModalContent>
+        </ModalOverlay>
+      )}
+
+      {isLoading && <LoadingState />}
+    </>
   );
 };
 
@@ -113,10 +161,25 @@ const ModalOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
+  align-items: flex-start;
   height: 100vh;
   z-index: 1000;
   overflow-y: auto;
-  padding: 15px;
+  padding: 20px;
+
+  @media (max-width: 1024px) {
+    padding: 16px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 12px;
+    align-items: center;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+    align-items: flex-end;
+  }
 `;
 
 const ModalContent = styled.div`
@@ -124,13 +187,43 @@ const ModalContent = styled.div`
   padding: 30px;
   border-radius: 12px;
   width: 45%;
-  height: 100%;
   min-height: max-content;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   position: relative;
   display: flex;
   flex-direction: column;
   gap: 20px;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  @media (max-width: 1200px) {
+    width: 55%;
+  }
+
+  @media (max-width: 1024px) {
+    width: 65%;
+    padding: 25px;
+  }
+
+  @media (max-width: 768px) {
+    width: 80%;
+    padding: 20px;
+    gap: 16px;
+    max-height: 85vh;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+    padding: 16px;
+    gap: 12px;
+    border-radius: 12px 12px 0 0;
+    max-height: 90vh;
+  }
+
+  @media (max-width: 320px) {
+    padding: 12px;
+    gap: 10px;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -142,13 +235,39 @@ const CloseButton = styled.button`
   font-size: 24px;
   cursor: pointer;
   color: #333;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
+
   &:hover {
     color: #000;
+    background-color: #f5f5f5;
+  }
+
+  @media (max-width: 768px) {
+    top: 12px;
+    right: 12px;
+    font-size: 22px;
+  }
+
+  @media (max-width: 480px) {
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
 const Header = styled.div`
   margin-bottom: 5px;
+
+  @media (max-width: 480px) {
+    margin-bottom: 0;
+  }
 `;
 
 const Title = styled.h2`
@@ -156,12 +275,34 @@ const Title = styled.h2`
   font-weight: 700;
   color: #333;
   margin: 0;
+
+  @media (max-width: 1024px) {
+    font-size: 22px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 18px;
+  }
 `;
 
 const Subtitle = styled.p`
   font-size: 14px;
   color: #666;
   margin: 5px 0 0 0;
+  line-height: 1.4;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+    margin: 3px 0 0 0;
+  }
 `;
 
 const BalanceCard = styled.div`
@@ -172,22 +313,49 @@ const BalanceCard = styled.div`
   justify-content: space-between;
   align-items: center;
   color: #1a473a;
+
+  @media (max-width: 768px) {
+    padding: 16px 18px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 14px 16px;
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
 `;
 
 const BalanceText = styled.div`
   display: flex;
   flex-direction: column;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
 const BalanceLabel = styled.span`
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 4px;
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+  }
 `;
 
 const BalanceAmount = styled.span`
   font-size: 22px;
   font-weight: 700;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 18px;
+  }
 `;
 
 const NairaIconContainer = styled.div`
@@ -201,12 +369,22 @@ const NairaIconContainer = styled.div`
   font-size: 20px;
   font-weight: bold;
   color: #1a473a;
+
+  @media (max-width: 480px) {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
 `;
 
 const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+
+  @media (max-width: 480px) {
+    gap: 6px;
+  }
 `;
 
 const Label = styled.label`
@@ -214,6 +392,14 @@ const Label = styled.label`
   font-weight: 600;
   color: #333;
   display: block;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+  }
 `;
 
 const Input = styled.input`
@@ -235,6 +421,17 @@ const Input = styled.input`
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+  }
+
+  @media (max-width: 768px) {
+    padding: 11px 14px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px 12px;
+    font-size: 13px;
+    min-height: 44px;
   }
 `;
 
@@ -259,12 +456,29 @@ const TextArea = styled.textarea`
     border-color: #007bff;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
   }
+
+  @media (max-width: 768px) {
+    padding: 11px 14px;
+    font-size: 14px;
+    min-height: 70px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px 12px;
+    font-size: 13px;
+    min-height: 60px;
+  }
 `;
 
 const HintText = styled.p`
   font-size: 12px;
   color: #777;
   margin-top: -4px;
+
+  @media (max-width: 480px) {
+    font-size: 11px;
+    margin-top: -2px;
+  }
 `;
 
 const NoticeBox = styled.div`
@@ -276,22 +490,51 @@ const NoticeBox = styled.div`
   gap: 12px;
   color: #664d03;
   border: 1px solid #ffeeba;
+
+  @media (max-width: 768px) {
+    padding: 14px 18px;
+    gap: 10px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 12px 16px;
+    gap: 8px;
+    flex-direction: column;
+  }
 `;
 
 const NoticeIcon = styled(FaExclamationCircle)`
   font-size: 20px;
   color: #ffc107;
   margin-top: 2px;
+
+  @media (max-width: 480px) {
+    font-size: 18px;
+    margin-top: 0;
+  }
 `;
 
 const NoticeContent = styled.div`
   flex-grow: 1;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `;
 
 const NoticeTitle = styled.h4`
   font-size: 15px;
   font-weight: 700;
   margin: 0 0 8px 0;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+    margin: 0 0 6px 0;
+  }
 `;
 
 const NoticeList = styled.ul`
@@ -306,6 +549,16 @@ const NoticeList = styled.ul`
       margin-bottom: 0;
     }
   }
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+    padding-left: 18px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 11px;
+    padding-left: 16px;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -313,6 +566,17 @@ const ButtonContainer = styled.div`
   justify-content: flex-end;
   gap: 15px;
   margin-top: 10px;
+
+  @media (max-width: 768px) {
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  @media (max-width: 480px) {
+    gap: 10px;
+    margin-top: 6px;
+    flex-direction: column;
+  }
 `;
 
 const CancelButton = styled.button`
@@ -329,6 +593,18 @@ const CancelButton = styled.button`
   &:hover {
     background-color: #f0f0f0;
     border-color: #ccc;
+  }
+
+  @media (max-width: 768px) {
+    padding: 11px 22px;
+    font-size: 15px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 14px 20px;
+    font-size: 16px;
+    width: 100%;
+    min-height: 48px;
   }
 `;
 
@@ -350,5 +626,18 @@ const SubmitButton = styled.button`
   &:disabled {
     background-color: #a8d1ff;
     cursor: not-allowed;
+  }
+
+  @media (max-width: 768px) {
+    padding: 11px 22px;
+    font-size: 15px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 14px 20px;
+    font-size: 16px;
+    width: 100%;
+    min-height: 48px;
+    order: -1;
   }
 `;
