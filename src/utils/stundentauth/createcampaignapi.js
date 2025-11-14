@@ -30,6 +30,9 @@ export const campaignApi = createApi({
     getCampaign: builder.query({
       query: () => `/campaigns`,
     }),
+    getCampaignById: builder.query({
+      query: (campaignId) => `/campaigns/campaign-detail/${campaignId}`,
+    }),
   }),
 });
 
@@ -38,4 +41,5 @@ export const {
   useGetallCampaignQuery,
   useGetDasboardQuery,
   useGetCampaignQuery,
+  useGetCampaignByIdQuery,
 } = campaignApi;

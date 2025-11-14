@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { MdLocationOn, MdAccessTime } from "react-icons/md";
 import { FaCheckCircle, FaRegHeart, FaShareAlt } from "react-icons/fa";
@@ -7,18 +7,38 @@ import DonationModal from "../../modals/steps/DonationModal";
 import { useGetCampaignQuery } from "../../../utils/stundentauth/createcampaignapi";
 import LoadingState from "../../modals/loadingstate/LoadingState";
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../../../context/AppContext";
 
 const Discover = () => {
   const [selectedCampaign, setSelectedCampaign] = useState(false);
-  const [selectedStudent, setSelectedStundet] = useState(null);
+  const [selectedStudent, setSelectedStudent] = useState(null);
   const { data, isLoading } = useGetCampaignQuery();
   const nav = useNavigate();
+  const { profileImages, openModal } = useContext(AppContext);
 
   if (isLoading) {
     return <LoadingState />;
   }
 
   const campaigns = data?.data;
+
+  const getAvatarSrc = (student) => {
+    if (!student?.studentId?._id) return null;
+    const profileImage = profileImages[student.studentId._id];
+    if (profileImage) return profileImage;
+    if (student.studentId.avatar) return student.studentId.avatar;
+    return null;
+  };
+
+  const getUserInitials = (student) => {
+    if (!student?.studentId?.fullName) return "U";
+    return student.studentId.fullName
+      .split(" ")
+      .map((name) => name.charAt(0))
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   return (
     <Holder>
@@ -28,69 +48,90 @@ const Discover = () => {
       </Header>
 
       <CampaignContainer>
-        {campaigns.length > 0 ? (
-          campaigns.map((c) => (
-            <CampaignCard key={c._id}>
-              <CardTop>
-                <Avatar src="ooo" alt="" />
-                <Info>
-                  <NameWrapper>
-                    <Name>{c?.studentId?.fullName}</Name>
-                    <FaCheckCircle className="verified" />
-                  </NameWrapper>
-                  <Course>{c?.course}</Course>
-                  <School>
-                    <MdLocationOn /> {c?.schoolName}
-                  </School>
-                </Info>
-              </CardTop>
+        {campaigns?.length > 0 ? (
+          campaigns.map((c) => {
+            const avatarSrc = getAvatarSrc(c);
+            const userInitials = getUserInitials(c);
 
-              <Description>{c?.story}</Description>
+            return (
+              <CampaignCard key={c._id}>
+                <CardTop>
+                  <AvatarContainer>
+                    {avatarSrc ? (
+                      <Avatar
+                        src={avatarSrc}
+                        alt={c?.studentId?.fullName}
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                        }}
+                      />
+                    ) : (
+                      <AvatarPlaceholder>{userInitials}</AvatarPlaceholder>
+                    )}
+                  </AvatarContainer>
+                  <Info>
+                    <NameWrapper>
+                      <Name>{c?.studentId?.fullName}</Name>
+                      <FaCheckCircle className="verified" />
+                    </NameWrapper>
+                    <Course>{c?.course}</Course>
+                    <School>
+                      <MdLocationOn /> {c?.schoolName}
+                    </School>
+                  </Info>
+                </CardTop>
 
-              <Progress>
-                <ProgressAmounts>
-                  <span>₦{c?.totalDonations?.toLocaleString()}</span>
-                  <span>of ₦{c?.target?.toLocaleString()}</span>
-                </ProgressAmounts>
-                <ProgressBar>
-                  <div
-                    className="filled"
-                    style={{
-                      width: `${(c?.totalDonations / c?.target) * 100}%`,
+                <Description>{c?.story}</Description>
+
+                <Progress>
+                  <ProgressAmounts>
+                    <span>₦{c?.totalDonations?.toLocaleString()}</span>
+                    <span>of ₦{c?.target?.toLocaleString()}</span>
+                  </ProgressAmounts>
+                  <ProgressBar>
+                    <div
+                      className="filled"
+                      style={{
+                        width: `${(c?.totalDonations / c?.target) * 100}%`,
+                      }}
+                    />
+                  </ProgressBar>
+                </Progress>
+
+                <Stats>
+                  <Stat>
+                    <LuUsers /> {c?.donors} donors
+                  </Stat>
+                  <Stat>
+                    <MdAccessTime /> {c?.daysLeft} days left
+                  </Stat>
+                </Stats>
+
+                <Actions>
+                  <DonateButton
+                    onClick={() => {
+                      setSelectedCampaign(true);
+                      setSelectedStudent(c);
                     }}
-                  />
-                </ProgressBar>
-              </Progress>
+                  >
+                    <FaRegHeart /> Donate Now
+                  </DonateButton>
 
-              <Stats>
-                <Stat>
-                  <LuUsers /> {c?.donors} donors
-                </Stat>
-                <Stat>
-                  <MdAccessTime /> {c?.daysLeft} days left
-                </Stat>
-              </Stats>
+                  <ViewButton
+                    onClick={() =>
+                      nav(`/donor_dashboard/student_detail/${c?._id}`)
+                    }
+                  >
+                    View Details
+                  </ViewButton>
 
-              <Actions>
-                <DonateButton
-                  onClick={() => {
-                    setSelectedCampaign(true);
-                    setSelectedStundet(c);
-                  }}
-                >
-                  <FaRegHeart /> Donate Now
-                </DonateButton>
-
-                <ViewButton onClick={() => nav(`/student_detail/${c?._id}`)}>
-                  View Details
-                </ViewButton>
-
-                <ShareButton>
-                  <FaShareAlt />
-                </ShareButton>
-              </Actions>
-            </CampaignCard>
-          ))
+                  <ShareButton onClick={() => openModal(c)}>
+                    <FaShareAlt />
+                  </ShareButton>
+                </Actions>
+              </CampaignCard>
+            );
+          })
         ) : (
           <p>{data?.message}</p>
         )}
@@ -249,6 +290,10 @@ const CardTop = styled.div`
   }
 `;
 
+const AvatarContainer = styled.div`
+  position: relative;
+`;
+
 const Avatar = styled.img`
   width: 60px;
   height: 60px;
@@ -262,6 +307,32 @@ const Avatar = styled.img`
 
   @media (max-width: 480px) {
     width: 50px;
+    height: 50px;
+  }
+`;
+
+const AvatarPlaceholder = styled.div`
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+
+  @media (max-width: 768px) {
+    width: 55px;
+    height: 55px;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 480px) {
+    width: 50px;
+    height: 50px;
+    font-size: 0.8rem;
   }
 `;
 

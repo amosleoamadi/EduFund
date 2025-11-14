@@ -13,7 +13,8 @@ const ContextProvider = ({ children }) => {
   const [campaignSucess, setCampaignSucess] = useState(false);
   const [dispatched, setDispatched] = useState(null);
 
-  const [profileImage, setProfileImage] = useState(null);
+  // Profile management by user ID
+  const [profileImages, setProfileImages] = useState({});
   const [userInitials, setUserInitials] = useState("U");
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -38,16 +39,31 @@ const ContextProvider = ({ children }) => {
     setCampaignData(null);
   };
 
-  const setProfileImageGlobal = (imageUrl) => {
-    setProfileImage(imageUrl);
+  // Set profile image for a specific user
+  const setProfileImageGlobal = (userId, imageUrl) => {
+    setProfileImages((prev) => ({
+      ...prev,
+      [userId]: imageUrl,
+    }));
   };
 
-  const removeProfileImageGlobal = () => {
-    setProfileImage(null);
+  // Remove profile image for a specific user
+  const removeProfileImageGlobal = (userId) => {
+    setProfileImages((prev) => {
+      const updated = { ...prev };
+      delete updated[userId];
+      return updated;
+    });
   };
 
+  // Get profile image for a specific user
+  const getProfileImageGlobal = (userId) => {
+    return profileImages[userId] || null;
+  };
+
+  // Set current user data (for the logged-in user)
   const setUserDataGlobal = (userData) => {
-    const { firstName, lastName, email } = userData;
+    const { firstName, lastName, email, _id } = userData;
     const initials =
       `${firstName?.charAt(0) || ""}${
         lastName?.charAt(0) || ""
@@ -56,10 +72,32 @@ const ContextProvider = ({ children }) => {
     setUserName(`${firstName || ""} ${lastName || ""}`.trim());
     setUserInitials(initials);
     setUserEmail(email || "");
+
+    // If user has an avatar, set it in profileImages
+    if (userData.avatar && _id) {
+      setProfileImages((prev) => ({
+        ...prev,
+        [_id]: userData.avatar,
+      }));
+    }
   };
 
+  // Update current user initials
   const updateUserInitialsGlobal = (initials) => {
     setUserInitials(initials);
+  };
+
+  // Bulk set profile images (useful when loading multiple users)
+  const setBulkProfileImages = (imagesMap) => {
+    setProfileImages((prev) => ({
+      ...prev,
+      ...imagesMap,
+    }));
+  };
+
+  // Clear all profile images (useful for logout)
+  const clearAllProfileImages = () => {
+    setProfileImages({});
   };
 
   return (
@@ -69,16 +107,27 @@ const ContextProvider = ({ children }) => {
         closeModal,
         openCampaign,
         closeCampaign,
+
+        // Campaign state
         setSecondWith,
         campaignSucess,
         setCampaignSucess,
         setDispatched,
-        profileImage,
+
+        // Current user data
         userInitials,
         userName,
         userEmail,
+
+        // Profile image management
+        profileImages,
         setProfileImageGlobal,
         removeProfileImageGlobal,
+        getProfileImageGlobal,
+        setBulkProfileImages,
+        clearAllProfileImages,
+
+        // User data management
         setUserDataGlobal,
         updateUserInitialsGlobal,
       }}

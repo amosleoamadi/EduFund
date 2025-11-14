@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from "react";
+import { useContext, useMemo } from "react";
 import styled from "styled-components";
 import { FiShare2 } from "react-icons/fi";
 import amount from "../../../../assets/amount.svg";
@@ -53,22 +53,51 @@ const DashOverview = ({ data }) => {
         </>
       </Header>
 
-      <InfoBanner>
-        <InfoIcon>ℹ️</InfoIcon>
-        <InfoText>
-          Campaign Live! 🎉
-          <span>
-            Your campaign has been verified and is now live on the platform.
-            Donors can now discover and support your education journey.
-          </span>
-        </InfoText>
-      </InfoBanner>
+      {data?.data?.activeCampaign && (
+        <InfoBanner $status={data?.data?.activeCampaign?.status}>
+          <InfoIcon $status={data?.data?.activeCampaign?.status}>
+            {data?.data?.activeCampaign?.status === "pending" && "⏳"}
+            {data?.data?.activeCampaign?.status === "rejected" && "❌"}
+            {data?.data?.activeCampaign?.status === "approved" && "ℹ️"}
+          </InfoIcon>
+          <InfoText $status={data?.data?.activeCampaign?.status}>
+            {data?.data?.activeCampaign?.status === "pending" && (
+              <>
+                Campaign Under Review! 🔍
+                <span>
+                  Your campaign is currently being verified. We'll notify you
+                  once the verification is complete.
+                </span>
+              </>
+            )}
+            {data?.data?.activeCampaign?.status === "rejected" && (
+              <>
+                Campaign Rejected
+                <span>
+                  Your campaign did not meet our requirements. Please review the
+                  feedback and resubmit.
+                </span>
+              </>
+            )}
+            {data?.data?.activeCampaign?.status === "approved" && (
+              <>
+                Campaign Live! 🎉
+                <span>
+                  Your campaign has been verified and is now live on the
+                  platform. Donors can now discover and support your education
+                  journey.
+                </span>
+              </>
+            )}
+          </InfoText>
+        </InfoBanner>
+      )}
 
       <StatsGrid>
         <StatCard>
           <Progress>
             <Rate>
-              <img src={amount} alt="" />
+              <img src={amount || "/placeholder.svg"} alt="" />
             </Rate>
             <Percent>+{data?.data?.goalProgress || 0}%</Percent>
           </Progress>
@@ -80,7 +109,7 @@ const DashOverview = ({ data }) => {
         <StatCard>
           <Progress>
             <Rate style={{ background: "#DCFCE7" }}>
-              <img src={people} alt="" />
+              <img src={people || "/placeholder.svg"} alt="" />
             </Rate>
             <Percent>Active</Percent>
           </Progress>
@@ -90,7 +119,7 @@ const DashOverview = ({ data }) => {
         <StatCard>
           <Progress>
             <Rate style={{ background: "#F3E8FF" }}>
-              <img src={target1} alt="" />
+              <img src={target1 || "/placeholder.svg"} alt="" />
             </Rate>
           </Progress>
           <StatValue>{data?.data?.goalProgress || 0}%</StatValue>
@@ -99,7 +128,7 @@ const DashOverview = ({ data }) => {
         <StatCard>
           <Progress>
             <Rate style={{ background: "#F3E8FF" }}>
-              <img src={last} alt="" />
+              <img src={last || "/placeholder.svg"} alt="" />
             </Rate>
           </Progress>
           <StatValue>{data?.data?.daysRemaining || 0}</StatValue>
@@ -107,76 +136,74 @@ const DashOverview = ({ data }) => {
         </StatCard>
       </StatsGrid>
 
-      <CampaignSection>
-        <CampaignHeader>
-          <Contents>
-            <CampaignTitle>{data?.data?.activeCampaign?.title}</CampaignTitle>
-            <Para>
-              <StatusButton>Verify</StatusButton>
-              <StatusButton
-                style={{
-                  background: "none",
-                  border: "1.184px solid #BEDBFF",
-                  color: "#155DFC",
-                }}
+      {data?.data?.activeCampaign && (
+        <CampaignSection>
+          <CampaignHeader>
+            <Contents>
+              <CampaignTitle>{data?.data?.activeCampaign?.title}</CampaignTitle>
+              <Para>
+                <StatusButton $status={data?.data?.activeCampaign?.status}>
+                  {data?.data?.activeCampaign?.status?.charAt(0).toUpperCase() +
+                    data?.data?.activeCampaign?.status?.slice(1)}
+                </StatusButton>
+              </Para>
+            </Contents>
+            <>
+              <ShareButton
+                onClick={() => openModal(data?.data?.activeCampaign)}
               >
-                Active
-              </StatusButton>
-            </Para>
-          </Contents>
-          <>
-            <ShareButton onClick={() => openModal({ source: "dashboard" })}>
-              <FiShare2 /> Share
-            </ShareButton>
-          </>
-        </CampaignHeader>
-        <CampaignText>
-          <ProgressText>Campaign Progress</ProgressText>
+                <FiShare2 /> Share
+              </ShareButton>
+            </>
+          </CampaignHeader>
+          <CampaignText>
+            <ProgressText>Campaign Progress</ProgressText>
+            <ProgressText>
+              ₦{data?.data?.activeCampaign?.totalDonations?.toLocaleString()} /
+              ₦{data?.data?.activeCampaign?.target?.toLocaleString()}
+            </ProgressText>
+          </CampaignText>
+          <ProgressBar>
+            <ProgressFill
+              style={{
+                width: `${
+                  (data?.data?.activeCampaign?.totalDonations /
+                    data?.data?.activeCampaign?.target) *
+                  100
+                }%`,
+              }}
+            />
+          </ProgressBar>
           <ProgressText>
-            ₦{data?.data?.activeCampaign?.totalDonations?.toLocaleString()} / ₦
-            {data?.data?.activeCampaign?.target?.toLocaleString()}
+            ₦
+            {(
+              data?.data?.activeCampaign?.target -
+              data?.data?.activeCampaign?.totalDonations
+            ).toLocaleString()}{" "}
+            more needed to reach your goal
           </ProgressText>
-        </CampaignText>
-        <ProgressBar>
-          <ProgressFill
-            style={{
-              width: `${
-                (data?.data?.activeCampaign?.totalDonations /
-                  data?.data?.activeCampaign?.target) *
-                100
-              }%`,
-            }}
-          />
-        </ProgressBar>
-        <ProgressText>
-          ₦
-          {(
-            data?.data?.activeCampaign?.target -
-            data?.data?.activeCampaign?.totalDonations
-          ).toLocaleString()}{" "}
-          more needed to reach your goal
-        </ProgressText>
-        <CampaignStatsRow>
-          <CampaignStat>
-            <CampaignStatValue>
-              {data?.data?.activeCampaign?.donors}
-            </CampaignStatValue>
-            <CampaignStatLabel>Donors</CampaignStatLabel>
-          </CampaignStat>
-          <CampaignStat>
-            <CampaignStatValue>
-              {data?.data?.activeCampaign?.fundedPercentage}%
-            </CampaignStatValue>
-            <CampaignStatLabel>Goal Progress</CampaignStatLabel>
-          </CampaignStat>
-          <CampaignStat>
-            <CampaignStatValue>
-              {data?.data?.activeCampaign?.daysLeft}
-            </CampaignStatValue>
-            <CampaignStatLabel>Days Left</CampaignStatLabel>
-          </CampaignStat>
-        </CampaignStatsRow>
-      </CampaignSection>
+          <CampaignStatsRow>
+            <CampaignStat>
+              <CampaignStatValue>
+                {data?.data?.activeCampaign?.donors}
+              </CampaignStatValue>
+              <CampaignStatLabel>Donors</CampaignStatLabel>
+            </CampaignStat>
+            <CampaignStat>
+              <CampaignStatValue>
+                {data?.data?.activeCampaign?.fundedPercentage}%
+              </CampaignStatValue>
+              <CampaignStatLabel>Goal Progress</CampaignStatLabel>
+            </CampaignStat>
+            <CampaignStat>
+              <CampaignStatValue>
+                {data?.data?.activeCampaign?.daysLeft}
+              </CampaignStatValue>
+              <CampaignStatLabel>Days Left</CampaignStatLabel>
+            </CampaignStat>
+          </CampaignStatsRow>
+        </CampaignSection>
+      )}
 
       <ContentGrid>
         <Card>
@@ -306,8 +333,27 @@ const CreateButton = styled.button`
 
 const InfoBanner = styled.div`
   border-radius: 11.225px;
-  border: 1.123px solid #b9f8cf;
-  background: #f0fdf4;
+  border: 1.123px solid
+    ${(props) => {
+      switch (props.$status) {
+        case "pending":
+          return "#fbbf24";
+        case "rejected":
+          return "#ef4444";
+        default:
+          return "#b9f8cf";
+      }
+    }};
+  background: ${(props) => {
+    switch (props.$status) {
+      case "pending":
+        return "#fffbeb";
+      case "rejected":
+        return "#fef2f2";
+      default:
+        return "#f0fdf4";
+    }
+  }};
   padding: 1rem;
   border-radius: 0.5rem;
   margin-bottom: 2rem;
@@ -320,14 +366,28 @@ const InfoIcon = styled.div`
   color: #2563eb;
   font-size: 1.25rem;
   flex-shrink: 0;
+  color: ${({ $status }) =>
+    $status === "pending"
+      ? "#e6b800"
+      : $status === "rejected"
+      ? "#ff4d4d"
+      : "#2563eb"};
 `;
 
 const InfoText = styled.p`
   margin: 0;
-  color: #1e40af;
+  color: ${(props) => {
+    switch (props?.children?.[0]?.props?.$status) {
+      case "pending":
+        return "#92400e";
+      case "rejected":
+        return "#7f1d1d";
+      default:
+        return "#016630";
+    }
+  }};
   font-size: 0.875rem;
   line-height: 1.5;
-  color: #016630;
   display: flex;
   flex-direction: column;
 `;
@@ -497,8 +557,39 @@ const StatusButton = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 9.474px;
-  border: 1.184px solid #b9f8cf;
-  background: #dcfce7;
+  border: 1.184px solid
+    ${(props) => {
+      switch (props.$status) {
+        case "pending":
+          return "#fbbf24";
+        case "rejected":
+          return "#ef4444";
+        default:
+          return "#b9f8cf";
+      }
+    }};
+  background: ${(props) => {
+    switch (props.$status) {
+      case "pending":
+        return "#fef3c7";
+      case "rejected":
+        return "#fee2e2";
+      default:
+        return "#dcfce7";
+    }
+  }};
+  color: ${(props) => {
+    switch (props.$status) {
+      case "pending":
+        return "#92400e";
+      case "rejected":
+        return "#7f1d1d";
+      default:
+        return "#00a63e";
+    }
+  }};
+  font-weight: 500;
+  font-size: 0.75rem;
 `;
 
 const CampaignStatLabel = styled.p`

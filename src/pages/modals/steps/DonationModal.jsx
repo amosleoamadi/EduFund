@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { FaRegHeart } from "react-icons/fa";
 import PaymentMethodModal from "./PaymentMethodModal";
@@ -7,6 +7,7 @@ import { selectStudentId } from "../../../config/slices/studentauthslice";
 import { useDonorPaymentMutation } from "../../../utils/donorauth/donoropayment";
 import toast from "react-hot-toast";
 import LoadingState from "../loadingstate/LoadingState";
+import { AppContext } from "../../../context/AppContext";
 
 const DonationModal = ({ onClose, campaign, data }) => {
   const [amount, setAmount] = useState("");
@@ -14,6 +15,25 @@ const DonationModal = ({ onClose, campaign, data }) => {
   const recieverId = data?.studentId?._id;
   const campaingId = data?._id;
   const [payment, { isLoading }] = useDonorPaymentMutation();
+  const { profileImages, getProfileImageGlobal } = useContext(AppContext);
+
+  const getStudentAvatar = (student) => {
+    if (!student?.studentId?._id) return null;
+    const profileImage = getProfileImageGlobal(student.studentId._id);
+    if (profileImage) return profileImage;
+    if (student.studentId.avatar) return student.studentId.avatar;
+    return null;
+  };
+
+  const getUserInitials = (student) => {
+    if (!student?.studentId?.fullName) return "U";
+    return student.studentId.fullName
+      .split(" ")
+      .map((name) => name.charAt(0))
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   const handlePayment = async () => {
     if (!amount) {
@@ -42,6 +62,9 @@ const DonationModal = ({ onClose, campaign, data }) => {
     }
   };
 
+  const studentAvatar = getStudentAvatar(data);
+  const studentInitials = getUserInitials(data);
+
   return (
     <>
       {campaign && (
@@ -56,7 +79,13 @@ const DonationModal = ({ onClose, campaign, data }) => {
               Support {data?.studentId?.fullName}'s education journey
             </p>
             <StudentInfo>
-              <img src="" alt="" />
+              <AvatarContainer>
+                {studentAvatar ? (
+                  <Avatar src={studentAvatar} alt={data?.studentId?.fullName} />
+                ) : (
+                  <AvatarPlaceholder>{studentInitials}</AvatarPlaceholder>
+                )}
+              </AvatarContainer>
               <div>
                 <h4>{data?.studentId?.fullName}</h4>
                 <p>
@@ -101,6 +130,54 @@ const DonationModal = ({ onClose, campaign, data }) => {
 
 export default DonationModal;
 
+// Add new styled components for avatar
+const AvatarContainer = styled.div`
+  position: relative;
+`;
+
+const Avatar = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+
+  @media (max-width: 768px) {
+    width: 45px;
+    height: 45px;
+  }
+
+  @media (max-width: 480px) {
+    width: 60px;
+    height: 60px;
+  }
+`;
+
+const AvatarPlaceholder = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+
+  @media (max-width: 768px) {
+    width: 45px;
+    height: 45px;
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 480px) {
+    width: 60px;
+    height: 60px;
+    font-size: 1rem;
+  }
+`;
+
+// Keep all other styled components the same
 const Overlay = styled.div`
   position: fixed;
   inset: 0;
@@ -208,55 +285,6 @@ const CloseBtn = styled.button`
   }
 `;
 
-const Steps = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin: 0.8rem 0;
-  width: 70%;
-
-  @media (max-width: 768px) {
-    width: 80%;
-    margin: 0.7rem 0;
-  }
-
-  @media (max-width: 480px) {
-    width: 90%;
-    margin: 0.6rem 0;
-    gap: 0.2rem;
-  }
-
-  span {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    border: 2px solid #e2e8f0;
-    color: #64748b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.8rem;
-
-    @media (max-width: 480px) {
-      width: 22px;
-      height: 22px;
-      font-size: 0.7rem;
-    }
-  }
-
-  .active {
-    background: #2563eb;
-    border-color: #2563eb;
-    color: #fff;
-  }
-
-  .line {
-    flex: 1;
-    height: 2px;
-    background: #e2e8f0;
-  }
-`;
-
 const StudentInfo = styled.div`
   display: flex;
   align-items: center;
@@ -278,22 +306,6 @@ const StudentInfo = styled.div`
     gap: 0.75rem;
     flex-direction: column;
     text-align: center;
-  }
-
-  img {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-
-    @media (max-width: 768px) {
-      width: 45px;
-      height: 45px;
-    }
-
-    @media (max-width: 480px) {
-      width: 60px;
-      height: 60px;
-    }
   }
 
   h4 {

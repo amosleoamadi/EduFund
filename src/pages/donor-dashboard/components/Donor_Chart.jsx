@@ -31,11 +31,11 @@ const Donor_Chart = () => {
     labels: ["May", "Jun", "Jul", "Aug", "Sep", "Oct"],
     datasets: [
       {
-        data: [60, 30, 80, 100, 40, 70],
+        data: [0, 0, 0, 0, 0, 0],
         backgroundColor: gradient,
         borderRadius: 6,
         barThickness: "flex",
-        maxBarThickness: 40,
+        maxBarThickness: 0,
         categoryPercentage: 0.6,
         barPercentage: 0.8,
       },
