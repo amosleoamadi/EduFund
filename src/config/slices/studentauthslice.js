@@ -35,5 +35,6 @@ export const selectStudentEmail = (state) => state.user.email;
 export const selectStundentToken = (state) => state.user.userToken;
 export const studentFirstname = (state) => state.user.firstname;
 export const studentLastname = (state) => state.user.lastname;
+export const selectIsAuthenticated = (state) => !!state.user.userToken;
 export const { setUserState, userLogout } = userSlice.actions;
 export default userSlice.reducer;

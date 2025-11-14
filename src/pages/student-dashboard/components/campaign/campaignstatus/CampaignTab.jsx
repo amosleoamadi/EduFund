@@ -31,6 +31,8 @@ const CampaignTabs = ({ data }) => {
   const { openModal } = useContext(AppContext);
   const campaignData = data?.data;
 
+  console.log(campaignData);
+
   return (
     <TabsContainer>
       <TabsHeader>
@@ -73,12 +75,13 @@ const CampaignTabs = ({ data }) => {
               <BadgeContainer>
                 <Badge $type="verified">✓ Verified</Badge>
                 <Badge $type="active">
-                  {data?.isActive ? "Active" : "Pending"}
+                  {data?.status?.charAt(0).toUpperCase() +
+                    data?.status?.slice(1)}
                 </Badge>
               </BadgeContainer>
             </div>
             <>
-              <ShareButton onClick={() => openModal({ source: "campaign" })}>
+              <ShareButton onClick={() => openModal(data)}>
                 <span style={{ marginRight: "8px" }}>
                   <FiShare2 />
                 </span>

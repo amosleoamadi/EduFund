@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { LuSparkles, LuTrendingUp, LuUsers, LuTarget } from "react-icons/lu";
 import { FiDollarSign } from "react-icons/fi";
 import { IoIosHeartEmpty } from "react-icons/io";
@@ -23,13 +23,15 @@ import {
 } from "../../../config/slices/studentauthslice";
 import { useGetDonorOverviewQuery } from "../../../utils/stundentauth/getdonor";
 import LoadingState from "../../modals/loadingstate/LoadingState";
+import { AppContext } from "../../../context/AppContext";
 
 const DonorOverview = () => {
   const nav = useNavigate();
-  const [progress, setProgress] = useState(0);
   const username = useSelector(studentFirstname);
   const donorId = useSelector(selectStudentId);
   const { data, isLoading, isError } = useGetDonorOverviewQuery(donorId);
+  const { setUserDataGlobal, getProfileImageGlobal } =
+    useContext(AppContext);
 
   if (isLoading) {
     return <LoadingState />;
@@ -37,6 +39,17 @@ const DonorOverview = () => {
 
   if (isError) {
     return <p>Error Loading Overview</p>;
+  }
+
+  if (data?.data) {
+    const userData = data.data.donor;
+    setUserDataGlobal({
+      firstName: userData.firstName || "",
+      lastName: userData.lastName || "",
+      email: userData.email || "",
+      _id: userData._id || "",
+      avatar: userData.avatar || "",
+    });
   }
 
   let stats = [
@@ -77,9 +90,12 @@ const DonorOverview = () => {
       subIcon: <LiaIdBadgeSolid size={16} color="#d8752e" />,
     },
   ];
-  stats.forEach((item, index) => (item.value = data.data.stats[index]));
-  const cardDate = data?.data?.recentDonations;
-  const date = new Date(data.data.donor.createdAt);
+
+  stats.forEach(
+    (item, index) => (item.value = data?.data?.stats?.[index] || 0)
+  );
+  const cardDate = data?.data?.recentDonations || [];
+  const date = new Date(data?.data?.donor?.createdAt || new Date());
 
   const options = {
     year: "numeric",
@@ -87,14 +103,35 @@ const DonorOverview = () => {
   };
 
   const formattedDate = date.toLocaleString("en-US", options);
+
+  // Function to get student avatar
+  const getStudentAvatar = (student) => {
+    if (!student?.receiverId?._id) return null;
+    const profileImage = getProfileImageGlobal(student.receiverId._id);
+    if (profileImage) return profileImage;
+    if (student.receiverId.avatar) return student.receiverId.avatar;
+    return null;
+  };
+
+  // Function to get student initials
+  const getStudentInitials = (student) => {
+    if (!student?.receiverId?.fullName) return "U";
+    return student.receiverId.fullName
+      .split(" ")
+      .map((name) => name.charAt(0))
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   return (
     <>
       <div className="container1">
         <div className="greeting">
           <div className="greeting-header">
             <h1>
-              Welcome back {username.charAt(0).toUpperCase()}
-              {username.slice(1)} 👋
+              Welcome back {username?.charAt(0)?.toUpperCase() || ""}
+              {username?.slice(1) || ""} 👋
             </h1>
             <LuSparkles size={35} color="white" />
           </div>
@@ -130,47 +167,67 @@ const DonorOverview = () => {
             </div>
             <div className="donation-card-container">
               {cardDate.length > 0 ? (
-                cardDate.map((e) => (
-                  <div className="donation-card" key={e._id}>
-                    <div className="card-img">
-                      <img src="" alt="image" />
-                    </div>
-                    <div className="card-degree-container">
-                      <div>
-                        <h2
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "0.5rem",
-                          }}
-                        >
-                          {e?.receiverId?.fullName}{" "}
-                          <FaRegCircleCheck color="#155DFC" />
-                        </h2>
-                        <p>{e?.campaignId?.course}</p>
-                        <div className="progress-container">
-                          <div className="progress-track">
-                            <div
-                              className="progress-bar"
-                              style={{
-                                width: `${e?.campaignId?.fundedPercentage}%`,
-                              }}
-                            ></div>
+                cardDate.map((e) => {
+                  const studentAvatar = getStudentAvatar(e);
+                  const studentInitials = getStudentInitials(e);
+
+                  return (
+                    <div className="donation-card" key={e._id}>
+                      <div className="card-img">
+                        {studentAvatar ? (
+                          <img
+                            src={studentAvatar}
+                            alt={e?.receiverId?.fullName || "Student"}
+                          />
+                        ) : (
+                          <div className="profile-initials">
+                            {studentInitials}
                           </div>
-                          <p>{e?.campaignId?.fundedPercentage}%</p>
+                        )}
+                      </div>
+                      <div className="card-degree-container">
+                        <div>
+                          <h2
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "0.5rem",
+                            }}
+                          >
+                            {e?.receiverId?.fullName || "Unknown Student"}{" "}
+                            <FaRegCircleCheck color="#155DFC" />
+                          </h2>
+                          <p>
+                            {e?.campaignId?.course || "No course specified"}
+                          </p>
+                          <div className="progress-container">
+                            <div className="progress-track">
+                              <div
+                                className="progress-bar"
+                                style={{
+                                  width: `${
+                                    e?.campaignId?.fundedPercentage || 0
+                                  }%`,
+                                }}
+                              ></div>
+                            </div>
+                            <p>{e?.campaignId?.fundedPercentage || 0}%</p>
+                          </div>
+                        </div>
+                        <div className="card-date">
+                          <h2>₦{e?.amount?.toLocaleString() || "0"}</h2>
+                          <p>
+                            {e?.campaignId?.createdAt
+                              ? new Date(
+                                  e.campaignId.createdAt
+                                ).toLocaleDateString()
+                              : "Date not available"}
+                          </p>
                         </div>
                       </div>
-                      <div className="card-date">
-                        <h2>{e.amount.toLocaleString()}</h2>
-                        <p>
-                          {new Date(
-                            e?.campaignId.createdAt
-                          ).toLocaleDateString()}
-                        </p>
-                      </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <p>No recent donations yet</p>
               )}
@@ -202,15 +259,21 @@ const DonorOverview = () => {
               <h2>This Month's Impacts</h2>
               <div className="write_up">
                 <h3 className="writes">Donations</h3>
-                <p className="write_2">₦350,000</p>
+                <p className="write_2">
+                  ₦{data?.data?.totalDonated?.toLocaleString() || "0"}
+                </p>
               </div>
               <div className="write_up">
                 <h3 className="writes">Student</h3>
-                <p className="write_2">3 students</p>
+                <p className="write_2">
+                  {data?.data?.studentsHelped || 0} students
+                </p>
               </div>
               <div className="write_up">
                 <h3 className="writes">Campaigns</h3>
-                <p className="write_2">2 campaigns</p>
+                <p className="write_2">
+                  {data?.data?.activeCampaigns?.length || 0} campaigns
+                </p>
               </div>
             </div>
           </aside>
