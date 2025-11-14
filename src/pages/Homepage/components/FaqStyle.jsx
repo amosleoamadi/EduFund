@@ -57,7 +57,6 @@ export const FaqStyle = styled.section`
 
     h2 {
       font-size: 1.4rem;
-      /* margin-bottom: 10px; */
     }
   }
 
@@ -65,7 +64,6 @@ export const FaqStyle = styled.section`
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    /* background: #000; */
     width: 100%;
     text-align: left;
     gap: 80px;
@@ -81,8 +79,6 @@ export const FaqStyle = styled.section`
   .faq-item {
     background: #fff;
     color: #000;
-    /* border-radius: 6px; */
-    /* margin-bottom: 10px; */
     border-bottom: 1px solid black;
     overflow: hidden;
     transition: all 0.3s ease;
@@ -121,7 +117,6 @@ export const FaqStyle = styled.section`
 
       p {
         font-size: 0.9rem;
-        /* opacity: 0.85; */
         color: gray;
         line-height: 2;
       }
