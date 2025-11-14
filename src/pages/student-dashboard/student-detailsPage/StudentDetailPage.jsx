@@ -41,7 +41,6 @@ const StudentDetailPage = () => {
     );
   }
 
-  // Get student avatar
   const getStudentAvatar = (student) => {
     if (!student?.studentId?._id) return null;
     const profileImage = getProfileImageGlobal(student.studentId._id);
@@ -50,7 +49,7 @@ const StudentDetailPage = () => {
     return null;
   };
 
-  // Get user initials
+
   const getUserInitials = (student) => {
     if (!student?.studentId?.fullName) return "U";
     return student.studentId.fullName
@@ -88,6 +87,7 @@ const StudentDetailPage = () => {
     <>
       <PageContainer>
         <ContentWrapper>
+
           <MainLayout>
             <LeftSection>
               <CampaignInfo>
@@ -256,7 +256,7 @@ const StudentDetailPage = () => {
                   <DonateBtn onClick={handleDonateClick}>
                     <LuHeart /> Donate Now
                   </DonateBtn>
-                  <ShareBtn onClick={() => openModal({ campaign: campaign })}>
+                  <ShareBtn onClick={() => openModal(campaign)}>
                     Share Campaign
                   </ShareBtn>
                 </ActionButtons>
@@ -287,6 +287,7 @@ const StudentDetailPage = () => {
         </ContentWrapper>
       </PageContainer>
 
+
       <DonationModal
         onClose={() => setSelectedCampaign(false)}
         campaign={selectedCampaign}
@@ -314,6 +315,19 @@ const ContentWrapper = styled.div`
 
   @media (max-width: 480px) {
     padding: 0.75rem 0.5rem;
+  }
+`;
+
+
+const ErrorMessage = styled.div`
+  text-align: center;
+  padding: 2rem;
+  color: #6b7280;
+  font-size: 1rem;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    font-size: 0.9rem;
   }
 `;
 
