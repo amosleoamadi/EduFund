@@ -30,8 +30,7 @@ const DonorOverview = () => {
   const username = useSelector(studentFirstname);
   const donorId = useSelector(selectStudentId);
   const { data, isLoading, isError } = useGetDonorOverviewQuery(donorId);
-  const { setUserDataGlobal, getProfileImageGlobal } =
-    useContext(AppContext);
+  const { setUserDataGlobal, getProfileImageGlobal } = useContext(AppContext);
 
   if (isLoading) {
     return <LoadingState />;
@@ -246,11 +245,7 @@ const DonorOverview = () => {
                 <CiSearch />
                 Discover Campaigns
               </span>
-              <span
-                className="discover"
-                onClick={() => nav("/donor_dashboard/impact")}
-              >
-                {" "}
+              <span className="discover">
                 <SlBadge />
                 view impact stories
               </span>

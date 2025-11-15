@@ -47,17 +47,13 @@ const DonationModal = ({ onClose, campaign, data }) => {
         recieverId: recieverId,
         campaingId: campaingId,
       }).unwrap();
-      console.log(res);
       const paymentLink = res?.data?.checkout_url;
-      console.log(paymentLink);
 
       if (paymentLink) {
         window.location.href = paymentLink;
         return;
       }
-      console.log(paymentLink);
     } catch (err) {
-      console.log(err);
       toast.error(err?.data?.message);
     }
   };
@@ -177,7 +173,6 @@ const AvatarPlaceholder = styled.div`
   }
 `;
 
-// Keep all other styled components the same
 const Overlay = styled.div`
   position: fixed;
   inset: 0;
@@ -190,7 +185,7 @@ const Overlay = styled.div`
 
   @media (max-width: 768px) {
     padding: 16px;
-    align-items: flex-end;
+    align-items: center;
   }
 
   @media (max-width: 480px) {
