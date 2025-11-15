@@ -137,7 +137,7 @@ const Discover = () => {
         )}
       </CampaignContainer>
 
-      <LoadMoreButton>Load More Campaigns</LoadMoreButton>
+      {/* <LoadMoreButton>Load More Campaigns</LoadMoreButton> */}
 
       <DonationModal
         onClose={() => setSelectedCampaign(false)}
@@ -599,35 +599,35 @@ const ShareButton = styled.button`
   }
 `;
 
-const LoadMoreButton = styled.button`
-  display: block;
-  margin: 2rem auto 0;
-  padding: 0.8rem 2rem;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  color: #101828;
-  font-size: 0.95rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background 0.2s ease;
+// const LoadMoreButton = styled.button`
+//   display: block;
+//   margin: 2rem auto 0;
+//   padding: 0.8rem 2rem;
+//   background: #fff;
+//   border: 1px solid #e5e7eb;
+//   border-radius: 8px;
+//   color: #101828;
+//   font-size: 0.95rem;
+//   font-weight: 500;
+//   cursor: pointer;
+//   transition: background 0.2s ease;
 
-  &:hover {
-    background: #f9fafb;
-  }
+//   &:hover {
+//     background: #f9fafb;
+//   }
 
-  @media (max-width: 768px) {
-    margin: 1.5rem auto 0;
-    padding: 0.75rem 1.75rem;
-    font-size: 0.9rem;
-  }
+//   @media (max-width: 768px) {
+//     margin: 1.5rem auto 0;
+//     padding: 0.75rem 1.75rem;
+//     font-size: 0.9rem;
+//   }
 
-  @media (max-width: 480px) {
-    margin: 1.25rem auto 0;
-    padding: 0.875rem 2rem;
-    font-size: 0.9rem;
-    width: 100%;
-    max-width: 200px;
-    min-height: 44px;
-  }
-`;
+//   @media (max-width: 480px) {
+//     margin: 1.25rem auto 0;
+//     padding: 0.875rem 2rem;
+//     font-size: 0.9rem;
+//     width: 100%;
+//     max-width: 200px;
+//     min-height: 44px;
+//   }
+// `;

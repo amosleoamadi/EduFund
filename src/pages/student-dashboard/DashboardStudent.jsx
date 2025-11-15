@@ -42,12 +42,18 @@ const DashboardStudent = () => {
   const { campaignSucess, profileImage, userInitials, userName } =
     useContext(AppContext);
 
+  const handleSettings = () => {
+    nav("/student-dashbord/student-setting");
+    setShowPop(false);
+  };
+
   const LogoutFunction = () => {
     dispatch(userLogout());
     persistor.purge();
     localStorage.removeItem("EmailDetails");
     dispatch(studentAuth.util.resetApiState());
     nav("/login");
+    setShowPop(false);
   };
 
   const toggleSidebar = () => {
@@ -76,10 +82,10 @@ const DashboardStudent = () => {
             </EduLogo>
           </div>
           <NotiProf>
-            <div className="notify">
+            {/* <div className="notify">
               <IoIosNotificationsOutline />
               <nav>5</nav>
-            </div>
+            </div> */}
             <div className="profile_pic" style={{ position: "relative" }}>
               <ProfileImageContainer onClick={() => setShowPop(!showPop)}>
                 {profileImage ? (
@@ -96,7 +102,7 @@ const DashboardStudent = () => {
                   <h3>{userName || `${firstname} ${lastname}`}</h3>
                   <p>{email}</p>
                 </TopContent>
-                <ProfileSet>
+                <ProfileSet onClick={handleSettings}>
                   <RxPerson style={{ fontSize: "20px" }} />
                   <span>Profile Settings</span>
                 </ProfileSet>

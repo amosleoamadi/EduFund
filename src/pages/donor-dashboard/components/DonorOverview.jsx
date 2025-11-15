@@ -13,7 +13,7 @@ import Chioma from "../../../assets/Chioma.jpg";
 import Container from "../../../assets/Container.png";
 import { CiSearch } from "react-icons/ci";
 import { SlBadge } from "react-icons/sl";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import Donor_Chart from "./Donor_Chart";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -94,6 +94,10 @@ const DonorOverview = () => {
     (item, index) => (item.value = data?.data?.stats?.[index] || 0)
   );
   const cardDate = data?.data?.recentDonations || [];
+
+  // Get only the first 5 recent donations
+  const recentDonations = cardDate.slice(0, 4);
+
   const date = new Date(data?.data?.donor?.createdAt || new Date());
 
   const options = {
@@ -160,13 +164,15 @@ const DonorOverview = () => {
           <aside>
             <div className="recent">
               <h1>Recent Donations</h1>
-              <p>
-                View All <FaAngleRight />
-              </p>
+              <NavLink to={"/donor_dashboard/donation"}>
+                <p>
+                  View All <FaAngleRight />
+                </p>
+              </NavLink>
             </div>
             <div className="donation-card-container">
-              {cardDate.length > 0 ? (
-                cardDate.map((e) => {
+              {recentDonations.length > 0 ? (
+                recentDonations.map((e) => {
                   const studentAvatar = getStudentAvatar(e);
                   const studentInitials = getStudentInitials(e);
 
