@@ -168,7 +168,7 @@ const Donations = () => {
           <p>No Student helped yet</p>
         )}
       </section>
-      <div className="load-more">Load More Donations</div>
+      {/* <div className="load-more">Load More Donations</div> */}
     </div>
   );
 };

@@ -11,7 +11,7 @@ import { AppContext } from "../../../context/AppContext";
 
 const DonationModal = ({ onClose, campaign, data }) => {
   const [amount, setAmount] = useState("");
-  const donorId = useSelector(selectStudentId);
+  const donorId = useSelector(selectStudentId) || undefined;
   const recieverId = data?.studentId?._id;
   const campaingId = data?._id;
   const [payment, { isLoading }] = useDonorPaymentMutation();

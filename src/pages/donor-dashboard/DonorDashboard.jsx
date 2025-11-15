@@ -47,12 +47,18 @@ const DonorDashboard = () => {
 
   const isCampaignDetailsPage = location.pathname.includes("/student_detail/");
 
+  const handleNavSettings = () => {
+    nav("/donor_dashboard/donor-setting");
+    setShowPop(false);
+  };
+
   const LogoutFunction = () => {
     dispatch(userLogout());
     persistor.purge();
     localStorage.removeItem("EmailDetails");
     dispatch(donorAuth.util.resetApiState());
     nav("/login");
+    setShowPop(false);
   };
 
   const toggleSidebar = () => {
@@ -81,10 +87,10 @@ const DonorDashboard = () => {
             </EduLogo>
           </div>
           <NotiProf>
-            <div className="notify">
+            {/* <div className="notify">
               <IoIosNotificationsOutline />
               <nav>5</nav>
-            </div>
+            </div> */}
             <div className="profile_pic" style={{ position: "relative" }}>
               <ProfileImageContainer
                 onClick={() => setShowPop(!popup)}
@@ -104,7 +110,7 @@ const DonorDashboard = () => {
                   <h3>{userName || firstname}</h3>
                   <p>{email}</p>
                 </TopContent>
-                <ProfileSet>
+                <ProfileSet onClick={handleNavSettings}>
                   <RxPerson style={{ fontSize: "20px" }} />
                   <span>Profile Settings</span>
                 </ProfileSet>
