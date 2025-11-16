@@ -102,7 +102,7 @@ const DashOverview = ({ data }) => {
             <Percent>+{data?.data?.goalProgress || 0}%</Percent>
           </Progress>
           <StatValue>
-            ₦{data?.data?.activeCampaign?.totalDonations?.toLocaleString() || 0}
+            ₦{data?.data?.totalRaised?.toLocaleString() || 0}
           </StatValue>
           <StatLabel>Total Raised</StatLabel>
         </StatCard>
