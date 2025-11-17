@@ -158,14 +158,14 @@ export const MobileMenu = styled.div`
   top: 0;
   left: 0;
   width: 50%;
-  height: 100vh;
+  height: max-content;
   transform: ${({ open }) => (open ? "translateX(0)" : "translateX(-100%)")};
   transition: transform 0.3s ease-in-out;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 1.5rem;
+  padding: 1rem;
   z-index: 2000;
 
   .mobile-link {
