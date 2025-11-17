@@ -23,8 +23,8 @@ const YourStoryStep = ({ formData, setFormData, errors }) => {
           onChange={handleChange}
           error={errors.story}
         />
-        <CharacterCount error={charCount < 150 || charCount > 1000}>
-          {charCount} characters • Aim for 150-1000 characters
+        <CharacterCount error={charCount < 100 || charCount > 1000}>
+          {charCount} characters • Aim for 100-1000 characters
         </CharacterCount>
         {errors.story && <ErrorMessage>{errors.story}</ErrorMessage>}
       </FormGroup>

@@ -14,7 +14,6 @@ const MyCampaign = () => {
   if (isLoading) {
     return <LoadingState />;
   }
-
   return (
     <Hero>
       {data?.data?.length ? <ActiveCampaing data={data} /> : <FirstCampaign />}

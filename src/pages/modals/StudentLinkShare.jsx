@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import {
   FaWhatsapp,
@@ -9,43 +9,142 @@ import {
   FaShareSquare,
 } from "react-icons/fa";
 import { AppContext } from "../../context/AppContext";
+import { useSelector } from "react-redux";
+import { selectStudentId } from "../../config/slices/studentauthslice";
 
-const StudentLinkShare = () => {
+const StudentLinkShare = ({ data }) => {
   const { closeModal } = useContext(AppContext);
-  const handleCopy = () => {
-    navigator.clipboard.writeText();
-    alert("Link copied to clipboard!");
+  const studentId = useSelector(selectStudentId);
+  const [copied, setCopied] = useState(false);
+
+  // Extract campaign data from modalData
+  const campaign = data;
+  const isSharingCampaign = !!campaign?._id;
+
+  const Hosted = "https://edu-fund-gamma.vercel.app";
+
+  // Generate URLs and content
+  let shareUrl = "";
+  let shareTitle = "";
+  let shareDescription = "";
+
+  if (isSharingCampaign) {
+    // Sharing a specific campaign
+    shareUrl = `${Hosted}/campaign/${campaign._id}`;
+    shareTitle = campaign.course || "My Campaign";
+    shareDescription =
+      campaign.story || `Support my campaign "${shareTitle}" on EduFund!`;
+  } else {
+    // Sharing student profile
+    shareUrl = `${window.location.origin}/student/${studentId}`;
+    shareTitle = "My Education Profile";
+    shareDescription =
+      "Support my education on EduFund! I'm raising funds for my academic journey.";
+  }
+
+  const shareText = `${shareDescription}\n\n${shareUrl}`;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      // Fallback for older browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = shareUrl;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textArea);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
   };
+
+  const shareOnWhatsApp = () => {
+    const url = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+    window.open(url, "_blank");
+  };
+
+  const shareOnTwitter = () => {
+    const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+      shareDescription
+    )}&url=${encodeURIComponent(shareUrl)}`;
+    window.open(url, "_blank");
+  };
+
+  const shareOnFacebook = () => {
+    const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+      shareUrl
+    )}&quote=${encodeURIComponent(shareDescription)}`;
+    window.open(url, "_blank");
+  };
+
+  const shareOnLinkedIn = () => {
+    const url = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+      shareUrl
+    )}`;
+    window.open(url, "_blank");
+  };
+
+  const handleNativeShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: shareTitle,
+          text: shareDescription,
+          url: shareUrl,
+        });
+      } catch (error) {
+        console.log("Native sharing failed", error);
+      }
+    } else {
+      handleCopy();
+    }
+  };
+
   return (
     <ModalOverlay>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <CloseButton onClick={closeModal}>&times;</CloseButton>
 
         <Header>
-          <Title>Share Your Campaign</Title>
-          <Subtitle>Help spread the word and reach more donors</Subtitle>
+          <Title>
+            {isSharingCampaign
+              ? `Share "${campaign.course || "My Campaign"}"`
+              : "Share Your Profile"}
+          </Title>
+          <Subtitle>
+            {isSharingCampaign
+              ? "Spread the word about your campaign and reach more supporters"
+              : "Share your education profile and let people support your journey"}
+          </Subtitle>
         </Header>
 
         <ButtonGrid>
-          <ShareButton>
+          <ShareButton onClick={shareOnWhatsApp}>
             <Icon platform="WhatsApp">
               <FaWhatsapp />
             </Icon>
             WhatsApp
           </ShareButton>
-          <ShareButton>
+
+          <ShareButton onClick={shareOnTwitter}>
             <Icon platform="Twitter">
               <FaTwitter />
             </Icon>
             Twitter / X
           </ShareButton>
-          <ShareButton>
+
+          <ShareButton onClick={shareOnFacebook}>
             <Icon platform="Facebook">
               <FaFacebookF />
             </Icon>
             Facebook
           </ShareButton>
-          <ShareButton>
+
+          <ShareButton onClick={shareOnLinkedIn}>
             <Icon platform="LinkedIn">
               <FaLinkedinIn />
             </Icon>
@@ -53,22 +152,39 @@ const StudentLinkShare = () => {
           </ShareButton>
         </ButtonGrid>
 
-        <LinkLabel>Campaign Link</LinkLabel>
+        {/* Native Share Button for Mobile */}
+        {navigator.share && (
+          <NativeShareButton onClick={handleNativeShare}>
+            <FaShareSquare style={{ marginRight: "8px" }} />
+            Share via...
+          </NativeShareButton>
+        )}
+
+        <LinkLabel>
+          {isSharingCampaign ? "Campaign Link" : "Profile Link"}
+        </LinkLabel>
         <LinkContainer>
-          <LinkDisplay type="text" readOnly />
+          <LinkDisplay
+            type="text"
+            value={shareUrl}
+            readOnly
+            onClick={(e) => e.target.select()}
+          />
           <CopyButton onClick={handleCopy}>
             <CopyIcon />
-            Copy
+            {copied ? "Copied!" : "Copy"}
           </CopyButton>
         </LinkContainer>
 
         <ImpactBox>
           <ImpactHeader>
-            <StyledFaShareSquare />
-            Share Impact
+            <FaShareSquare style={{ marginRight: "8px" }} />
+            Sharing Impact
           </ImpactHeader>
           <ImpactText>
-            Your campaign has been shared 156 times and viewed by 2,340 people!
+            {isSharingCampaign
+              ? "Campaigns that are shared regularly receive 2-3x more donations!"
+              : "Active profiles that share regularly get more visibility and support!"}
           </ImpactText>
         </ImpactBox>
       </ModalContent>
@@ -77,6 +193,7 @@ const StudentLinkShare = () => {
 };
 
 export default StudentLinkShare;
+
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
@@ -99,6 +216,8 @@ const ModalContent = styled.div`
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   position: relative;
   font-family: Arial, sans-serif;
+  max-height: 90vh;
+  overflow-y: auto;
 `;
 
 const CloseButton = styled.button`
@@ -130,6 +249,7 @@ const Subtitle = styled.p`
   font-size: 14px;
   color: #666;
   margin: 5px 0 0 0;
+  line-height: 1.4;
 `;
 
 const ButtonGrid = styled.div`
@@ -156,6 +276,20 @@ const ShareButton = styled.button`
   &:hover {
     border-color: #007bff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+  }
+`;
+
+const NativeShareButton = styled(ShareButton)`
+  grid-column: 1 / -1;
+  justify-content: center;
+  background: #007bff;
+  color: white;
+  border-color: #007bff;
+
+  &:hover {
+    background: #0056b3;
+    border-color: #0056b3;
   }
 `;
 
@@ -181,6 +315,11 @@ const LinkContainer = styled.div`
   border-radius: 8px;
   overflow: hidden;
   margin-bottom: 25px;
+  transition: border-color 0.2s;
+
+  &:focus-within {
+    border-color: #007bff;
+  }
 `;
 
 const LinkDisplay = styled.input`
@@ -191,6 +330,7 @@ const LinkDisplay = styled.input`
   color: #333;
   background-color: #f8f8f8;
   cursor: text;
+  font-family: monospace;
 
   &:focus {
     outline: none;
@@ -208,9 +348,15 @@ const CopyButton = styled.button`
   font-size: 14px;
   font-weight: 600;
   transition: background-color 0.2s;
+  min-width: 80px;
+  justify-content: center;
 
   &:hover {
     background-color: #e0e0e0;
+  }
+
+  &:active {
+    background-color: #d0d0d0;
   }
 `;
 
@@ -225,6 +371,7 @@ const ImpactBox = styled.div`
   display: flex;
   flex-direction: column;
   color: #0056b3;
+  border-left: 4px solid #007bff;
 `;
 
 const ImpactHeader = styled.div`
@@ -239,9 +386,4 @@ const ImpactText = styled.p`
   font-size: 14px;
   line-height: 1.5;
   margin: 0;
-`;
-
-const StyledFaShareSquare = styled(FaShareSquare)`
-  margin-right: 8px;
-  font-size: 18px;
 `;

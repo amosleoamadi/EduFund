@@ -193,10 +193,11 @@ export const SidebarOverlay = styled.div`
 `;
 
 export const OutletContent = styled.section`
-  width: 75%;
+  flex: 1;
+  width: 100%;
   height: calc(100vh - 78px);
   overflow-y: auto;
-  padding: 35px;
+  padding: ${(props) => (props.isCampaignDetails ? "0" : "35px")};
 
   @media (max-width: 768px) {
     width: 100%;

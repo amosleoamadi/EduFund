@@ -11,18 +11,25 @@ import { AppContext } from "../../../context/AppContext";
 const Overview = () => {
   const studentId = useSelector(selectStudentId);
   const { data, isLoading, isError } = useGetDasboardQuery(studentId);
-  const { setUserDataGlobal } = useContext(AppContext);
+  const { setUserDataGlobal, setProfileImageGlobal } = useContext(AppContext);
 
   if (isLoading) {
     return <LoadingState />;
   }
 
-  if (data) {
+  if (data?.data?.student) {
+    const student = data.data.student;
+
     setUserDataGlobal({
-      firstName: data.data.student.firstName,
-      lastName: data.data.student.lastName,
-      email: data.data.student.email,
+      firstName: student.firstName,
+      lastName: student.lastName,
+      email: student.email,
+      _id: student._id || studentId,
     });
+
+    if (student.avatar) {
+      setProfileImageGlobal(student._id || studentId, student.avatar);
+    }
   }
 
   if (isError || data?.data?.student?.isFullyVerifiedStudent === false) {
@@ -39,6 +46,7 @@ const Overview = () => {
 };
 
 export default Overview;
+
 const Content = styled.div`
   width: 100%;
   height: 100%;

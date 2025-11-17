@@ -1,8 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { Check, X, Shield, Info } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const VerifyErrorMessage = ({ onClose }) => {
+  const nav = useNavigate();
+
+  const handleVerify = () => {
+    nav("/student-dashbord/verification");
+  };
   return (
     <ModalOverlay onClick={onClose}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
@@ -51,7 +57,7 @@ const VerifyErrorMessage = ({ onClose }) => {
 
         <ButtonGroup>
           <SecondaryButton onClick={onClose}>Maybe Later</SecondaryButton>
-          <PrimaryButton>
+          <PrimaryButton onClick={handleVerify}>
             <Check size={20} />
             Verify Account Now
           </PrimaryButton>

@@ -31,6 +31,9 @@ import PrivateRoute from "./PrivateRoute";
 import StudentDetailPage from "../pages/student-dashboard/student-detailsPage/StudentDetailPage";
 import Sucess from "../pages/modals/congratModal/Sucess";
 import { CampaignDetails } from "../pages/modals/congratModal/SucessModal";
+import AdminLogin from "../auth/admin-auth/AdminLogin";
+import CampaignDetailsModal from "../pages/modals/steps/CampaignDetailsModal";
+import CampaignDetailsWrapper from "../pages/modals/CampaginDetailsWrapper";
 
 export const Element = createBrowserRouter([
   {
@@ -96,6 +99,14 @@ export const Element = createBrowserRouter([
     element: <DonorSignUp />,
   },
   {
+    path: "/admin-login",
+    element: <AdminLogin />,
+  },
+  {
+    path: "/campaign/:campaignId",
+    element: <StudentDetailPage />,
+  },
+  {
     element: <PrivateRoute />,
     children: [
       {
@@ -153,11 +164,11 @@ export const Element = createBrowserRouter([
             path: "donor-setting",
             element: <DonorSetting />,
           },
+          {
+            path: "student_detail/:campaignId",
+            element: <CampaignDetailsWrapper />,
+          },
         ],
-      },
-      {
-        path: "/student_detail/:campaignId",
-        element: <CampaignDetails />,
       },
     ],
   },

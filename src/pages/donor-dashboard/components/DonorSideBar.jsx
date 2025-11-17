@@ -45,14 +45,14 @@ const DonorSideBar = ({ onClose }) => {
       >
         <CiSearch className="bar" /> Discover
       </nav>
-      <nav
+      {/* <nav
         className={`btn ${
           location.pathname === "/donor_dashboard/impact" ? "active" : ""
         }`}
         onClick={() => handleNavClick("/donor_dashboard/impact")}
       >
         <SlBadge className="bar" /> Impact
-      </nav>
+      </nav> */}
       <nav
         className={`btn ${
           location.pathname === "/donor_dashboard/donor-setting" ? "active" : ""

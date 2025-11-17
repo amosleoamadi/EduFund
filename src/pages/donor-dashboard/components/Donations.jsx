@@ -12,11 +12,13 @@ import { useSelector } from "react-redux";
 import { selectStudentId } from "../../../config/slices/studentauthslice";
 import LoadingState from "../../modals/loadingstate/LoadingState";
 import { AppContext } from "../../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
 const Donations = () => {
   const donorId = useSelector(selectStudentId);
   const { data, isLoading } = useGetAllDonorDonationQuery(donorId);
-  const { profileImage, userInitials, userName } = useContext(AppContext);
+  const { getProfileImageGlobal, openModal } = useContext(AppContext);
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <LoadingState />;
@@ -29,6 +31,31 @@ const Donations = () => {
     month: "long",
   };
 
+  // Function to get student avatar
+  const getStudentAvatar = (student) => {
+    if (!student?.receiverId?._id) return null;
+    const profileImage = getProfileImageGlobal(student.receiverId._id);
+    if (profileImage) return profileImage;
+    if (student.receiverId.avatar) return student.receiverId.avatar;
+    return null;
+  };
+
+  // Function to get student initials
+  const getStudentInitials = (student) => {
+    if (!student?.receiverId?.fullName) return "U";
+    return student.receiverId.fullName
+      .split(" ")
+      .map((name) => name.charAt(0))
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  // Function to get student name
+  const getStudentName = (student) => {
+    return student?.receiverId?.fullName || "Unknown Student";
+  };
+
   return (
     <div className="donor-donation-container">
       <div className="donor-donation-heading">
@@ -37,89 +64,111 @@ const Donations = () => {
       </div>
       <section className="donor-donation-students">
         {dataSet && dataSet.length > 0 ? (
-          dataSet.map((e) => (
-            <div className="fixit">
-              <aside
-                key={e?.campaignId?._id}
-                className="donor-student-credentials"
-              >
-                <div className="part1">
-                  <div className="donor-student-image-profile">
-                    {profileImage ? (
-                      <img
-                        src={profileImage}
-                        alt={`${userName || "User"} profile`}
-                        className="profile-image"
-                      />
-                    ) : (
-                      <div className="profile-initials">{userInitials}</div>
-                    )}
-                  </div>
-                  <div className="donor-name-credentials">
-                    <h2>{e?.receiverId?.fullName}</h2>
-                    <p>{e?.campaignId?.course}</p>
-                    <p>{e?.campaignId?.schoolName}</p>
-                  </div>
-                </div>
-                <section className="myHelper">
-                  <div className="part2">
-                    <div className="donor-progress-percent">
-                      <p>Campaign Progress</p>
-                      <p>{e?.campaignId?.fundedPercentage}%</p>
-                    </div>
-                    <div className="progress-container">
-                      <div className="progress-track">
-                        <div
-                          className="progress-bar"
-                          style={{
-                            width: `${e?.campaignId?.fundedPercentage}%`,
+          dataSet.map((e) => {
+            const studentAvatar = getStudentAvatar(e);
+            const studentInitials = getStudentInitials(e);
+            const studentName = getStudentName(e);
+
+            return (
+              <div className="fixit" key={e?._id}>
+                <aside className="donor-student-credentials">
+                  <div className="part1">
+                    <div className="donor-student-image-profile">
+                      {studentAvatar ? (
+                        <img
+                          src={studentAvatar}
+                          alt={`${studentName} profile`}
+                          className="profile-image"
+                          onError={(e) => {
+                            e.target.style.display = "none";
+                            e.target.nextSibling.style.display = "flex";
                           }}
-                        ></div>
+                        />
+                      ) : (
+                        <div
+                          className="profile-initials"
+                          style={{ display: studentAvatar ? "none" : "flex" }}
+                        >
+                          {studentInitials}
+                        </div>
+                      )}
+                    </div>
+                    <div className="donor-name-credentials">
+                      <h2>{studentName}</h2>
+                      <p>{e?.campaignId?.course}</p>
+                      <p>{e?.campaignId?.schoolName}</p>
+                    </div>
+                  </div>
+                  <section className="myHelper">
+                    <div className="part2">
+                      <div className="donor-progress-percent">
+                        <p>Campaign Progress</p>
+                        <p>{e?.campaignId?.fundedPercentage || 0}%</p>
+                      </div>
+                      <div className="progress-container">
+                        <div className="progress-track">
+                          <div
+                            className="progress-bar"
+                            style={{
+                              width: `${e?.campaignId?.fundedPercentage || 0}%`,
+                            }}
+                          ></div>
+                        </div>
+                      </div>
+
+                      <div
+                        className={
+                          (e?.campaignId?.fundedPercentage || 0) >= 100
+                            ? "color-green"
+                            : "color-blue"
+                        }
+                      >
+                        <CiCircleCheck />
+                        <p>
+                          {(e?.campaignId?.fundedPercentage || 0) >= 100
+                            ? "Completed"
+                            : "Pending"}
+                        </p>
                       </div>
                     </div>
-
-                    <div
-                      className={
-                        e.progressStatus === "Completed"
-                          ? "color-green"
-                          : "color-blue"
-                      }
-                    >
-                      {e.progressStatusIcon}
-                      <p>
-                        {e?.campaignId?.target === 100
-                          ? "Completed"
-                          : "Pending"}
+                    <div className="part3">
+                      <p className="part3-n1">Your Donations </p>
+                      <p className="part3-n2">₦{e?.amount?.toLocaleString()}</p>
+                      <p className="part3-n3">
+                        {e?.campaignId?.updatedAt
+                          ? new Date(e.campaignId.updatedAt).toLocaleString(
+                              "en-US",
+                              options
+                            )
+                          : "Date not available"}
                       </p>
                     </div>
+                  </section>
+                </aside>
+                <aside className="donor-share-profile">
+                  <div className="forbiden-code">
+                    <div onClick={() => openModal(e.campaignId)}>
+                      <BiShareAlt size={17} />
+                    </div>
+                    <div
+                      onClick={() =>
+                        navigate(
+                          `/donor_dashboard/student_detail/${e.campaignId._id}`
+                        )
+                      }
+                    >
+                      View Profile
+                    </div>
                   </div>
-                  <div className="part3">
-                    <p className="part3-n1">Your Donations </p>
-                    <p className="part3-n2">{e.amount.toLocaleString()}</p>
-                    <p className="part3-n3">
-                      {new Date(e?.campaignId?.updatedAt).toLocaleString(
-                        "en-US",
-                        options
-                      )}
-                    </p>
-                  </div>
-                </section>
-              </aside>
-              <aside className="donor-share-profile">
-                <div className="forbiden-code">
-                  <div>
-                    <BiShareAlt size={17} />
-                  </div>
-                  <div>View Profile</div>
-                </div>
-              </aside>
-            </div>
-          ))
+                </aside>
+              </div>
+            );
+          })
         ) : (
           <p>No Student helped yet</p>
         )}
       </section>
-      <div className="load-more">Load More Donations</div>
+      {/* <div className="load-more">Load More Donations</div> */}
     </div>
   );
 };

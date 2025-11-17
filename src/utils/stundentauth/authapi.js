@@ -1,9 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { selectStundentToken } from "../../config/slices/studentauthslice";
+import {
+  selectStundentToken,
+  userLogout,
+} from "../../config/slices/studentauthslice";
 
-export const studentAuth = createApi({
-  reducerPath: "studentauth",
-  baseQuery: fetchBaseQuery({
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  const baseQuery = fetchBaseQuery({
     baseUrl: import.meta.env.VITE_EDUFUND_BASEURL,
     prepareHeaders: (headers, { getState }) => {
       const token = selectStundentToken(getState());
@@ -12,7 +14,30 @@ export const studentAuth = createApi({
       }
       return headers;
     },
-  }),
+  });
+
+  let result = await baseQuery(args, api, extraOptions);
+
+  if (result.error && result.error.status === 401) {
+    api.dispatch(userLogout());
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
+  }
+
+  if (result.error && result.error.status === 403) {
+    api.dispatch(userLogout());
+    if (typeof window !== "undefined") {
+      window.location.href = "/login";
+    }
+  }
+
+  return result;
+};
+
+export const studentAuth = createApi({
+  reducerPath: "studentauth",
+  baseQuery: baseQueryWithReauth,
   endpoints: (builders) => ({
     studentregister: builders.mutation({
       query: (newUser) => ({
