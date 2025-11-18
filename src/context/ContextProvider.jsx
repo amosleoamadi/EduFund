@@ -12,6 +12,7 @@ const ContextProvider = ({ children }) => {
   const [secondWith, setSecondWith] = useState(false);
   const [campaignSucess, setCampaignSucess] = useState(false);
   const [dispatched, setDispatched] = useState(null);
+  const [savedData, setSavedData] = useState(null);
 
   // Profile management by user ID
   const [profileImages, setProfileImages] = useState({});
@@ -39,7 +40,6 @@ const ContextProvider = ({ children }) => {
     setCampaignData(null);
   };
 
-  // Set profile image for a specific user
   const setProfileImageGlobal = (userId, imageUrl) => {
     setProfileImages((prev) => ({
       ...prev,
@@ -118,6 +118,8 @@ const ContextProvider = ({ children }) => {
         userInitials,
         userName,
         userEmail,
+        savedData,
+        setSavedData,
 
         // Profile image management
         profileImages,

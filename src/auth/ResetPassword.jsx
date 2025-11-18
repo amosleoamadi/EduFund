@@ -63,7 +63,7 @@ const ResetPassword = () => {
 
   return (
     <Container>
-      <LogoBar>
+      <LogoBar onClick={() => nav(-1)}>
         <img src={img} alt="" />
       </LogoBar>
       <h3>Reset your password</h3>

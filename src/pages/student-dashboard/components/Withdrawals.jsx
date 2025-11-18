@@ -8,13 +8,16 @@ import LoadingState from "../../modals/loadingstate/LoadingState";
 
 const Withdrawals = () => {
   const studentId = useSelector(selectStudentId);
-  const { data, isLoading } = useGetTotalWalletBalQuery(studentId);
+  const { data, isLoading, isError } = useGetTotalWalletBalQuery(studentId);
 
   if (isLoading) {
     return <LoadingState />;
   }
 
-  console.log(data);
+  if (isError) {
+    return <div>Something went wrong</div>;
+  }
+
   return (
     <Content>
       <FirstWithdraw data={data} />

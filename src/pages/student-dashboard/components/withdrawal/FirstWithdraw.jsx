@@ -39,7 +39,7 @@ const FirstWithdraw = ({ data }) => {
           <Safe>
             <img src={safe} alt="" />
           </Safe>
-          <p>Funds will be sent directly to University of Lagos</p>
+          <p>Funds will be sent directly to Bursary Department</p>
         </Down>
       </Amount>
       {data?.data?.withdrawals.length > 0 ? (
@@ -49,11 +49,6 @@ const FirstWithdraw = ({ data }) => {
           <Card>₦</Card>
           <h4>No withdrawal history</h4>
           <p>Start fundraising to request withdrawals for your tuition fees</p>
-          <Button
-            className="create"
-            icon={<IoIosAdd style={{ fontSize: "20px" }} />}
-            text="Create Campaign"
-          />
         </Wrapper>
       )}
     </Container>
@@ -133,7 +128,7 @@ const Amount = styled.div`
   height: 45%;
   border-radius: 16.59px;
   border: 1.185px solid rgba(0, 0, 0, 0.1);
-  background: var(--primary-base, #2563eb);
+  background: var(--primary-base, #2657c0);
   box-shadow: 0 23.701px 29.626px -5.925px rgba(0, 0, 0, 0.1),
     0 9.48px 11.85px -7.11px rgba(0, 0, 0, 0.1);
   padding: 15px;
@@ -318,45 +313,15 @@ const Wrapper = styled.div`
   justify-content: center;
   gap: 15px;
 
-  .create {
-    width: 20%;
-    height: 45px;
-    border-radius: 9.087px;
-    background: #2563eb;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-    color: #fff;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    cursor: pointer;
-  }
-
   @media (max-width: 1199px) {
     border-radius: 14.699px;
     gap: 14px;
-
-    .create {
-      width: 22%;
-      height: 42px;
-      font-size: 13px;
-    }
   }
 
   @media (max-width: 767px) {
     border-radius: 13.699px;
     gap: 13px;
     height: 45%;
-
-    .create {
-      width: 25%;
-      height: 40px;
-      font-size: 13px;
-      gap: 14px;
-    }
   }
 
   @media (max-width: 479px) {
@@ -367,13 +332,6 @@ const Wrapper = styled.div`
 
     p {
       text-align: center;
-    }
-
-    .create {
-      width: 100%;
-      height: 44px;
-      font-size: 14px;
-      gap: 12px;
     }
   }
 `;

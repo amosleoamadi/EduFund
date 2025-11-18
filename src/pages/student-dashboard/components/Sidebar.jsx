@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { GoVerified } from "react-icons/go";
-import { MdOutlineHome } from "react-icons/md";
+import { MdOutlineHome, MdClose } from "react-icons/md";
 import { LuTarget } from "react-icons/lu";
 import { GoPeople } from "react-icons/go";
 import { TbMoneybag } from "react-icons/tb";
@@ -9,10 +9,13 @@ import { LuSettings } from "react-icons/lu";
 import { useLocation, useNavigate } from "react-router-dom";
 import safe from "../../../assets/iconamoon_shield-yes-light.svg";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import { AppContext } from "../../../context/AppContext";
+import logo from "../../../assets/EduFundLogo.png";
 
 const Sidebar = ({ onClose }) => {
   const location = useLocation();
   const handleNavigation = useNavigate();
+  const { savedData } = useContext(AppContext);
 
   const handleNavClick = (path) => {
     handleNavigation(path);
@@ -23,6 +26,16 @@ const Sidebar = ({ onClose }) => {
 
   return (
     <Container>
+      {/* Header with Logo and Close Button - Only shows on mobile/tablet */}
+      <MobileHeader>
+        <EduLogo>
+          <img src={logo} alt="EduFund Logo" />
+        </EduLogo>
+        <CloseButton onClick={onClose}>
+          <MdClose />
+        </CloseButton>
+      </MobileHeader>
+
       <nav
         className={`btn ${
           location.pathname === "/student-dashbord" ? "active" : ""
@@ -81,16 +94,113 @@ const Sidebar = ({ onClose }) => {
           </span>
           Verification Status
         </p>
-        <div className="add">
-          <IoIosCheckmarkCircleOutline />
-          Verified Student
-        </div>
+        {savedData?.data.student.isFullyVerifiedStudent ? (
+          <div className="add">
+            <IoIosCheckmarkCircleOutline />
+            Verified Student
+          </div>
+        ) : (
+          <Badge>
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+            Not Verified
+          </Badge>
+        )}
       </Holder>
     </Container>
   );
 };
 
 export default Sidebar;
+
+// New styled components for header
+const MobileHeader = styled.div`
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 10px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+`;
+
+const EduLogo = styled.div`
+  display: flex;
+  align-items: center;
+
+  img {
+    height: 60px;
+    width: auto;
+    object-fit: contain;
+
+    @media (max-width: 480px) {
+      height: 35px;
+    }
+  }
+`;
+
+const CloseButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background: #f3f4f6;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 20px;
+
+  &:hover {
+    background: #e5e7eb;
+    color: #1f2937;
+  }
+
+  @media (max-width: 480px) {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+`;
+
+// Your original styled components remain unchanged
+const Badge = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #f3f4f6;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #6b7280;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (max-width: 479px) {
+    font-size: 12px;
+    padding: 5px 8px;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+`;
 
 const Holder = styled.div`
   width: 100%;

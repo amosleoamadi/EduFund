@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { FileIcon, Upload, AlertCircle} from "lucide-react";
+import { FileIcon, Upload, AlertCircle } from "lucide-react";
+import toast from "react-hot-toast";
+import { useUploadDocumentsMutation } from "../../../utils/stundentauth/authapi";
+import { useSelector } from "react-redux";
+import { selectStudentId } from "../../../config/slices/studentauthslice";
+import LoadingState from "../../modals/loadingstate/LoadingState";
+import VerificationSuccess from "../../modals/VerificationSuccess";
 
-const documents = [
+const initialDocuments = [
   {
-    id: "admission-letter",
+    id: "admissionLetter",
     name: "Admission Letter",
     description: "Other universities offer admission",
     optional: true,
@@ -12,7 +18,7 @@ const documents = [
     selectedFile: null,
   },
   {
-    id: "student-id",
+    id: "studentIdCard",
     name: "Student ID Card",
     description: "Other universities offer a student id",
     optional: false,
@@ -20,7 +26,7 @@ const documents = [
     selectedFile: null,
   },
   {
-    id: "semester-receipt",
+    id: "semesterReceipt",
     name: "Previous Semester Receipt",
     description: "Payment receipt for past semester",
     optional: true,
@@ -28,7 +34,7 @@ const documents = [
     selectedFile: null,
   },
   {
-    id: "academic-result",
+    id: "academicResult",
     name: "Academic Result",
     description: "Official result for past semester",
     optional: false,
@@ -46,8 +52,38 @@ const documents = [
 ];
 
 const Verificcations = () => {
-  const [docs, setDocs] = useState(documents);
+  const studentId = useSelector(selectStudentId);
+
+  // Load initial state from localStorage or use initialDocuments
+  const [docs, setDocs] = useState(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem(`verificationDocs_${studentId}`);
+      return saved ? JSON.parse(saved) : initialDocuments;
+    }
+    return initialDocuments;
+  });
+
   const [uploading, setUploading] = useState(false);
+  const [complete, setComplete] = useState(false);
+  const [uploadDoc, { isLoading }] = useUploadDocumentsMutation();
+
+  // Save to localStorage whenever docs change
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(
+        `verificationDocs_${studentId}`,
+        JSON.stringify(docs)
+      );
+    }
+  }, [docs, studentId]);
+
+  const onClose = () => {
+    setComplete(false);
+  };
+
+  const isOpen = () => {
+    setComplete(true);
+  };
 
   const handleFileSelect = (docId) => {
     const fileInput = document.getElementById(`file-${docId}`);
@@ -60,7 +96,15 @@ const Verificcations = () => {
       setDocs((prevDocs) =>
         prevDocs.map((doc) =>
           doc.id === docId
-            ? { ...doc, selectedFile: file, status: "edit" }
+            ? {
+                ...doc,
+                selectedFile: {
+                  name: file.name,
+                  size: file.size,
+                  type: file.type,
+                },
+                status: doc.status === "pending" ? "pending" : "change",
+              }
             : doc
         )
       );
@@ -74,26 +118,62 @@ const Verificcations = () => {
     const requiredDocsTotal = docs.filter((doc) => !doc.optional).length;
 
     if (requiredDocsWithFiles < requiredDocsTotal) {
-      alert("Please upload all required documents");
+      toast.error("Please upload all required documents");
       return;
     }
 
     setUploading(true);
 
-    setDocs((prevDocs) =>
-      prevDocs.map((doc) =>
-        doc.selectedFile ? { ...doc, status: "pending" } : doc
-      )
-    );
+    // Create FormData with actual File objects from input elements
+    const formData = new FormData();
+    let hasValidFiles = true;
 
-    setTimeout(() => {
+    // Get fresh file objects from input elements
+    docs.forEach((doc) => {
+      if (doc.selectedFile) {
+        const fileInput = document.getElementById(`file-${doc.id}`);
+        const file = fileInput?.files?.[0];
+        if (file) {
+          formData.append(doc.id, file);
+        } else {
+          hasValidFiles = false;
+          toast.error(`Please re-select file for ${doc.name}`);
+        }
+      }
+    });
+
+    if (!hasValidFiles) {
       setUploading(false);
-      alert("Documents uploaded successfully!");
-    }, 2000);
+      return;
+    }
+
+    try {
+      const response = await uploadDoc({
+        verificationDocuments: formData,
+        studentId,
+      }).unwrap();
+
+      // Update all documents with files to pending status
+      setDocs((prevDocs) =>
+        prevDocs.map((doc) =>
+          doc.selectedFile ? { ...doc, status: "pending" } : doc
+        )
+      );
+
+      setComplete(true);
+    } catch (error) {
+      toast.error(error?.data?.message || "Failed to upload documents");
+    } finally {
+      setUploading(false);
+    }
   };
 
   const isUploadDisabled =
-    docs.filter((doc) => !doc.optional && doc.selectedFile).length === 0;
+    docs.filter((doc) => !doc.optional && doc.selectedFile).length === 0 ||
+    uploading ||
+    docs.some((doc) => doc.status === "pending");
+
+  const hasPendingDocuments = docs.some((doc) => doc.status === "pending");
 
   return (
     <PageWrapper>
@@ -101,22 +181,34 @@ const Verificcations = () => {
         <HeaderContent>
           <Title>Verification Documents</Title>
           <Subtitle>Upload and manage your verification documents</Subtitle>
+          {hasPendingDocuments && (
+            <StatusMessage>
+              ⏳ Documents are under review. You cannot upload new files until
+              review is complete.
+            </StatusMessage>
+          )}
         </HeaderContent>
-        <UploadButton
-          onClick={handleUploadAll}
-          disabled={isUploadDisabled || uploading}
-        >
+        <UploadButton onClick={handleUploadAll} disabled={isUploadDisabled}>
           <Upload />
-          Upload All Documents
+          {uploading ? "Uploading..." : "Upload All Documents"}
         </UploadButton>
       </HeaderWrapper>
+
+      {complete && <VerificationSuccess isOpen={isOpen} onClose={onClose} />}
 
       <Container>
         <DocumentList>
           {docs.map((doc) => (
-            <DocumentItem key={doc.id}>
+            <DocumentItem
+              key={doc.id}
+              $hasFile={doc.selectedFile !== null}
+              $isPending={doc.status === "pending"}
+            >
               <DocumentInfo>
-                <IconWrapper>
+                <IconWrapper
+                  $hasFile={doc.selectedFile !== null}
+                  $isPending={doc.status === "pending"}
+                >
                   <FileIcon />
                 </IconWrapper>
                 <DocumentDetails>
@@ -125,42 +217,40 @@ const Verificcations = () => {
                     {doc.optional && <OptionalBadge>(Optional)</OptionalBadge>}
                   </DocumentName>
                   <DocumentDescription>{doc.description}</DocumentDescription>
+                  {doc.selectedFile && (
+                    <SelectedFile>
+                      📎 {doc.selectedFile.name}
+                      {doc.status === "pending" && " - Under Review"}
+                    </SelectedFile>
+                  )}
                 </DocumentDetails>
               </DocumentInfo>
-              <div
-                style={{ display: "flex", gap: "8px", alignItems: "center" }}
-              >
-                {doc.status === "pending" && (
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      fontWeight: 500,
-                      color: "#fbbf24",
-                      marginRight: "8px",
-                    }}
-                  >
-                    Pending
-                  </span>
+              <ActionGroup>
+                {doc.status === "pending" ? (
+                  <PendingBadge>⏳ Pending Review</PendingBadge>
+                ) : (
+                  <>
+                    <ActionButton
+                      state={doc.status}
+                      onClick={() => handleFileSelect(doc.id)}
+                      disabled={doc.status === "pending" || hasPendingDocuments}
+                    >
+                      <Upload />
+                      {doc.status === "choose" && "Choose File"}
+                      {doc.status === "change" && "Change File"}
+                    </ActionButton>
+                    <FileInput
+                      id={`file-${doc.id}`}
+                      type="file"
+                      onChange={(e) => handleFileChange(doc.id, e)}
+                      accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+                    />
+                  </>
                 )}
-                <ActionButton
-                  state={doc.status}
-                  onClick={() => handleFileSelect(doc.id)}
-                  disabled={doc.status === "pending"}
-                >
-                  <Upload />
-                  {doc.status === "choose" && "Choose File"}
-                  {doc.status === "edit" && "Edit"}
-                  {doc.status === "pending" && "Pending"}
-                </ActionButton>
-                <FileInput
-                  id={`file-${doc.id}`}
-                  type="file"
-                  onChange={(e) => handleFileChange(doc.id, e)}
-                  accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                />
-              </div>
+              </ActionGroup>
             </DocumentItem>
           ))}
+          {isLoading && <LoadingState />}
         </DocumentList>
 
         <InfoBox>
@@ -170,8 +260,20 @@ const Verificcations = () => {
           <InfoContent>
             <InfoTitle>Document Verification Tips</InfoTitle>
             Ensure all documents are clear and legible. Documents should be in
-            PDF or JPG format. File size should not exceed 5MB. All information
-            must match your profile details.
+            PDF format. File size should not exceed 5MB. All information must
+            match your profile details.
+            {hasPendingDocuments && (
+              <div
+                style={{
+                  marginTop: "8px",
+                  fontWeight: "500",
+                  color: "#f59e0b",
+                }}
+              >
+                Your documents are currently under review. You will be notified
+                once the verification is complete.
+              </div>
+            )}
           </InfoContent>
         </InfoBox>
       </Container>
@@ -181,6 +283,52 @@ const Verificcations = () => {
 
 export default Verificcations;
 
+// New styled components
+const StatusMessage = styled.div`
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  color: #92400e;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  margin-top: 8px;
+`;
+
+const ActionGroup = styled.div`
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: flex-start;
+  }
+`;
+
+const PendingBadge = styled.span`
+  background-color: #fef3c7;
+  color: #92400e;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid #fbbf24;
+`;
+
+const SelectedFile = styled.div`
+  font-size: 11px;
+  color: #666;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
+`;
+
+// Keep all your existing styled components below...
 const PageWrapper = styled.div`
   width: 100%;
 
@@ -350,8 +498,12 @@ const DocumentItem = styled.div`
   justify-content: space-between;
   padding: 16px;
   border-radius: 8px;
-  border: 1px solid #e8eaed;
+  border: 1px solid ${(props) => (props.$hasFile ? "#2563eb" : "#e8eaed")};
   transition: all 0.2s ease;
+  background-color: ${(props) =>
+    props.$isPending ? "#fffbeb" : props.$hasFile ? "#f0f4ff" : "white"};
+  box-shadow: ${(props) =>
+    props.$hasFile ? "0 2px 8px rgba(37, 99, 235, 0.1)" : "none"};
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -395,9 +547,11 @@ const IconWrapper = styled.div`
   justify-content: center;
   width: 40px;
   height: 40px;
-  background-color: #e3f2fd;
+  background-color: ${(props) =>
+    props.$isPending ? "#fef3c7" : props.$hasFile ? "#2563eb" : "#e3f2fd"};
   border-radius: 6px;
   flex-shrink: 0;
+  transition: all 0.2s ease;
 
   @media (max-width: 768px) {
     width: 36px;
@@ -417,7 +571,9 @@ const IconWrapper = styled.div`
   svg {
     width: 24px;
     height: 24px;
-    color: #2563eb;
+    color: ${(props) =>
+      props.$isPending ? "#d97706" : props.$hasFile ? "white" : "#2563eb"};
+    transition: all 0.2s ease;
 
     @media (max-width: 768px) {
       width: 20px;
@@ -532,14 +688,10 @@ const ActionButton = styled.button`
     font-size: 12px;
   }
 
-  ${(props) => {
-    if (props.state === "pending") {
-      return `
-        background-color: #fbbf24;
-        cursor: not-allowed;
-      `;
-    }
-  }}
+  &:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
 
   &:hover:not(:disabled) {
     background-color: #1d4ed8;

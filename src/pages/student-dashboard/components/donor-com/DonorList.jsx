@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { MdVerified } from "react-icons/md";
+import { AppContext } from "../../../../context/AppContext";
 
 const DonorList = ({ data }) => {
   const defaultDonors = data?.data;
+  const { getProfileImageGlobal } = useContext(AppContext);
 
   const formatDonorTime = (timestamp) => {
     if (!timestamp) return "Recently";
@@ -32,37 +34,63 @@ const DonorList = ({ data }) => {
     }
   };
 
+  // Function to get user initials from full name
+  const getInitials = (fullName) => {
+    if (!fullName) return "U";
+
+    const names = fullName.trim().split(" ");
+    if (names.length === 1) {
+      return names[0].charAt(0).toUpperCase();
+    }
+    return (
+      names[0].charAt(0) + names[names.length - 1].charAt(0)
+    ).toUpperCase();
+  };
+
   return (
     <Holder>
       <h3>Donors</h3>
       <Para>{defaultDonors.length} generous supporters</Para>
       <DonorsContainer>
         {defaultDonors.length > 0 &&
-          defaultDonors.map((donor) => (
-            <DonorItemWrapper key={donor.senderId._id}>
-              <DonorLeftSection>
-                <DonorAvatar src={donor.avatar} alt={donor.senderId.fullName} />
-                <DonorDetails>
-                  <DonorNameWrapper>
-                    <DonorName>{donor.senderId.fullName}</DonorName>
-                    {donor.senderId.isVerified && <VerifiedIcon />}
-                  </DonorNameWrapper>
-                  <DonorTimestamp>
-                    {formatDonorTime(donor?.senderId?.updatedAt)}
-                  </DonorTimestamp>
-                </DonorDetails>
-              </DonorLeftSection>
-              <DonorRightSection>
-                <DonorAmount>{donor.amount.toLocaleString()}</DonorAmount>
-              </DonorRightSection>
-            </DonorItemWrapper>
-          ))}
+          defaultDonors.map((donor) => {
+            const profileImage = getProfileImageGlobal(donor.senderId._id);
+            const initials = getInitials(donor.senderId.fullName);
+
+            return (
+              <DonorItemWrapper key={donor.senderId._id}>
+                <DonorLeftSection>
+                  {profileImage ? (
+                    <DonorAvatar
+                      src={profileImage}
+                      alt={donor.senderId.fullName}
+                    />
+                  ) : (
+                    <DonorInitialsAvatar>{initials}</DonorInitialsAvatar>
+                  )}
+                  <DonorDetails>
+                    <DonorNameWrapper>
+                      <DonorName>{donor.senderId.fullName}</DonorName>
+                      {donor.senderId.isVerified && <VerifiedIcon />}
+                    </DonorNameWrapper>
+                    <DonorTimestamp>
+                      {formatDonorTime(donor?.senderId?.updatedAt)}
+                    </DonorTimestamp>
+                  </DonorDetails>
+                </DonorLeftSection>
+                <DonorRightSection>
+                  <DonorAmount>₦{donor.amount.toLocaleString()}</DonorAmount>
+                </DonorRightSection>
+              </DonorItemWrapper>
+            );
+          })}
       </DonorsContainer>
     </Holder>
   );
 };
 
 export default DonorList;
+
 const Holder = styled.main`
   width: 100%;
 
@@ -83,6 +111,7 @@ const Para = styled.p`
   line-height: 26.733px;
   margin-bottom: 15px;
 `;
+
 const DonorsContainer = styled.div`
   border-radius: 15.594px;
   border: 1.114px solid #e5e7eb;
@@ -119,6 +148,22 @@ const DonorAvatar = styled.img`
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
+  border: 2px solid #e5e7eb;
+`;
+
+const DonorInitialsAvatar = styled.div`
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  border: 2px solid #e5e7eb;
 `;
 
 const DonorDetails = styled.div`

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { MdOutlineHome } from "react-icons/md";
+import { MdOutlineHome, MdClose } from "react-icons/md";
 import { GrFavorite } from "react-icons/gr";
 import { CiSearch } from "react-icons/ci";
 import { SlBadge } from "react-icons/sl";
@@ -8,6 +8,7 @@ import { LuSettings } from "react-icons/lu";
 import { useLocation, useNavigate } from "react-router-dom";
 import safe from "../../../assets/iconamoon_shield-yes-light.svg";
 import { IoIosCheckmarkCircleOutline } from "react-icons/io";
+import logo from "../../../assets/EduFundLogo.png";
 
 const DonorSideBar = ({ onClose }) => {
   const location = useLocation();
@@ -21,6 +22,16 @@ const DonorSideBar = ({ onClose }) => {
   };
   return (
     <Container>
+      {/* Header with Logo and Close Button - Only shows on mobile/tablet */}
+      <MobileHeader>
+        <EduLogo>
+          <img src={logo} alt="EduFund Logo" />
+        </EduLogo>
+        <CloseButton onClick={onClose}>
+          <MdClose />
+        </CloseButton>
+      </MobileHeader>
+
       <nav
         className={`btn ${
           location.pathname === "/donor_dashboard" ? "active" : ""
@@ -66,6 +77,63 @@ const DonorSideBar = ({ onClose }) => {
 };
 
 export default DonorSideBar;
+
+// New styled components for header
+const MobileHeader = styled.div`
+  display: none;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 10px;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+`;
+
+const EduLogo = styled.div`
+  display: flex;
+  align-items: center;
+
+  img {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+
+    @media (max-width: 480px) {
+      height: 40px;
+    }
+  }
+`;
+
+const CloseButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background: #f3f4f6;
+  color: #374151;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 20px;
+
+  &:hover {
+    background: #e5e7eb;
+    color: #1f2937;
+  }
+
+  @media (max-width: 480px) {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+`;
+
+// Your original styled components remain unchanged
 const Container = styled.main`
   display: flex;
   width: 85%;
