@@ -31,8 +31,6 @@ const CampaignTabs = ({ data }) => {
   const { openModal } = useContext(AppContext);
   const campaignData = data?.data;
 
-  console.log(campaignData);
-
   return (
     <TabsContainer>
       <TabsHeader>

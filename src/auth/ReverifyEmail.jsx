@@ -44,7 +44,7 @@ const ReverifyEmail = () => {
   };
   return (
     <MailHolder>
-      <LogoBar>
+      <LogoBar onClick={() => nav(-1)}>
         <img src={img} alt="" />
       </LogoBar>
       <h3>Verify Email Address</h3>

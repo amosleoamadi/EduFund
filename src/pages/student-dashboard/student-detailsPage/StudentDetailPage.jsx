@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { MdAccessTime, MdTrendingUp } from "react-icons/md";
 import { FaRegCheckCircle, FaCheckCircle } from "react-icons/fa";
@@ -15,15 +15,50 @@ import { useGetCampaignByIdQuery } from "../../../utils/stundentauth/createcampa
 import { AppContext } from "../../../context/AppContext";
 import LoadingState from "../../modals/loadingstate/LoadingState";
 import DonationModal from "../../modals/steps/DonationModal";
+import GuestDonorModal from "../../modals/DonationSuccess";
 
 const StudentDetailPage = () => {
   const { campaignId } = useParams();
   const navigate = useNavigate();
   const { data, isLoading } = useGetCampaignByIdQuery(campaignId);
-  const { profileImages, getProfileImageGlobal, openModal, openCampaign } =
+  const { profileImages, getProfileImageGlobal, openModal } =
     useContext(AppContext);
-  const [selectedCampaign, setSelectedCampaign] = useState(false);
+  const [showDonationModal, setShowDonationModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const [donationAmount, setDonationAmount] = useState(null);
+
+  const isAuthenticated = false;
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const donationSuccess = urlParams.get("donation_success");
+    const amount = urlParams.get("amount");
+
+    if (donationSuccess === "true" && amount) {
+      setDonationAmount(parseFloat(amount));
+      setShowSuccessModal(true);
+      // Clean up URL
+      const newUrl = window.location.pathname;
+      window.history.replaceState({}, "", newUrl);
+    }
+
+    // Check localStorage for pending donation success
+    const checkPendingDonation = () => {
+      const pendingAmount = localStorage.getItem("pendingDonationAmount");
+      const pendingCampaign = localStorage.getItem("pendingDonationCampaign");
+
+      if (pendingAmount && pendingCampaign === campaignId) {
+        setDonationAmount(parseFloat(pendingAmount));
+        setShowSuccessModal(true);
+        // Clear the stored values
+        localStorage.removeItem("pendingDonationAmount");
+        localStorage.removeItem("pendingDonationCampaign");
+      }
+    };
+
+    checkPendingDonation();
+  }, [campaignId]);
 
   if (isLoading) {
     return <LoadingState />;
@@ -49,7 +84,6 @@ const StudentDetailPage = () => {
     return null;
   };
 
-
   const getUserInitials = (student) => {
     if (!student?.studentId?.fullName) return "U";
     return student.studentId.fullName
@@ -70,24 +104,59 @@ const StudentDetailPage = () => {
   const remaining = campaign?.target
     ? campaign.target - campaign.totalDonations
     : 0;
-  const avgDonation = campaign?.donors
-    ? campaign.totalDonations / campaign.donors
-    : 0;
+  const avgDonation =
+    campaign?.donors && campaign.donors > 0
+      ? campaign.totalDonations / campaign.donors
+      : 0;
 
   const handleBack = () => {
     navigate(-1);
   };
 
   const handleDonateClick = () => {
-    setSelectedCampaign(true);
     setSelectedStudent(campaign);
+    setShowDonationModal(true);
+  };
+
+  const handleDonationSuccess = (amount) => {
+    setShowDonationModal(false);
+    setDonationAmount(amount);
+    setShowSuccessModal(true);
+  };
+
+  const handleCloseDonationModal = () => {
+    setShowDonationModal(false);
+    setSelectedStudent(null);
+  };
+
+  const handleJoinApp = () => {
+    setShowSuccessModal(false);
+    navigate("https://edu-fund-gamma.vercel.app/account-type");
+  };
+
+  const handleContinueAsGuest = () => {
+    setShowSuccessModal(false);
+  };
+
+  const handleShareCampaign = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: `Support ${campaign?.studentId?.fullName}'s Education`,
+        text: `Help ${campaign?.studentId?.fullName} achieve their educational goals by supporting their campaign.`,
+        url: window.location.href,
+      });
+    } else {
+      openModal(campaign);
+    }
   };
 
   return (
     <>
       <PageContainer>
         <ContentWrapper>
-
+          <BackButton onClick={handleBack}>
+            <IoMdArrowBack /> Back
+          </BackButton>
           <MainLayout>
             <LeftSection>
               <CampaignInfo>
@@ -110,26 +179,29 @@ const StudentDetailPage = () => {
                   <AmountRow>
                     <div>
                       <RaisedAmount>
-                        ₦{campaign?.totalDonations?.toLocaleString()}
+                        ₦{campaign?.totalDonations?.toLocaleString() || "0"}
                       </RaisedAmount>
                       <GoalText>
                         raised of ₦{campaign?.target?.toLocaleString()} goal
                       </GoalText>
                     </div>
                     <DonorText>
-                      <DonorCount>{campaign?.donors}</DonorCount>
+                      <DonorCount>{campaign?.donors || 0}</DonorCount>
                       <DonorLabel>donors</DonorLabel>
                     </DonorText>
                   </AmountRow>
 
                   <ProgressBar>
-                    <div className="filled" style={{ width: `${progress}%` }} />
+                    <div
+                      className="filled"
+                      style={{ width: `${Math.min(progress, 100)}%` }}
+                    />
                   </ProgressBar>
 
                   <ProgressFooter>
-                    <span>{progress.toFixed(1)}% funded</span>
+                    <span>{Math.min(progress, 100).toFixed(1)}% funded</span>
                     <span>
-                      <MdAccessTime /> {campaign?.daysLeft} days left
+                      <MdAccessTime /> {campaign?.daysLeft || 0} days left
                     </span>
                   </ProgressFooter>
 
@@ -138,7 +210,9 @@ const StudentDetailPage = () => {
                       <FiDollarSign className="icon" />
                       <div>
                         <StatLabel>Remaining</StatLabel>
-                        <StatValue>₦{remaining.toLocaleString()}</StatValue>
+                        <StatValue>
+                          ₦{Math.max(remaining, 0).toLocaleString()}
+                        </StatValue>
                       </div>
                     </StatCard1>
                     <StatCard2>
@@ -154,7 +228,9 @@ const StudentDetailPage = () => {
                       <MdTrendingUp className="icon" />
                       <div>
                         <StatLabel>Progress</StatLabel>
-                        <StatValue>{progress.toFixed(1)}%</StatValue>
+                        <StatValue>
+                          {Math.min(progress, 100).toFixed(1)}%
+                        </StatValue>
                       </div>
                     </StatCard3>
                   </StatCards>
@@ -165,7 +241,9 @@ const StudentDetailPage = () => {
                 <StorySection>
                   <SectionTitle>Campaign Story</SectionTitle>
                   <StudentName>{campaign?.studentId?.fullName}</StudentName>
-                  <StoryText>{campaign?.story}</StoryText>
+                  <StoryText>
+                    {campaign?.story || "No story provided yet."}
+                  </StoryText>
 
                   <WhySupport>
                     <SupportTitle>Why I Need Your Support</SupportTitle>
@@ -256,7 +334,7 @@ const StudentDetailPage = () => {
                   <DonateBtn onClick={handleDonateClick}>
                     <LuHeart /> Donate Now
                   </DonateBtn>
-                  <ShareBtn onClick={() => openModal(campaign)}>
+                  <ShareBtn onClick={handleShareCampaign}>
                     Share Campaign
                   </ShareBtn>
                 </ActionButtons>
@@ -287,11 +365,22 @@ const StudentDetailPage = () => {
         </ContentWrapper>
       </PageContainer>
 
-
+      {/* Donation Modal - Shows when user clicks Donate */}
       <DonationModal
-        onClose={() => setSelectedCampaign(false)}
-        campaign={selectedCampaign}
+        isOpen={showDonationModal}
+        onClose={handleCloseDonationModal}
+        campaign={selectedStudent}
         data={selectedStudent}
+        onDonationSuccess={handleDonationSuccess}
+      />
+
+      {/* Success Modal - Shows only after successful donation */}
+      <GuestDonorModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        donationAmount={donationAmount}
+        onJoinApp={handleJoinApp}
+        onContinueAsGuest={handleContinueAsGuest}
       />
     </>
   );
@@ -302,6 +391,7 @@ export default StudentDetailPage;
 const PageContainer = styled.div`
   min-height: 100vh;
   padding: 0;
+  background: #f8fafc;
 `;
 
 const ContentWrapper = styled.div`
@@ -318,6 +408,27 @@ const ContentWrapper = styled.div`
   }
 `;
 
+const BackButton = styled.button`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  margin-bottom: 1rem;
+  transition: color 0.2s;
+
+  &:hover {
+    color: #374151;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 0.85rem;
+  }
+`;
 
 const ErrorMessage = styled.div`
   text-align: center;
@@ -413,6 +524,10 @@ const SchoolMeta = styled.div`
   @media (max-width: 480px) {
     font-size: 0.8rem;
     gap: 0.4rem;
+  }
+
+  svg {
+    flex-shrink: 0;
   }
 `;
 
@@ -666,6 +781,7 @@ const StoryText = styled.p`
   font-size: 0.95rem;
   line-height: 1.6;
   margin-bottom: 1.5rem;
+  white-space: pre-line;
 
   @media (max-width: 768px) {
     font-size: 0.9rem;

@@ -12,20 +12,26 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
       }
+      // Don't automatically redirect for guest access to public campaigns
       return headers;
     },
   });
 
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result.error && result.error.status === 401) {
+  const isPublicEndpoint =
+    args.url.includes("/campaigns") ||
+    args.url.includes("/campaign/") ||
+    args.method === "GET"; // Allow GET requests for public data
+
+  if (result.error && result.error.status === 401 && !isPublicEndpoint) {
     api.dispatch(userLogout());
     if (typeof window !== "undefined") {
       window.location.href = "/login";
     }
   }
 
-  if (result.error && result.error.status === 403) {
+  if (result.error && result.error.status === 403 && !isPublicEndpoint) {
     api.dispatch(userLogout());
     if (typeof window !== "undefined") {
       window.location.href = "/login";
@@ -94,6 +100,13 @@ export const studentAuth = createApi({
         body: { password, newPassword },
       }),
     }),
+    uploadDocuments: builders.mutation({
+      query: ({ verificationDocuments, studentId }) => ({
+        url: `/student-verification/${studentId}`,
+        method: "POST",
+        body: verificationDocuments,
+      }),
+    }),
   }),
 });
 
@@ -106,4 +119,5 @@ export const {
   useReverifyEmailMutation,
   useResetPasswordMutation,
   useChangePasswordMutation,
+  useUploadDocumentsMutation,
 } = studentAuth;

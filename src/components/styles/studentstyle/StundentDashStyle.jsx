@@ -140,9 +140,9 @@ export const DashLayout = styled.div`
 
 export const SideBarContainer = styled.div`
   width: 25%;
-  height: calc(100vh - 78px);
+  height: calc(100vh - 80px);
   position: sticky;
-  top: 78px;
+  top: 80px;
   left: 0;
   display: flex;
   align-items: center;
@@ -150,10 +150,10 @@ export const SideBarContainer = styled.div`
 
   @media (max-width: 768px) {
     position: fixed;
-    top: 70px;
+    top: 0;
     left: 0;
     width: 60%;
-    height: calc(100vh - 70px);
+    height: 100vh;
     background: white;
     z-index: 25;
     transform: ${(props) =>

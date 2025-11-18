@@ -17,6 +17,9 @@ const Donors = () => {
   if (isError || data?.data?.length === 0) {
     return <DonorFirst />;
   }
+
+  console.log("the donors", data);
+
   return (
     <Content>{data?.data?.length > 0 && <DonorList data={data} />}</Content>
   );

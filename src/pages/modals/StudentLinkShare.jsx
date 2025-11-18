@@ -29,7 +29,6 @@ const StudentLinkShare = ({ data }) => {
   let shareDescription = "";
 
   if (isSharingCampaign) {
-    // Sharing a specific campaign
     shareUrl = `${Hosted}/campaign/${campaign._id}`;
     shareTitle = campaign.course || "My Campaign";
     shareDescription =

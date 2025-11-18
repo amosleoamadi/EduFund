@@ -32,23 +32,26 @@ const DonorOverview = () => {
   const { data, isLoading, isError } = useGetDonorOverviewQuery(donorId);
   const { setUserDataGlobal, getProfileImageGlobal } = useContext(AppContext);
 
+  // Move the setUserDataGlobal call to useEffect
+  useEffect(() => {
+    if (data?.data) {
+      const userData = data.data.donor;
+      setUserDataGlobal({
+        firstName: userData.firstName || "",
+        lastName: userData.lastName || "",
+        email: userData.email || "",
+        _id: userData._id || "",
+        avatar: userData.avatar || "",
+      });
+    }
+  }, [data, setUserDataGlobal]);
+
   if (isLoading) {
     return <LoadingState />;
   }
 
   if (isError) {
     return <p>Error Loading Overview</p>;
-  }
-
-  if (data?.data) {
-    const userData = data.data.donor;
-    setUserDataGlobal({
-      firstName: userData.firstName || "",
-      lastName: userData.lastName || "",
-      email: userData.email || "",
-      _id: userData._id || "",
-      avatar: userData.avatar || "",
-    });
   }
 
   let stats = [
@@ -95,7 +98,6 @@ const DonorOverview = () => {
   );
   const cardDate = data?.data?.recentDonations || [];
 
-  // Get only the first 5 recent donations
   const recentDonations = cardDate.slice(0, 4);
 
   const date = new Date(data?.data?.donor?.createdAt || new Date());

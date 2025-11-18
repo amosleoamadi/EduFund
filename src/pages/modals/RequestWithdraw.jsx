@@ -7,8 +7,10 @@ import toast from "react-hot-toast";
 import LoadingState from "./loadingstate/LoadingState";
 
 const RequestWithdraw = ({ datas, setWithdraw, withdraw }) => {
+  const availableBalance = datas?.data?.walletBallance || 0;
+
   const [withdrawalAmount, setWithdrawalAmount] = useState({
-    amount: "",
+    amount: availableBalance.toString(),
     purpose: "",
     note: "",
   });
@@ -20,6 +22,7 @@ const RequestWithdraw = ({ datas, setWithdraw, withdraw }) => {
     const { name, value } = e.target;
     setWithdrawalAmount({ ...withdrawalAmount, [name]: value });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -45,6 +48,7 @@ const RequestWithdraw = ({ datas, setWithdraw, withdraw }) => {
       toast.error(err?.data?.message);
     }
   };
+
   return (
     <>
       {withdraw && (
@@ -66,7 +70,7 @@ const RequestWithdraw = ({ datas, setWithdraw, withdraw }) => {
               <BalanceText>
                 <BalanceLabel>Available Balance</BalanceLabel>
                 <BalanceAmount>
-                  {datas?.data?.walletBallance.toLocaleString()}
+                  {availableBalance.toLocaleString()}
                 </BalanceAmount>
               </BalanceText>
               <NairaIconContainer>₦</NairaIconContainer>
@@ -85,8 +89,11 @@ const RequestWithdraw = ({ datas, setWithdraw, withdraw }) => {
                   value={withdrawalAmount.amount}
                   onChange={handleChange}
                   required
+                  readOnly
                 />
-                <HintText>Maximum: ₦800</HintText>
+                <HintText>
+                  Your full available balance has been pre-filled
+                </HintText>
               </FormGroup>
 
               <FormGroup style={{ marginTop: "20px" }}>
@@ -137,7 +144,10 @@ const RequestWithdraw = ({ datas, setWithdraw, withdraw }) => {
                 <CancelButton type="button" onClick={() => setWithdraw(false)}>
                   Cancel
                 </CancelButton>
-                <SubmitButton type="submit" disabled={!withdrawalAmount}>
+                <SubmitButton
+                  type="submit"
+                  disabled={!withdrawalAmount.purpose}
+                >
                   Submit Request
                 </SubmitButton>
               </ButtonContainer>
@@ -152,6 +162,7 @@ const RequestWithdraw = ({ datas, setWithdraw, withdraw }) => {
 };
 
 export default RequestWithdraw;
+
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;

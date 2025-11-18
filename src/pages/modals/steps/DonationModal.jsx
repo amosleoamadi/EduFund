@@ -9,7 +9,7 @@ import toast from "react-hot-toast";
 import LoadingState from "../loadingstate/LoadingState";
 import { AppContext } from "../../../context/AppContext";
 
-const DonationModal = ({ onClose, campaign, data }) => {
+const DonationModal = ({ isOpen, onClose, campaign, data, onDonationSuccess }) => {
   const [amount, setAmount] = useState("");
   const donorId = useSelector(selectStudentId) || undefined;
   const recieverId = data?.studentId?._id;
@@ -40,6 +40,12 @@ const DonationModal = ({ onClose, campaign, data }) => {
       toast.error("Please enter or select an amount");
       return;
     }
+
+    if (parseFloat(amount) <= 0) {
+      toast.error("Please enter a valid amount");
+      return;
+    }
+
     try {
       const res = await payment({
         amount: amount,
@@ -47,77 +53,120 @@ const DonationModal = ({ onClose, campaign, data }) => {
         recieverId: recieverId,
         campaingId: campaingId,
       }).unwrap();
+      
       const paymentLink = res?.data?.checkout_url;
 
       if (paymentLink) {
+        // Store donation amount for success callback
+        localStorage.setItem('pendingDonationAmount', amount);
+        localStorage.setItem('pendingDonationCampaign', campaingId);
+        
+        // Redirect to payment gateway
         window.location.href = paymentLink;
         return;
       }
     } catch (err) {
-      toast.error(err?.data?.message);
+      toast.error(err?.data?.message || "Payment failed. Please try again.");
     }
+  };
+
+  const handleClose = () => {
+    setAmount("");
+    onClose();
   };
 
   const studentAvatar = getStudentAvatar(data);
   const studentInitials = getUserInitials(data);
 
+  // Don't render if not open
+  if (!isOpen) return null;
+
   return (
     <>
-      {campaign && (
-        <Overlay>
-          <Modal>
-            <Header>
-              <h2>Make a Donation</h2>
-              <CloseBtn onClick={onClose}>×</CloseBtn>
-            </Header>
+      <Overlay>
+        <Modal>
+          <Header>
+            <h2>Make a Donation</h2>
+            <CloseBtn onClick={handleClose}>×</CloseBtn>
+          </Header>
 
-            <p style={{ color: "#64748b", fontSize: "0.9rem" }}>
-              Support {data?.studentId?.fullName}'s education journey
-            </p>
-            <StudentInfo>
-              <AvatarContainer>
-                {studentAvatar ? (
-                  <Avatar src={studentAvatar} alt={data?.studentId?.fullName} />
+          <p style={{ color: "#64748b", fontSize: "0.9rem" }}>
+            Support {data?.studentId?.fullName}'s education journey
+          </p>
+          <StudentInfo>
+            <AvatarContainer>
+              {studentAvatar ? (
+                <Avatar src={studentAvatar} alt={data?.studentId?.fullName} />
+              ) : (
+                <AvatarPlaceholder>{studentInitials}</AvatarPlaceholder>
+              )}
+            </AvatarContainer>
+            <div>
+              <h4>{data?.studentId?.fullName}</h4>
+              <p>
+                {data?.course} - {data?.schoolName}
+              </p>
+            </div>
+          </StudentInfo>
+
+          <Form>
+            <label>Donation Amount (₦)</label>
+            <input
+              type="number"
+              placeholder="100000"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+              min="1"
+            />
+
+            <AmountButtons>
+              <button 
+                type="button" 
+                onClick={() => setAmount(50000)}
+                className={amount === "50000" ? "active" : ""}
+              >
+                ₦50,000
+              </button>
+              <button 
+                type="button" 
+                onClick={() => setAmount(100000)}
+                className={amount === "100000" ? "active" : ""}
+              >
+                ₦100,000
+              </button>
+              <button 
+                type="button" 
+                onClick={() => setAmount(200000)}
+                className={amount === "200000" ? "active" : ""}
+              >
+                ₦200,000
+              </button>
+            </AmountButtons>
+
+            <label>Message (Optional)</label>
+            <textarea placeholder="Add an encouraging message..."></textarea>
+
+            <Buttons>
+              <Cancel type="button" onClick={handleClose}>
+                Cancel
+              </Cancel>
+              <Donate 
+                type="button" 
+                onClick={handlePayment}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  "Processing..."
                 ) : (
-                  <AvatarPlaceholder>{studentInitials}</AvatarPlaceholder>
+                  <>
+                    <FaRegHeart /> Donate
+                  </>
                 )}
-              </AvatarContainer>
-              <div>
-                <h4>{data?.studentId?.fullName}</h4>
-                <p>
-                  {data?.course} - {data?.schoolName}
-                </p>
-              </div>
-            </StudentInfo>
-
-            <Form>
-              <label>Donation Amount (₦)</label>
-              <input
-                type="number"
-                placeholder="100000"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-              />
-
-              <AmountButtons>
-                <button onClick={() => setAmount(50000)}>₦50,000</button>
-                <button onClick={() => setAmount(100000)}>₦100,000</button>
-                <button onClick={() => setAmount(200000)}>₦200,000</button>
-              </AmountButtons>
-
-              <label>Message (Optional)</label>
-              <textarea placeholder="Add an encouraging message..."></textarea>
-
-              <Buttons>
-                <Cancel onClick={onClose}>Cancel</Cancel>
-                <Donate onClick={handlePayment}>
-                  <FaRegHeart /> Donate
-                </Donate>
-              </Buttons>
-            </Form>
-          </Modal>
-        </Overlay>
-      )}
+              </Donate>
+            </Buttons>
+          </Form>
+        </Modal>
+      </Overlay>
 
       {isLoading && <LoadingState />}
     </>
@@ -331,7 +380,7 @@ const StudentInfo = styled.div`
   }
 `;
 
-const Form = styled.div`
+const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -347,6 +396,7 @@ const Form = styled.div`
   label {
     font-size: 0.85rem;
     color: #334155;
+    font-weight: 500;
 
     @media (max-width: 768px) {
       font-size: 0.8rem;
@@ -364,6 +414,12 @@ const Form = styled.div`
     border: 1px solid #e5e7eb;
     border-radius: 6px;
     font-size: 0.9rem;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: #2563eb;
+    }
 
     @media (max-width: 768px) {
       padding: 0.55rem;
@@ -409,6 +465,13 @@ const AmountButtons = styled.div`
 
     &:hover {
       background: #e0e7ff;
+      border-color: #2563eb;
+    }
+
+    &.active {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
     }
 
     @media (max-width: 768px) {
@@ -456,9 +519,11 @@ const Cancel = styled.button`
   width: 50%;
   font-size: 0.9rem;
   transition: all 0.2s;
+  font-weight: 500;
 
   &:hover {
     background: #f8fafc;
+    border-color: #d1d5db;
   }
 
   @media (max-width: 768px) {
@@ -488,9 +553,16 @@ const Donate = styled.button`
   width: 50%;
   font-size: 0.9rem;
   transition: all 0.2s;
+  font-weight: 600;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background: #1d4ed8;
+  }
+
+  &:disabled {
+    background: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.7;
   }
 
   @media (max-width: 768px) {

@@ -5,6 +5,7 @@ import { useUpdateProfileMutation } from "../../../../utils/usersettting";
 import { useSelector } from "react-redux";
 import { selectStudentId } from "../../../../config/slices/studentauthslice";
 import { AppContext } from "../../../../context/AppContext";
+import toast from "react-hot-toast";
 
 const ProfileCard = ({ data }) => {
   const {
@@ -13,6 +14,7 @@ const ProfileCard = ({ data }) => {
     setProfileImageGlobal,
     removeProfileImageGlobal,
     setUserDataGlobal,
+    savedData,
   } = useContext(AppContext);
 
   const [selectedFile, setSelectedFile] = useState(null);
@@ -20,6 +22,7 @@ const ProfileCard = ({ data }) => {
   const [updateProfile, { isLoading }] = useUpdateProfileMutation();
   const userId = useSelector(selectStudentId);
 
+  // Set user data globally when data is available
   if (data?.data) {
     setUserDataGlobal({
       firstName: data.data.firstName,
@@ -36,12 +39,12 @@ const ProfileCard = ({ data }) => {
     const file = event.target.files[0];
     if (file) {
       if (!file.type.startsWith("image/")) {
-        alert("Please select an image file");
+        toast.error("Please select an image file");
         return;
       }
 
       if (file.size > 6 * 1024 * 1024) {
-        alert("File size should be less than 5MB");
+        toast.error("File size should be less than 5MB");
         return;
       }
 
@@ -49,8 +52,6 @@ const ProfileCard = ({ data }) => {
 
       const imageUrl = URL.createObjectURL(file);
       setProfileImageGlobal(imageUrl);
-
-      console.log("File selected:", file.name);
     }
   };
 
@@ -60,6 +61,7 @@ const ProfileCard = ({ data }) => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
+    toast.success("Profile image removed");
   };
 
   const handleSave = async () => {
@@ -72,14 +74,19 @@ const ProfileCard = ({ data }) => {
           userId: userId,
           profilePicture: formData,
         }).unwrap();
+
+        toast.success("Profile updated successfully");
+        setSelectedFile(null);
         console.log(res);
       } catch (err) {
-        console.log(err);
+        toast.error(err?.data?.message || "Failed to update profile");
       }
     } else {
-      console.log("No changes to save");
+      toast.info("No changes to save");
     }
   };
+
+  const isVerified = savedData?.data?.student?.isFullyVerifiedStudent;
 
   return (
     <CardContainer>
@@ -96,17 +103,23 @@ const ProfileCard = ({ data }) => {
           </svg>
           Profile Information
         </Title>
-        <Badge>
+        <Badge $isVerified={isVerified}>
           <svg
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
           >
-            <circle cx="12" cy="12" r="10" />
-            <polyline points="12 6 12 12 16 14" />
+            {isVerified ? (
+              <>
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <polyline points="22 4 12 14.01 9 11.01" />
+              </>
+            ) : (
+              <circle cx="12" cy="12" r="10" />
+            )}
           </svg>
-          Not Verified
+          {isVerified ? "Verified Student" : "Not Verified"}
         </Badge>
       </Header>
 
@@ -133,6 +146,7 @@ const ProfileCard = ({ data }) => {
               title="Remove"
               disabled={!profileImage}
             >
+              <FiTrash2 />
               <span style={{ color: "#E7000B" }}>Remove</span>
             </IconButton>
           </Group>
@@ -163,17 +177,21 @@ const ProfileCard = ({ data }) => {
 
         <FieldGroup>
           <FieldLabel>University</FieldLabel>
-          <FieldValue>{data?.data?.educationInfo?.schoolName}</FieldValue>
+          <FieldValue>
+            {data?.data?.educationInfo?.schoolName || "Not provided"}
+          </FieldValue>
         </FieldGroup>
 
         <FieldGroup>
           <FieldLabel>Department</FieldLabel>
-          <FieldValue>{data?.data?.educationInfo?.course}</FieldValue>
+          <FieldValue>
+            {data?.data?.educationInfo?.course || "Not provided"}
+          </FieldValue>
         </FieldGroup>
       </FieldsGrid>
 
       <Footer>
-        <SaveButton onClick={handleSave} disabled={isLoading}>
+        <SaveButton onClick={handleSave} disabled={isLoading || !selectedFile}>
           <svg
             viewBox="0 0 24 24"
             fill="none"
@@ -292,14 +310,16 @@ const Badge = styled.div`
   align-items: center;
   gap: 6px;
   padding: 6px 12px;
-  background: #f3f4f6;
+  background: ${(props) => (props.$isVerified ? "#dcfce7" : "#f3f4f6")};
+  color: ${(props) => (props.$isVerified ? "#166534" : "#6b7280")};
   border-radius: 6px;
   font-size: 14px;
-  color: #6b7280;
+  font-weight: 500;
 
   svg {
     width: 16px;
     height: 16px;
+    color: ${(props) => (props.$isVerified ? "#16a34a" : "#6b7280")};
   }
 
   @media (max-width: 479px) {
@@ -480,6 +500,7 @@ const IconButton = styled.button`
 
     &:hover {
       background: #fef2f2;
+      border-color: #fecaca;
     }
 
     &:disabled {
@@ -489,6 +510,10 @@ const IconButton = styled.button`
       &:hover {
         background: white;
         border-color: #e5e7eb;
+
+        svg {
+          color: #ef4444;
+        }
       }
     }
   }
@@ -599,13 +624,13 @@ const SaveButton = styled.button`
   align-items: center;
   gap: 8px;
   padding: 10px 24px;
-  background: #2563eb;
+  background: ${(props) => (props.disabled ? "#9ca3af" : "#2563eb")};
   color: white;
   border: none;
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "not-allowed" : "pointer")};
   transition: background 0.2s ease;
 
   svg {
@@ -614,12 +639,7 @@ const SaveButton = styled.button`
   }
 
   &:hover {
-    background: #1d4ed8;
-  }
-
-  &:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+    background: ${(props) => (props.disabled ? "#9ca3af" : "#1d4ed8")};
   }
 
   @media (max-width: 767px) {

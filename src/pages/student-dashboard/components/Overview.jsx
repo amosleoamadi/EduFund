@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Firstview from "./overview(com)/Firstview";
 import styled from "styled-components";
 import DashOverview from "./overview(com)/DashOverview";
@@ -11,25 +11,33 @@ import { AppContext } from "../../../context/AppContext";
 const Overview = () => {
   const studentId = useSelector(selectStudentId);
   const { data, isLoading, isError } = useGetDasboardQuery(studentId);
-  const { setUserDataGlobal, setProfileImageGlobal } = useContext(AppContext);
+  const { setUserDataGlobal, setProfileImageGlobal, setSavedData } =
+    useContext(AppContext);
+
+  // Move all context state updates to useEffect
+  useEffect(() => {
+    if (data) {
+      setSavedData(data);
+
+      if (data?.data?.student) {
+        const student = data.data.student;
+
+        setUserDataGlobal({
+          firstName: student.firstName,
+          lastName: student.lastName,
+          email: student.email,
+          _id: student._id || studentId,
+        });
+
+        if (student.avatar) {
+          setProfileImageGlobal(student._id || studentId, student.avatar);
+        }
+      }
+    }
+  }, [data, studentId, setSavedData, setUserDataGlobal, setProfileImageGlobal]);
 
   if (isLoading) {
     return <LoadingState />;
-  }
-
-  if (data?.data?.student) {
-    const student = data.data.student;
-
-    setUserDataGlobal({
-      firstName: student.firstName,
-      lastName: student.lastName,
-      email: student.email,
-      _id: student._id || studentId,
-    });
-
-    if (student.avatar) {
-      setProfileImageGlobal(student._id || studentId, student.avatar);
-    }
   }
 
   if (isError || data?.data?.student?.isFullyVerifiedStudent === false) {

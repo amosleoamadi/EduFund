@@ -1,4 +1,4 @@
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, useCallback } from "react";
 import styled from "styled-components";
 import { FiShare2 } from "react-icons/fi";
 import amount from "../../../../assets/amount.svg";
@@ -34,6 +34,17 @@ const DashOverview = ({ data }) => {
       .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
       .slice(0, 6);
   }, [donors]);
+
+  // Wrap the openModal call in a useCallback to prevent it from being called during render
+  const handleShareClick = useCallback(() => {
+    openModal(data?.data?.activeCampaign);
+  }, [openModal, data?.data?.activeCampaign]);
+
+  // Wrap the openCampaign call in a useCallback
+  const handleCreateCampaign = useCallback(() => {
+    openCampaign({ source: "overview" });
+  }, [openCampaign]);
+
   return (
     <DashboardContainer>
       <Header>
@@ -45,7 +56,7 @@ const DashOverview = ({ data }) => {
         </SubText>
         <>
           <CreateButton
-            onClick={() => openCampaign({ source: "overview" })}
+            onClick={handleCreateCampaign}
             disabled={data?.data?.activeCampaign?.isActive}
           >
             + Create Campaign
@@ -149,9 +160,7 @@ const DashOverview = ({ data }) => {
               </Para>
             </Contents>
             <>
-              <ShareButton
-                onClick={() => openModal(data?.data?.activeCampaign)}
-              >
+              <ShareButton onClick={handleShareClick}>
                 <FiShare2 /> Share
               </ShareButton>
             </>
@@ -257,6 +266,8 @@ const DashOverview = ({ data }) => {
 };
 
 export default DashOverview;
+
+// Your styled components remain exactly the same...
 const DashboardContainer = styled.div`
   height: 100%;
   min-height: max-content;

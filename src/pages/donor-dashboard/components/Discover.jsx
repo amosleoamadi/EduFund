@@ -12,6 +12,9 @@ import { AppContext } from "../../../context/AppContext";
 const Discover = () => {
   const [selectedCampaign, setSelectedCampaign] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
   const { data, isLoading } = useGetCampaignQuery();
   const nav = useNavigate();
   const { profileImages, openModal } = useContext(AppContext);
@@ -20,7 +23,17 @@ const Discover = () => {
     return <LoadingState />;
   }
 
-  const campaigns = data?.data;
+  const campaigns = data?.data || [];
+
+  const totalItems = campaigns.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentCampaigns = campaigns.slice(0, startIndex + itemsPerPage);
+  const hasMoreCampaigns = totalItems > currentCampaigns.length;
+
+  const handleLoadMore = () => {
+    setCurrentPage((prev) => prev + 1);
+  };
 
   const getAvatarSrc = (student) => {
     if (!student?.studentId?._id) return null;
@@ -45,11 +58,16 @@ const Discover = () => {
       <Header>
         <h3>Discover Campaigns</h3>
         <p>Find students who need your support</p>
+        {totalItems > 0 && (
+          <ResultsCount>
+            Showing {currentCampaigns.length} of {totalItems} campaigns
+          </ResultsCount>
+        )}
       </Header>
 
       <CampaignContainer>
-        {campaigns?.length > 0 ? (
-          campaigns.map((c) => {
+        {currentCampaigns?.length > 0 ? (
+          currentCampaigns.map((c) => {
             const avatarSrc = getAvatarSrc(c);
             const userInitials = getUserInitials(c);
 
@@ -137,7 +155,11 @@ const Discover = () => {
         )}
       </CampaignContainer>
 
-      {/* <LoadMoreButton>Load More Campaigns</LoadMoreButton> */}
+      {hasMoreCampaigns && (
+        <LoadMoreButton onClick={handleLoadMore}>
+          Load More Campaigns
+        </LoadMoreButton>
+      )}
 
       <DonationModal
         onClose={() => setSelectedCampaign(false)}
@@ -206,6 +228,20 @@ const Header = styled.div`
     @media (max-width: 480px) {
       font-size: 12px;
     }
+  }
+`;
+
+const ResultsCount = styled.div`
+  color: #6b7280;
+  font-size: 14px;
+  margin-top: 0.5rem;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
   }
 `;
 
@@ -599,35 +635,35 @@ const ShareButton = styled.button`
   }
 `;
 
-// const LoadMoreButton = styled.button`
-//   display: block;
-//   margin: 2rem auto 0;
-//   padding: 0.8rem 2rem;
-//   background: #fff;
-//   border: 1px solid #e5e7eb;
-//   border-radius: 8px;
-//   color: #101828;
-//   font-size: 0.95rem;
-//   font-weight: 500;
-//   cursor: pointer;
-//   transition: background 0.2s ease;
+const LoadMoreButton = styled.button`
+  display: block;
+  margin: 2rem auto 0;
+  padding: 0.8rem 2rem;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #101828;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
 
-//   &:hover {
-//     background: #f9fafb;
-//   }
+  &:hover {
+    background: #f9fafb;
+  }
 
-//   @media (max-width: 768px) {
-//     margin: 1.5rem auto 0;
-//     padding: 0.75rem 1.75rem;
-//     font-size: 0.9rem;
-//   }
+  @media (max-width: 768px) {
+    margin: 1.5rem auto 0;
+    padding: 0.75rem 1.75rem;
+    font-size: 0.9rem;
+  }
 
-//   @media (max-width: 480px) {
-//     margin: 1.25rem auto 0;
-//     padding: 0.875rem 2rem;
-//     font-size: 0.9rem;
-//     width: 100%;
-//     max-width: 200px;
-//     min-height: 44px;
-//   }
-// `;
+  @media (max-width: 480px) {
+    margin: 1.25rem auto 0;
+    padding: 0.875rem 2rem;
+    font-size: 0.9rem;
+    width: 100%;
+    max-width: 200px;
+    min-height: 44px;
+  }
+`;
