@@ -4,31 +4,30 @@ import heroBgMobile from "../../../assets/Hero Section BG.png";
 
 export const HeroSection = styled.section`
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 80px 6%;
   background: url(${heroBg}) center center / cover no-repeat;
   color: white;
-  flex-wrap: wrap;
   position: relative;
+  flex-wrap: wrap;
   box-shadow: rgba(0, 0, 0, 0.15) 5.95px 5.95px 6.6px;
   transition: background-position 0.3s ease;
 
   .heroText {
-    flex: 1;
-    min-width: 300px;
+    flex: 1 1 500px;
+    max-width: 600px;
     margin-top: 2.5%;
 
     h1 {
-      font-size: 3.3rem;
+      font-size: 3rem;
       margin-bottom: 1rem;
       line-height: 1.3;
     }
 
     .connector {
-      width: 100%;
       font-size: 1.1rem;
       margin-bottom: 1.5rem;
       opacity: 0.9;
@@ -37,38 +36,39 @@ export const HeroSection = styled.section`
 
     .buttons {
       display: flex;
-      gap: 10%;
-      margin-top: 12%;
-      width: 80%;
+      gap: 20px;
+      margin-top: 20px;
+      flex-wrap: wrap;
 
-      .primary {
-        width: 45%;
-        background: #ff3366;
-        color: white;
-        border: none;
-        padding: 10px 15px;
+      .primary,
+      .secondary {
+        flex: 1 1 45%;
+        padding: 12px 20px;
         border-radius: 8px;
         cursor: pointer;
+        font-size: 1rem;
+        border: none;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .primary {
+        background: #ff3366;
+        color: white;
 
         &:hover {
           background: #920640;
-          transition: all 350ms ease-in-out;
         }
       }
 
       .secondary {
-        width: 45%;
         background: transparent;
         border: 1.5px solid white;
         color: white;
-        padding: 10px 15px;
-        border-radius: 8px;
-        cursor: pointer;
 
         &:hover {
           background: white;
           color: #001145;
-          transition: all 350ms ease-in-out;
         }
       }
     }
@@ -82,31 +82,39 @@ export const HeroSection = styled.section`
   }
 
   .heroImage {
-    flex: 1;
+    flex: 1 1 400px;
     display: flex;
     justify-content: center;
+    align-items: center;
+    margin-top: 20px;
 
     img {
-      width: 90%;
+      width: 100%;
       max-width: 400px;
       border-radius: 10px;
     }
   }
 
+  .donationPopup {
+    position: absolute;
+    right: 5%;
+    bottom: 10%;
+  }
+
   @media (max-width: 1024px) {
     background-position: top center;
-    height: auto;
-    padding: 100px 5%;
+    padding: 80px 5%;
   }
 
   @media (max-width: 768px) {
     flex-direction: column;
     text-align: center;
-    height: 100vh;
     padding: 100px 5% 60px;
     background: url(${heroBgMobile}) center center / cover no-repeat;
 
     .heroText {
+      margin: 0 auto;
+
       h1 {
         font-size: 2rem;
       }
@@ -117,16 +125,7 @@ export const HeroSection = styled.section`
       }
 
       .buttons {
-        gap: 45px;
-        align-items: center;
-        width: 100%;
-
-        .primary,
-        .secondary {
-          width: 80%;
-          font-size: 0.95rem;
-          padding: 12px;
-        }
+        gap: 15px;
       }
 
       .stats {
@@ -138,15 +137,19 @@ export const HeroSection = styled.section`
     .heroImage {
       margin-top: 30px;
       img {
-        width: 100%;
         max-width: 350px;
       }
+    }
+
+    .donationPopup {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 5%;
+      position: absolute;
     }
   }
 
   @media (max-width: 480px) {
-    background-position: center top;
-    background-size: cover;
     padding: 80px 4% 40px;
 
     .heroText h1 {
@@ -157,16 +160,12 @@ export const HeroSection = styled.section`
       font-size: 0.95rem;
     }
 
-    .buttons {
-      .primary,
-      .secondary {
-        width: 100%;
-      }
+    .stats {
+      gap: 15px;
     }
 
-    .stats {
-      align-items: center;
-      gap: 15px;
+    .heroImage img {
+      max-width: 100%;
     }
   }
 `;
@@ -174,17 +173,19 @@ export const HeroSection = styled.section`
 export const StatsBox = styled.div`
   display: flex;
   flex-direction: column;
-  line-height: 1.5;
   align-items: flex-start;
+  line-height: 1.5;
 
   h3 {
-    font-size: 1.1rem;
-    font-weight: normal;
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin: 0;
   }
 
   p {
-    font-size: 9px;
-    font-weight: normal;
+    font-size: 0.85rem;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.85);
   }
 
   @media (max-width: 480px) {
@@ -192,7 +193,7 @@ export const StatsBox = styled.div`
       font-size: 1.5rem;
     }
     p {
-      font-size: 0.9rem;
+      font-size: 0.75rem;
     }
   }
 `;
