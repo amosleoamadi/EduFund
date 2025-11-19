@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
 
 const Discover = () => {
-  const [selectedCampaign, setSelectedCampaign] = useState(false);
+  const [showDonationModal, setShowDonationModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
@@ -33,6 +33,22 @@ const Discover = () => {
 
   const handleLoadMore = () => {
     setCurrentPage((prev) => prev + 1);
+  };
+
+  const handleDonateClick = (campaign) => {
+    setSelectedStudent(campaign);
+    setShowDonationModal(true);
+  };
+
+  const handleCloseDonationModal = () => {
+    setShowDonationModal(false);
+    setSelectedStudent(null);
+  };
+
+  const handleDonationSuccess = (amount) => {
+    setShowDonationModal(false);
+    // You can add success handling here if needed
+    console.log(`Donation of ₦${amount} successful!`);
   };
 
   const getAvatarSrc = (student) => {
@@ -127,10 +143,7 @@ const Discover = () => {
 
                 <Actions>
                   <DonateButton
-                    onClick={() => {
-                      setSelectedCampaign(true);
-                      setSelectedStudent(c);
-                    }}
+                    onClick={() => handleDonateClick(c)}
                   >
                     <FaRegHeart /> Donate Now
                   </DonateButton>
@@ -161,16 +174,21 @@ const Discover = () => {
         </LoadMoreButton>
       )}
 
+      {/* Donation Modal with consistent props */}
       <DonationModal
-        onClose={() => setSelectedCampaign(false)}
-        campaign={selectedCampaign}
+        isOpen={showDonationModal}
+        onClose={handleCloseDonationModal}
+        campaign={selectedStudent}
         data={selectedStudent}
+        onDonationSuccess={handleDonationSuccess}
       />
     </Holder>
   );
 };
 
 export default Discover;
+
+// ... (keep all your styled components the same)
 
 const Holder = styled.main`
   width: 100%;
