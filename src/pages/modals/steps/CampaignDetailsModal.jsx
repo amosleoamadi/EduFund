@@ -22,7 +22,7 @@ const CampaignDetailsModal = () => {
   const { data, isLoading } = useGetCampaignByIdQuery(campaignId);
   const { profileImages, getProfileImageGlobal, openModal, openCampaign } =
     useContext(AppContext);
-  const [selectedCampaign, setSelectedCampaign] = useState(false);
+  const [showDonationModal, setShowDonationModal] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
 
   if (isLoading) {
@@ -85,8 +85,13 @@ const CampaignDetailsModal = () => {
   };
 
   const handleDonateClick = () => {
-    setSelectedCampaign(true);
     setSelectedStudent(campaign);
+    setShowDonationModal(true);
+  };
+
+  const handleCloseDonationModal = () => {
+    setShowDonationModal(false);
+    setSelectedStudent(null);
   };
 
   return (
@@ -298,10 +303,11 @@ const CampaignDetailsModal = () => {
         </ContentWrapper>
       </PageContainer>
 
-      {/* Add DonationModal here */}
+      {/* Updated DonationModal with consistent props */}
       <DonationModal
-        onClose={() => setSelectedCampaign(false)}
-        campaign={selectedCampaign}
+        isOpen={showDonationModal}
+        onClose={handleCloseDonationModal}
+        campaign={selectedStudent}
         data={selectedStudent}
       />
     </>
@@ -309,6 +315,8 @@ const CampaignDetailsModal = () => {
 };
 
 export default CampaignDetailsModal;
+
+// ... (all your styled components remain exactly the same)
 
 const PageContainer = styled.div`
   min-height: 100vh;

@@ -11,6 +11,7 @@ import {
 import { AppContext } from "../../context/AppContext";
 import { useSelector } from "react-redux";
 import { selectStudentId } from "../../config/slices/studentauthslice";
+import toast from "react-hot-toast";
 
 const StudentLinkShare = ({ data }) => {
   const { closeModal } = useContext(AppContext);
@@ -96,7 +97,7 @@ const StudentLinkShare = ({ data }) => {
           url: shareUrl,
         });
       } catch (error) {
-        console.log("Native sharing failed", error);
+        toast.error(error);
       }
     } else {
       handleCopy();
